@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* AI Color Palette */
+            /* Samsung Color Palette */
+            --samsung-blue: #1428a0;
+            --samsung-blue-dark: #0d1a6b;
+            --samsung-blue-light: #4158d0;
+            --samsung-yellow: #fedc00;
+            --samsung-black: #1d1d1f;
+            --samsung-gray-dark: #333333;
+            --samsung-gray-light: #f5f5f7;
+            --samsung-white: #ffffff;
+            --samsung-green: #25d366;
+            --samsung-red: #ff453a;
+
+            /* Semantic */
+            --primary: var(--samsung-blue);
+            --primary-glow: rgba(20, 40, 160, 0.4);
+            --secondary: var(--samsung-blue-light);
+            --success: var(--samsung-green);
+            --success-glow: rgba(37, 211, 102, 0.35);
+            --danger: var(--samsung-red);
+            --danger-glow: rgba(255, 69, 58, 0.35);
+            --warning: var(--samsung-yellow);
+            --info: #007aff; /* Apple's Blue for Info */
+            --info-glow: rgba(0, 122, 255, 0.35);
+
+            /* Dark Background System */
+            --bg-base: #0c0c0e;
+            --bg-surface: #18181a;
+            --bg-elevated: #202022;
+            --bg-glass: rgba(32, 32, 34, 0.6);
+            --bg-card: rgba(24, 24, 26, 0.8);
+
+            /* Text */
+            --text-primary: var(--samsung-gray-light);
+            --text-secondary: #a1a1a6;
+            --text-muted: #8d8d92;
+
+            /* Borders */
+            --border-subtle: rgba(65, 88, 208, 0.2);
+            --border-glow: rgba(65, 88, 208, 0.5);
+
+            --radius: 18px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(139, 92, 246, 0.1);
+            --shadow-glow: 0 0 40px rgba(107, 47, 207, 0.25);
+        }
+
+        body {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 16px;
+            background-image:
+                radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20, 40, 160, 0.2) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 90% 80%, rgba(0, 122, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 30% 30% at 10% 90%, rgba(37, 211, 102, 0.06) 0%, transparent 60%);
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===================== HEADER ===================== */
+        .header {
+            background: linear-gradient(135deg,
+                    rgba(13, 26, 107, 0.9) 0%,
+                    rgba(29, 29, 31, 0.95) 40%,
+                    rgba(10, 20, 60, 0.9) 100%);
+            color: white;
+            padding: 20px 28px;
+            border-radius: var(--radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 80px rgba(107, 47, 207, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 60%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(20, 40, 160, 0.08) 90deg, rgba(0, 122, 255, 0.05) 180deg, transparent 360deg);
+            animation: headerRotate 12s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes headerRotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a1a1a6 50%, var(--samsung-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            text-shadow: none;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .lang-toggle,
+        .backup-btn {
+            background: rgba(20, 40, 160, 0.15);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+
+        .lang-toggle:hover,
+        .backup-btn:hover {
+            background: rgba(20, 40, 160, 0.3);
+            border-color: var(--samsung-blue-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        /* ===================== TABS ===================== */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            background: var(--bg-card);
+            padding: 8px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(16px);
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.2px;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            background: rgba(20, 40, 160, 0.1);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-blue-dark));
+            color: white;
+            box-shadow: 0 4px 20px var(--primary-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 2px;
+            background: var(--samsung-yellow);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--samsung-yellow);
+        }
+
+        /* ===================== PAGES ===================== */
+        .page {
+            display: none;
+            animation: fadeSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===================== CARDS ===================== */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+        }
+
+        .card:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-card), 0 0 30px rgba(107, 47, 207, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(to bottom, var(--samsung-blue-light), var(--samsung-yellow));
+            border-radius: 2px;
+        }
+
+        /* ===================== STATS ===================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 20px 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--samsung-blue-light), var(--info));
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .stat-card:nth-child(2)::after {
+            background: linear-gradient(90deg, var(--info), var(--samsung-green));
+        }
+
+        .stat-card:nth-child(3)::after {
+            background: linear-gradient(90deg, var(--samsung-green), var(--samsung-yellow));
+        }
+
+        .stat-card:nth-child(4)::after {
+            background: linear-gradient(90deg, var(--samsung-yellow), var(--samsung-red));
+        }
+
+        .stat-card:nth-child(5)::after {
+            background: linear-gradient(90deg, var(--samsung-blue), var(--samsung-yellow));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            border-color: var(--border-glow);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--samsung-blue-light) 0%, var(--info) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .stat-card:nth-child(2) .stat-number {
+            background: linear-gradient(135deg, var(--info), var(--samsung-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-card:nth-child(3) .stat-number {
+            background: linear-gradient(135deg, var(--samsung-green), var(--samsung-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-card:nth-child(4) .stat-number {
+            background: linear-gradient(135deg, var(--samsung-yellow), var(--samsung-red));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* ===================== FORMS ===================== */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .form-row-3 {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 16px;
+            border: 1.5px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            font-family: inherit;
+            backdrop-filter: blur(8px);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--samsung-blue-light);
+            box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px var(--primary-glow);
+            background: var(--bg-elevated);
+        }
+
+        select option {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===================== BUTTONS ===================== */
+        .btn {
+            padding: 11px 26px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.88rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0);
+            transition: background 0.2s;
+        }
+
+        .btn:hover::after {
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-blue-dark));
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--primary-glow);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #1e9c53, var(--samsung-green));
+            color: white;
+            box-shadow: 0 4px 15px var(--success-glow);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--success-glow);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e03e33, var(--samsung-red));
+            color: white;
+            box-shadow: 0 4px 15px var(--danger-glow);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--danger-glow);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f0c300, var(--samsung-yellow));
+            color: var(--samsung-black);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #0073e6, var(--info));
+            color: white;
+            box-shadow: 0 4px 15px var(--info-glow);
+        }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--info-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border-glow);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--violet-400);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 5px 13px;
+            font-size: 0.76rem;
+        }
+
+        /* ===================== TABLES ===================== */
+        .table-wrap {
+            overflow-x: auto;
+            margin-top: 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.84rem;
+        }
+
+        th {
+            background: rgba(20, 40, 160, 0.12);
+            padding: 12px 14px;
+            text-align: right;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(65, 88, 208, 0.1);
+            vertical-align: middle;
+            color: var(--text-primary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(20, 40, 160, 0.08);
+        }
+
+        /* ===================== STATUS BADGES ===================== */
+        .status-badge {
+            padding: 4px 13px;
+            border-radius: 30px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: 0.4px;
+        }
+
+        .status-active {
+            background: rgba(37, 211, 102, 0.15);
+            color: var(--samsung-green);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+
+        .status-expired {
+            background: rgba(255, 69, 58, 0.12);
+            color: var(--samsung-red);
+            border: 1px solid rgba(255, 69, 58, 0.25);
+        }
+
+        .status-free {
+            background: rgba(254, 220, 0, 0.15);
+            color: var(--samsung-yellow);
+            border: 1px solid rgba(254, 220, 0, 0.3);
+        }
+
+        .status-pending {
+            background: rgba(0, 122, 255, 0.12);
+            color: var(--info);
+            border: 1px solid rgba(0, 122, 255, 0.25);
+        }
+
+        /* ===================== ALERTS ===================== */
+        .alert {
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-right: 4px solid;
+            backdrop-filter: blur(8px);
+        }
+
+        .alert-success {
+            background: rgba(37, 211, 102, 0.1);
+            border-color: var(--samsung-green);
+            color: #53e489;
+        }
+
+        .alert-danger {
+            background: rgba(255, 69, 58, 0.1);
+            border-color: var(--samsung-red);
+            color: #ff827a;
+        }
+
+        .alert-warning {
+            background: rgba(254, 220, 0, 0.1);
+            border-color: var(--samsung-yellow);
+            color: var(--samsung-yellow);
+        }
+
+        .alert-info {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: var(--info);
+            color: #57abff;
+        }
+
+        /* ===================== SCANNER ===================== */
+        .scanner-area {
+            background: linear-gradient(135deg, rgba(20, 40, 160, 0.12), rgba(0, 122, 255, 0.08));
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-align: center;
+            border: 2px dashed var(--border-glow);
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanner-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(20, 40, 160, 0.05), transparent);
+            animation: scanLine 3s ease-in-out infinite;
+        }
+
+        @keyframes scanLine {
+            0% {
+                left: -60%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        .scanner-area input {
+            max-width: 420px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            border-color: var(--border-glow);
+        }
+
+        .scanner-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 12px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        /* ===================== BULK ===================== */
+        .bulk-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .bulk-item {
+            background: var(--bg-elevated);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 0.72rem;
+            border: 1px solid var(--border-subtle);
+            font-family: monospace;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .bulk-item:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+
+        .bulk-item canvas,
+        .bulk-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        /* ===================== MEMBER DETAIL ===================== */
+        .member-detail {
+            background: rgba(20, 40, 160, 0.07);
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-top: 12px;
+            border-right: 4px solid var(--samsung-blue-light);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .name-search-results {
+            position: relative;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            margin-top: 10px;
+        }
+        .name-search-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .name-search-item:last-child { border-bottom: none; }
+        .name-search-item:hover { background: rgba(65, 88, 208, 0.1); }
+        .name-search-item small { color: var(--text-muted); margin-right: 8px; }
+
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===================== MODAL ===================== */
+        #addModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 12, 14, 0.75);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-elevated);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px var(--primary-glow);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--samsung-blue-light), var(--samsung-yellow), var(--samsung-green));
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* ===================== CAMERA MODAL ===================== */
+        #cameraModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 12, 14, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #camera-reader {
+            width: 100%;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 16px;
+            border: 1.5px solid var(--border-subtle);
+        }
+
+        #camera-reader video {
+            border-radius: 8px;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* ===================== FILTER BAR ===================== */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            width: auto;
+            min-width: 130px;
+            padding: 8px 14px;
+            font-size: 0.82rem;
+        }
+
+        /* ===================== OFFER TAG ===================== */
+        .offer-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--samsung-yellow), #f0c300);
+            color: var(--samsung-black);
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            margin-left: 5px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ===================== SCROLLBAR ===================== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-surface);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--samsung-blue), var(--info));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--samsung-blue-light);
+        }
+
+        /* ===================== SCANNER INPUT FOCUS ===================== */
+        #scannerInput:focus {
+            border-color: var(--samsung-green);
+            box-shadow: 0 0 0 3px var(--success-glow), 0 0 20px var(--success-glow);
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .tab-btn {
+                padding: 9px 14px;
+                font-size: 0.75rem;
+                flex: 1;
+                min-width: 60px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ===================== SELECTION ===================== */
+        ::selection {
+            background: rgba(20, 40, 160, 0.3);
+            color: white;
+        }
+    </style>
+    <!-- QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- HTML5 QR/Barcode Scanner Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Audio for notification -->
+    <audio id="notificationSound" src="https://www.myinstants.com/media/sounds/ding-sound-effect.mp3" preload="auto"></audio>
+
+    <div class="app-container" id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1 id="appTitle">🏊‍♂️ سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</h1>
+            <div class="header-actions">
+                <button class="lang-toggle" id="langToggle" onclick="toggleLang()">🇬🇧 English</button>
+                <button class="backup-btn" onclick="exportBackup()">📥 پشتیوانی</button>
+                <button class="backup-btn" onclick="document.getElementById('importFile').click()">📤 بارکردن</button>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <nav class="tabs" id="tabNav">
+            <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 داشبۆرد</button>
+            <button class="tab-btn" data-tab="pool" onclick="switchTab('pool')">🏊 مەلەوانگە</button>
+            <button class="tab-btn" data-tab="gym" onclick="switchTab('gym')">🏋️ هۆڵ</button>
+            <button class="tab-btn" data-tab="admin" onclick="switchTab('admin')">⚙️ ڕێکخستنەکان</button>
+            <button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">📈 ڕاپۆرتەکان</button>
+        </nav>
+
+        <!-- ==================== DASHBOARD ==================== -->
+        <div class="page active" id="page-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalMembers">0</div>
+                    <div class="stat-label">👥 کۆی ئەندامان</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="poolToday">0</div>
+                    <div class="stat-label">🏊 ئەمڕۆ لە مەلەوانگە</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="gymActive">0</div>
+                    <div class="stat-label">🏋️ بەشداربووانی چالاک</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="freeCount">0</div>
+                    <div class="stat-label">🎁 خۆڕاییەکان</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalVisits">0</div>
+                    <div class="stat-label">📊 کۆی سەردانەکان</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">📡 سکانکردنی خێرا</span>
+                    <span style="font-size:0.8rem;color:#888;">سکان یان کۆدەکە بنووسە</span>
+                </div>
+                <div class="scanner-area">
+                    <span class="scanner-icon">📷</span>
+                    <div style="display:flex; gap:10px; max-width:500px; margin:0 auto; align-items:center;">
+                        <input type="text" id="scannerInput" placeholder="MEMBER-1002 یان کۆدەکە..." autofocus
+                            style="flex:1;">
+                        <button class="btn btn-info" onclick="openDashboardCameraScanner()"
+                            style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 کامێرا</button>
+                    </div>
+                    <div id="scanResult" style="margin-top:14px;"></div>
+                    <div id="nameSearchResults" class="name-search-results hidden"></div>
+                </div>
+                <div id="quickMemberInfo" class="member-detail hidden">
+                    <div id="quickInfoContent"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">📋 دوایین چالاکییەکان</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ناو</th>
+                                <th>جۆر</th>
+                                <th>کۆد</th>
+                                <th>ڕەوش</th>
+                                <th>کات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentActivity">
+                            <tr>
+                                <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== POOL ==================== -->
+        <div class="page" id="page-pool">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🏊 بەڕێوەبردنی مەلەوانگە - سیستەمی پاداشت</span>
+                    <button class="btn btn-primary" onclick="showAddMember('pool')">+ ئەندامی نوێ</button>
+                </div>
+                <div class="form-row" style="margin-bottom:12px;">
+                    <div class="form-group">
+                        <label>🔢 ژمارەی سەردان بۆ خۆڕایی</label>
+                        <input type="number" id="poolFreeThreshold" value="3" min="1" onchange="updateSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>🎁 ئۆفەری تایبەت</label>
+                        <select id="poolOffer" onchange="updateSettings()">
+                            <option value="none">بێ ئۆفەر</option>
+                            <option value="buy2get1">دوو دابکە یەک ببە</option>
+                            <option value="buy3get2">سێ دابکە دوو ببە</option>
+                            <option value="halfprice">نیوە نرخ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-bar">
+                    <input type="text" id="poolFilter" placeholder="🔍 گەڕان..." oninput="renderPool()">
+                    <select id="poolStatusFilter" onchange="renderPool()">
+                        <option value="all">هەموو</option>
+                        <option value="active">چالاک</option>
+                        <option value="free">خۆڕایی</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ناو</th>
+                                <th>پەیوەندی</th>
+                                <th>کۆد</th>
+                                <th>سەردان</th>
+                                <th>ڕەوش</th>
+                                <th>کۆتا سەردان</th>
+                                <th>کردار</th>
+                            </tr>
+                        </thead>
+                        <tbody id="poolTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== GYM ==================== -->
+        <div class="page" id="page-gym">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🏋️ بەڕێوەبردنی هۆڵ - ئشتراکی مانگانە</span>
+                    <button class="btn btn-primary" onclick="showAddMember('gym')">+ ئەندامی نوێ</button>
+                </div>
+                <div class="form-row" style="margin-bottom:12px;">
+                    <div class="form-group">
+                        <label>📅 ماوەی بەشداری (ڕۆژ)</label>
+                        <input type="number" id="gymDuration" value="30" min="1" onchange="updateSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>🎁 ئۆفەری تایبەت</label>
+                        <select id="gymOffer" onchange="updateSettings()">
+                            <option value="none">بێ ئۆفەر</option>
+                            <option value="monthly">مانگانە 10%</option>
+                            <option value="quarterly">سێ مانگ 15%</option>
+                            <option value="yearly">ساڵانە 25%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-bar">
+                    <input type="text" id="gymFilter" placeholder="🔍 گەڕان..." oninput="renderGym()">
+                    <select id="gymStatusFilter" onchange="renderGym()">
+                        <option value="all">هەموو</option>
+                        <option value="active">چالاک</option>
+                        <option value="expired">بەسەرچوو</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ناو</th>
+                                <th>پەیوەندی</th>
+                                <th>کۆد</th>
+                                <th>دەستپێک</th>
+                                <th>کۆتایی</th>
+                                <th>ڕەوش</th>
+                                <th>کردار</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gymTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ADMIN ==================== -->
+        <div class="page" id="page-admin">
+            <!-- Settings -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">⚙️ ڕێکخستنەکانی سیستەم</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>🏊 ژمارەی سەردان بۆ خۆڕایی (مەلەوانگە)</label>
+                        <input type="number" id="adminPoolThreshold" value="3" min="1" onchange="syncAdminSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>🏋️ ماوەی بەشداری هۆڵ (ڕۆژ)</label>
+                        <input type="number" id="adminGymDuration" value="30" min="1" onchange="syncAdminSettings()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>🎁 ئۆفەری مەلەوانگە</label>
+                        <select id="adminPoolOffer" onchange="syncAdminSettings()">
+                            <option value="none">بێ ئۆفەر</option>
+                            <option value="buy2get1">دوو دابکە یەک ببە</option>
+                            <option value="buy3get2">سێ دابکە دوو ببە</option>
+                            <option value="halfprice">نیوە نرخ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🎁 ئۆفەری هۆڵ</label>
+                        <select id="adminGymOffer" onchange="syncAdminSettings()">
+                            <option value="none">بێ ئۆفەر</option>
+                            <option value="monthly">مانگانە 10%</option>
+                            <option value="quarterly">سێ مانگ 15%</option>
+                            <option value="yearly">ساڵانە 25%</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="syncAdminSettings()">💾 پاشەکەوتکردنی ڕێکخستنەکان</button>
+            </div>
+
+            <!-- Pricing Settings -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">💵 ڕێکخستنەکانی نرخ</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>💵 نرخی سەردانی مەلەوانگە (دینار)</label>
+                        <input type="number" id="adminPoolPrice" value="5000" min="0" onchange="syncAdminSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>💵 نرخی بەشداری هۆڵ (دینار)</label>
+                        <input type="number" id="adminGymPrice" value="40000" min="0" onchange="syncAdminSettings()">
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="syncAdminSettings()">💾 پاشەکەوتکردنی نرخەکان</button>
+            </div>
+
+            <!-- Bulk Generator -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">📇 دروستکردنی بەکۆمی کۆد</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>🔢 ژمارەی کۆدەکان</label>
+                        <input type="number" id="bulkCount" value="10" min="1" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label>🏷️ پێشگر (Prefix)</label>
+                        <input type="text" id="bulkPrefix" value="MEMBER">
+                    </div>
+                    <div class="form-group">
+                        <label>📐 قەبارەی QR (px)</label>
+                        <input type="number" id="bulkSize" value="180" min="100" max="400">
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="generateBulkCodes()">⚡ دروستکردن</button>
+                    <button class="btn btn-success" onclick="exportBulkPNG()">📥 دابەزاندن (PNG)</button>
+                    <button class="btn btn-info" onclick="printBulkCodes()">🖨️ پرینت</button>
+                </div>
+
+                <div id="bulkResult" class="bulk-preview" style="margin-top:18px;"></div>
+            </div>
+
+            <!-- Empty Codes -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">📋 کۆدە بەتاڵەکان</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>کۆد</th>
+                                <th>ڕەوش</th>
+                                <th>کردار</th>
+                            </tr>
+                        </thead>
+                        <tbody id="emptyCodesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== REPORTS ==================== -->
+    <div class="page" id="page-reports">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="dailyIncome">0</div>
+                <div class="stat-label">💰 داهاتی ئەمڕۆ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="dailyActivity">0</div>
+                <div class="stat-label">🏃 چالاکی ئەمڕۆ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="monthlyIncome">0</div>
+                <div class="stat-label">💰 داهاتی ئەم مانگە</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="monthlyActivity">0</div>
+                <div class="stat-label">🏃 چالاکی ئەم مانگە</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">📋 وردەکاریی داهات</span>
+                <button class="btn btn-info" onclick="printIncomeReport()">🖨️ چاپکردن</button>
+            </div>
+            <div class="table-wrap" id="incomeReportPrintArea">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ناو</th>
+                            <th>جۆر</th>
+                            <th>بڕی پارە</th>
+                            <th>تێبینی</th>
+                            <th>کات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incomeActivity">
+                        <tr>
+                            <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL ==================== -->
+    <div id="addModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">➕ زیادکردنی ئەندام</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>👤 ناوی ئەندام *</label>
+                    <input type="text" id="newMemberName" placeholder="ناوەکە بنووسە...">
+                </div>
+                <div class="form-group">
+                    <label>📞 ژمارەی پەیوەندی</label>
+                    <input type="text" id="newMemberPhone" placeholder="٠٧٧٠ ٠٠٠ ٠٠٠٠">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>🎂 تەمەن</label>
+                    <input type="number" id="newMemberAge" placeholder="٢٥" min="1" max="120">
+                </div>
+                <div class="form-group">
+                    <label>📍 شوێنی نیشتەجێبوون</label>
+                    <input type="text" id="newMemberAddress" placeholder="شار، گەڕەک...">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>📞 ژمارەی تەلەفونی کەسی نزیک</label>
+                <input type="text" id="newMemberEmergency" placeholder="٠٧٧٠ ٠٠٠ ٠٠٠٠">
+            </div>
+            <div class="form-group">
+                <label>🔑 کۆد (بەتاڵ بەجێبهێلە بۆ دروستکردنی ئۆتۆماتیکی)</label>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <input type="text" id="newMemberCode" placeholder="MEMBER-XXXX" style="flex:1;">
+                    <button class="btn btn-info" onclick="openNewMemberCameraScanner()"
+                        style="padding: 11px 18px; border-radius:var(--radius-sm); white-space:nowrap;">📷
+                        سکانکردن</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>📝 تێبینی (پشکداری پێشوو)</label>
+                <textarea id="newMemberNotes" placeholder="بۆ نمونە: پێشتر ٣ مانگ پشکداری کردووە..."></textarea>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="saveNewMember()">💾 پاشەکەوتکردن</button>
+                <button class="btn btn-outline" onclick="closeModal()">پەشیمانبوونەوە</button>
+            </div>
+            <div id="modalError" style="color:var(--danger);margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <!-- Camera Scanner Modal -->
+    <div id="cameraModal">
+        <div class="modal-content" style="max-width:480px; text-align:center;">
+            <h3 id="cameraModalTitle">📷 سکانکردن بە کامێرا</h3>
+            <div id="camera-reader"></div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+                <button class="btn btn-danger" onclick="stopCameraScanner()">🛑 داخستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  داتا و ستەیت
+        // ============================================================
+        let appData = {
+            members: [],
+            settings: {
+                poolFreeThreshold: 3,
+                gymDuration: 30,
+                poolOffer: 'none',
+                gymOffer: 'none',
+                poolVisitPrice: 5000,
+                gymSubscriptionPrice: 40000
+            },
+            emptyCodes: [],
+            activityLog: []
+        };
+
+        let currentMemberType = 'pool';
+        let currentLang = 'ckb';
+        let bulkGeneratedCodes = [];
+
+        // بارکردن
+        function loadData() {
+            const saved = localStorage.getItem('gymPoolAppData');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    appData = parsed;
+                } catch (e) { console.warn('Failed to parse'); }
+            }
+            if (!appData.members) appData.members = [];
+            if (!appData.settings) appData.settings = {
+                poolFreeThreshold: 3, gymDuration: 30, poolOffer: 'none',
+                gymOffer: 'none'
+            };
+            if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
+            if (!appData.settings.gymSubscriptionPrice) appData.settings.gymSubscriptionPrice = 40000;
+            if (!appData.emptyCodes) appData.emptyCodes = [];
+            if (!appData.activityLog) appData.activityLog = [];
+            // renderAll(); // Moved to the end of DOMContentLoaded to avoid race conditions
+        }
+
+        function saveData() {
+            localStorage.setItem('gymPoolAppData', JSON.stringify(appData));
+        }
+
+        // ============================================================
+        //  ڕێکخستنەکان
+        // ============================================================
+        function updateSettings() {
+            appData.settings.poolFreeThreshold = parseInt(document.getElementById('poolFreeThreshold').value) || 3;
+            appData.settings.gymDuration = parseInt(document.getElementById('gymDuration').value) || 30;
+            appData.settings.poolOffer = document.getElementById('poolOffer').value;
+            appData.settings.gymOffer = document.getElementById('gymOffer').value;
+            appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
+            appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
+            syncAdminUI();
+            saveData();
+            renderAll();
+        }
+
+        function syncAdminSettings() {
+            appData.settings.poolFreeThreshold = parseInt(document.getElementById('adminPoolThreshold').value) || 3;
+            appData.settings.gymDuration = parseInt(document.getElementById('adminGymDuration').value) || 30;
+            appData.settings.poolOffer = document.getElementById('adminPoolOffer').value;
+            appData.settings.gymOffer = document.getElementById('adminGymOffer').value;
+            appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
+            appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
+            syncPoolUI();
+            syncGymUI();
+            saveData();
+            renderAll();
+            showAlert('success', '✅ ڕێکخستنەکان پاشەکەوت کران');
+        }
+
+        function syncAdminUI() {
+            document.getElementById('adminPoolThreshold').value = appData.settings.poolFreeThreshold;
+            document.getElementById('adminGymDuration').value = appData.settings.gymDuration;
+            document.getElementById('adminPoolOffer').value = appData.settings.poolOffer || 'none';
+            document.getElementById('adminGymOffer').value = appData.settings.gymOffer || 'none';
+            document.getElementById('adminPoolPrice').value = appData.settings.poolVisitPrice || 5000;
+            document.getElementById('adminGymPrice').value = appData.settings.gymSubscriptionPrice || 40000;
+        }
+
+        function syncPoolUI() {
+            document.getElementById('poolFreeThreshold').value = appData.settings.poolFreeThreshold;
+            document.getElementById('poolOffer').value = appData.settings.poolOffer || 'none';
+        }
+
+        function syncGymUI() {
+            document.getElementById('gymDuration').value = appData.settings.gymDuration;
+            document.getElementById('gymOffer').value = appData.settings.gymOffer || 'none';
+        }
+
+        // ============================================================
+        //  زیادکردنی ئەندام
+        // ============================================================
+        function showAddMember(type) {
+            currentMemberType = type;
+            document.getElementById('modalTitle').textContent = type === 'pool' ? '🏊 زیادکردنی ئەندامی مەلەوانگە' :
+                '🏋️ زیادکردنی ئەندامی هۆڵ';
+            document.getElementById('newMemberName').value = '';
+            document.getElementById('newMemberPhone').value = '';
+            document.getElementById('newMemberAge').value = '';
+            document.getElementById('newMemberAddress').value = '';
+            document.getElementById('newMemberEmergency').value = '';
+            document.getElementById('newMemberCode').value = '';
+            document.getElementById('newMemberNotes').value = '';
+            document.getElementById('modalError').textContent = '';
+            document.getElementById('addModal').style.display = 'flex';
+            document.getElementById('newMemberName').focus();
+
+            // Reset save button to default "saveNewMember"
+            const saveBtn = document.querySelector('#addModal .btn-primary');
+            saveBtn.textContent = '💾 پاشەکەوتکردن';
+            saveBtn.onclick = null; // Clear previous onclick
+            saveBtn.onclick = saveNewMember;
+
+            // Make sure code input is editable for new members
+            const codeInput = document.getElementById('newMemberCode');
+            codeInput.readOnly = false;
+            codeInput.style.background = '';
+            codeInput.style.cursor = '';
+        }
+
+        function closeModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function saveNewMember() {
+            const name = document.getElementById('newMemberName').value.trim();
+            const phone = document.getElementById('newMemberPhone').value.trim();
+            const age = parseInt(document.getElementById('newMemberAge').value) || null;
+            const address = document.getElementById('newMemberAddress').value.trim();
+            const emergency = document.getElementById('newMemberEmergency').value.trim();
+            let code = document.getElementById('newMemberCode').value.trim();
+            const notes = document.getElementById('newMemberNotes').value.trim();
+            const errorEl = document.getElementById('modalError');
+
+            if (!name) {
+                errorEl.textContent = '⚠️ تکایە ناوێک بنووسە';
+                return;
+            }
+
+            // کۆد
+            if (!code) {
+                if (appData.emptyCodes.length > 0) {
+                    code = appData.emptyCodes.pop();
+                } else {
+                    const prefix = 'MEMBER';
+                    const maxId = appData.members.reduce((max, m) => {
+                        const num = parseInt(m.code.replace(prefix + '-', ''));
+                        return num > max ? num : max;
+                    }, 0);
+                    code = prefix + '-' + String(maxId + 1).padStart(4, '0');
+                }
+            }
+
+            if (appData.members.some(m => m.code === code)) {
+                errorEl.textContent = '⚠️ ئەم کۆدە پێشتر بەکارهاتووە';
+                return;
+            }
+
+            const now = new Date();
+            const newMember = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+                name: name,
+                phone: phone,
+                age: age,
+                address: address,
+                emergency: emergency,
+                notes: notes,
+                code: code,
+                type: currentMemberType,
+                visits: 0,
+                isFree: false,
+                lastScan: null,
+                createdAt: now.toISOString(),
+                totalVisits: 0
+            };
+
+            if (currentMemberType === 'pool') {
+                newMember.visits = 0;
+                newMember.isFree = false;
+                newMember.startDate = null;
+                newMember.endDate = null;
+                newMember.offer = appData.settings.poolOffer || 'none';
+            } else {
+                const duration = appData.settings.gymDuration || 30;
+                newMember.startDate = now.toISOString();
+                const endDate = new Date(now);
+                endDate.setDate(endDate.getDate() + duration);
+                newMember.endDate = endDate.toISOString();
+                newMember.offer = appData.settings.gymOffer || 'none';
+                // Log income for new gym subscription
+                logActivity(newMember, `بەشداری نوێ بۆ ${duration} ڕۆژ`, appData.settings.gymSubscriptionPrice || 0);
+            }
+
+            appData.members.push(newMember);
+            saveData();
+            renderAll();
+            closeModal();
+            showAlert('success', `✅ ئەندام "${name}" بە سەرکەوتووی زیادکرا (کۆد: ${code})`);
+
+        }
+
+        // ============================================================
+        //  سکانکردن بە کامێرا (Camera Scanning)
+        // ============================================================
+        let html5QrCodeScanner = null;
+
+        function startCameraScanner(onSuccessCallback, titleText = "سکانکردنی کۆد") {
+            document.getElementById('cameraModalTitle').textContent = titleText;
+            document.getElementById('cameraModal').style.display = 'flex';
+
+            // Clear any previous instance
+            if (html5QrCodeScanner) {
+                html5QrCodeScanner.clear().catch(err => console.log(err));
+            }
+
+            html5QrCodeScanner = new Html5Qrcode("camera-reader");
+
+            const config = {
+                fps: 10,
+                qrbox: function (width, height) {
+                    const min = Math.min(width, height);
+                    return {
+                        width: Math.floor(min * 0.7),
+                        height: Math.floor(min * 0.7)
+                    };
+                }
+            };
+
+            html5QrCodeScanner.start(
+                { facingMode: "environment" }, // prefer back camera
+                config,
+                (decodedText, decodedResult) => {
+                    onSuccessCallback(decodedText);
+                    stopCameraScanner();
+                },
+                (errorMessage) => {
+                    // Ignore parsing errors
+                }
+            ).catch(err => {
+                console.error("Camera start error:", err);
+                showAlert('danger', "⚠️ ناتوانرێت کامێرا بکرێتەوە: " + err);
+                stopCameraScanner();
+            });
+        }
+
+        function stopCameraScanner() {
+            document.getElementById('cameraModal').style.display = 'none';
+            if (html5QrCodeScanner) {
+                html5QrCodeScanner.stop().then(() => {
+                    html5QrCodeScanner.clear();
+                    html5QrCodeScanner = null;
+                }).catch(err => {
+                    console.warn("Failed to stop camera scanner:", err);
+                    html5QrCodeScanner = null;
+                });
+            }
+        }
+
+        function openDashboardCameraScanner() {
+            startCameraScanner((code) => {
+                document.getElementById('scannerInput').value = code;
+                processScan(code);
+            }, "📷 سکانکردنی خێرای کۆد");
+        }
+
+        function openNewMemberCameraScanner() {
+            startCameraScanner((code) => {
+                document.getElementById('newMemberCode').value = code;
+                showAlert('success', `✅ کۆد سکان کرا: ${code}`);
+            }, "📷 سکانکردنی کۆدی بزنس کارت");
+        }
+
+        // ============================================================
+        //  ڕووداوەکانی سکانکردن و بارکردن
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const scannerInput = document.getElementById('scannerInput');
+            scannerInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    // If search results are visible, don't process, let user click.
+                    if (!document.getElementById('nameSearchResults').classList.contains('hidden')) {
+                        return;
+                    }
+                    processScan(this.value.trim());
+                    this.value = '';
+                }
+            });
+            scannerInput.addEventListener('input', function (e) {
+                // Translate Arabic/Kurdish numbers to English
+                this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+                
+                const searchTerm = this.value.trim().toLowerCase();
+                const resultsContainer = document.getElementById('nameSearchResults');
+
+                if (searchTerm.length < 2 || !isNaN(searchTerm.replace('-', ''))) {
+                    resultsContainer.classList.add('hidden');
+                    resultsContainer.innerHTML = '';
+                    return;
+                }
+
+                const matchingMembers = appData.members.filter(m => m.name.toLowerCase().includes(searchTerm));
+
+                if (matchingMembers.length > 0) {
+                    resultsContainer.innerHTML = matchingMembers.map(m => `
+                        <div class="name-search-item" onclick="selectMemberFromSearch('${m.code}')">
+                            <strong>${m.name}</strong> - <small>${m.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}</small>
+                        </div>
+                    `).join('');
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    resultsContainer.classList.add('hidden');
+                    resultsContainer.innerHTML = '';
+                }
+            });
+
+            // ڕێگریکردن لە ڕیفرێش بوونی پەڕە کاتێک ئینتەر لە مۆدال دەنوسرێت
+            const newMemberCode = document.getElementById('newMemberCode');
+            if (newMemberCode) {
+                newMemberCode.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                    }
+                });
+            }
+
+            document.addEventListener('keypress', function (e) {
+                const activeEl = document.activeElement;
+                const addModal = document.getElementById('addModal');
+                const isModalOpen = addModal && addModal.style.display === 'flex';
+
+                // ئەگەر بەکارهێنەر لە خانەیەکی تر دەنوسێت، کۆنترۆڵ مەکە
+                if (activeEl && activeEl.tagName === 'INPUT' && activeEl !== document.getElementById('newMemberCode') && activeEl !== scannerInput) {
+                    return;
+                }
+                if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
+                    return;
+                }
+
+                // پشتگوێخستنی scannerInput چونکە لیسنەری تایبەتی خۆی هەیە
+                if (activeEl === scannerInput) {
+                    return;
+                }
+            });
+            loadData(); // This is called inside DOMContentLoaded
+            renderAll();
+        });
+
+        function processScan(code) {
+            if (!code) {
+                showAlert('warning', '⚠️ تکایە کۆدێک بنووسە یان سکان بکە');
+                return;
+            }
+
+            const member = appData.members.find(m => m.code === code);
+            const resultDiv = document.getElementById('scanResult');
+            const quickInfo = document.getElementById('quickMemberInfo');
+            const content = document.getElementById('quickInfoContent');
+
+            if (!member) {
+                const idx = appData.emptyCodes.indexOf(code);
+                if (idx !== -1) {
+                    resultDiv.innerHTML =
+                        `<div class="alert alert-info">📇 کۆدەکە بەتاڵە! بەکاربهێنە بۆ تۆمارکردنی ئەندامێکی نوێ.</div>`;
+                    quickInfo.classList.add('hidden');
+                    return;
+                }
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ کۆدەکە نەدۆزرایەوە!</div>`;
+                quickInfo.classList.add('hidden');
+                return;
+            }
+
+            const now = new Date();
+            let message = '';
+            let alertType = 'success';
+
+            if (member.type === 'pool') {
+                const threshold = appData.settings.poolFreeThreshold || 3;
+                member.visits = (member.visits || 0) + 1;
+                member.totalVisits = (member.totalVisits || 0) + 1;
+                const offer = member.offer || appData.settings.poolOffer || 'none';
+
+                // ئۆفەرەکان
+                let offerBonus = 0;
+                if (offer === 'buy2get1' && member.visits % 3 === 0) offerBonus = 1;
+                else if (offer === 'buy3get2' && member.visits % 5 === 0) offerBonus = 2;
+                else if (offer === 'halfprice' && member.visits % 2 === 0) {
+                    message = `💰 نیوە نرخ! (سەردانی ${member.visits}ـەم)`;
+                    alertType = 'warning';
+                    const price = (appData.settings.poolVisitPrice || 0) / 2;
+                    member.isFree = false;
+                    member.lastScan = now.toISOString();
+                    logActivity(member, 'سەردانی نیوە نرخ', price);
+                    saveData();
+                    renderAll();
+                    showResult(message, alertType, member, content, quickInfo, resultDiv);
+                    return;
+                }
+
+                if (offerBonus > 0) {
+                    member.visits += offerBonus;
+                    message = `🎉 ئۆفەر! +${offerBonus} سەردانی خۆڕایی (کۆی گشتی: ${member.visits})`;
+                    alertType = 'success';
+                    member.isFree = false;
+                } else if (member.visits >= threshold && !member.isFree) {
+                    member.isFree = true;
+                    message = `🎊 بەخێربێیت! ئەم جارە خۆڕاییە! (سەردانی ${member.visits}ـەم)`;
+                    alertType = 'success';
+                } else if (member.isFree) {
+                    member.visits = 0;
+                    member.isFree = false;
+                    message = `🔔 ئۆفەر بەکارهات! ژمارەی سەردانەکان سفر کرایەوە.`;
+                    alertType = 'warning'; // Change to warning for more attention
+                    // Play sound
+                    const sound = document.getElementById('notificationSound');
+                    if (sound) sound.play().catch(e => console.log("Audio play failed"));
+                } else {
+                    const left = threshold - member.visits;
+                    message = `✅ سەردانی ${member.visits}ـەم تۆمارکرا. (${left} جار بۆ خۆڕایی)`;
+                    alertType = 'success';
+                    logActivity(member, `سەردانی ${member.visits}ـەم`, appData.settings.poolVisitPrice || 0);
+                }
+                member.lastScan = now.toISOString();
+
+            } else {
+                // GYM
+                const endDate = new Date(member.endDate);
+                const nowTime = now.getTime();
+                const endTime = endDate.getTime();
+
+                if (nowTime <= endTime) {
+                    const daysLeft = Math.ceil((endTime - nowTime) / (1000 * 60 * 60 * 24));
+                    message = `✅ بەشداری چالاکە! ماوە: ${daysLeft} ڕۆژ`;
+                    alertType = 'success';
+                    member.lastScan = now.toISOString();
+                    member.totalVisits = (member.totalVisits || 0) + 1;
+                    logActivity(member, `سەردانی ئاسایی`); // No income for a regular gym visit
+                } else {
+                    message = `⛔ بەشدارییەکە بەسەرچووە! (کۆتایی: ${endDate.toLocaleDateString()})`;
+                    alertType = 'danger';
+                }
+            }
+
+            // logActivity is called inside the conditions now
+            saveData();
+            renderAll();
+            showResult(message, alertType, member, content, quickInfo, resultDiv);
+        }
+
+        function showResult(message, alertType, member, content, quickInfo, resultDiv) {
+            resultDiv.innerHTML = `<div class="alert alert-${alertType}">${message}</div>`;
+            quickInfo.classList.remove('hidden');
+            content.innerHTML = `
+                <strong>👤 ${member.name}</strong><br>
+                📞 ${member.phone || '-'}<br>
+                🔑 کۆد: ${member.code}<br>
+                📂 جۆر: ${member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}<br>
+                ${member.type === 'pool' ? `🔢 سەردان: ${member.visits || 0}` : `📅 کۆتایی: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ckb') : '-'}`}
+                ${member.isFree ? '<br>🎁 خۆڕایی' : ''}
+                ${member.notes ? `<br>📝 ${member.notes}` : ''}
+                ${member.offer && member.offer !== 'none' ? `<br>🏷️ ئۆفەر: ${member.offer}` : ''}
+            `;
+        }
+
+        function logActivity(member, message, price = 0) {
+            appData.activityLog.unshift({
+                member: member.name,
+                code: member.code,
+                type: member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ',
+                status: 'چالاک',
+                time: new Date().toISOString(),
+                message: message,
+                price: price
+            });
+            if (appData.activityLog.length > 50) appData.activityLog.pop();
+        }
+
+        // ============================================================
+        //  Bulk Generator (Combined QR and Barcode)
+        // ============================================================
+        function generateBulkCodes() {
+            const count = parseInt(document.getElementById('bulkCount').value) || 10;
+            const prefix = document.getElementById('bulkPrefix').value.trim() || 'MEMBER';
+            const qrSize = parseInt(document.getElementById('bulkSize').value) || 180;
+            const codes = [];
+            bulkGeneratedCodes = [];
+
+            // پیدا کردنی ئەو کۆدانەی پێشتر هەن
+            const existingMax = appData.members.reduce((max, m) => {
+                const n = parseInt((m.code || '').replace(prefix + '-', ''));
+                return isNaN(n) ? max : Math.max(max, n);
+            }, 0);
+            const emptyMax = appData.emptyCodes.reduce((max, c) => {
+                const n = parseInt((c || '').replace(prefix + '-', ''));
+                return isNaN(n) ? max : Math.max(max, n);
+            }, 0);
+            const startId = Math.max(existingMax, emptyMax) + 1;
+
+            for (let i = 0; i < count; i++) {
+                const code = prefix + '-' + String(startId + i).padStart(4, '0');
+                codes.push(code);
+                if (!appData.emptyCodes.includes(code)) {
+                    appData.emptyCodes.push(code);
+                }
+                bulkGeneratedCodes.push(code);
+            }
+
+            saveData();
+            renderAll();
+
+            // دروستکردنی کارتەکان (Combined QR + Barcode)
+            const resultDiv = document.getElementById('bulkResult');
+            resultDiv.innerHTML = codes.map(c => `
+                <div class="bulk-item" data-code="${c}">
+                    <div style="background:#fff;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(139,92,246,0.25);">
+                        <div id="qrwrap_${CSS.escape(c)}" style="margin-bottom:8px;display:flex;justify-content:center;"></div>
+                        <div style="display:flex;justify-content:center;">
+                            <canvas id="bar_${CSS.escape(c)}"></canvas>
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem;margin-top:8px;color:var(--text-secondary);font-family:monospace;font-weight:700;letter-spacing:1px;">${c}</div>
+                    <button class="btn btn-outline btn-sm" onclick="downloadSingle('${c}')" style="margin-top:8px;font-size:0.7rem;padding:4px 10px;width:100%;justify-content:center;">⬇ PNG</button>
+                </div>
+            `).join('');
+
+            setTimeout(() => {
+                codes.forEach(c => {
+                    const wrapperId = 'qrwrap_' + CSS.escape(c);
+                    const wrap = document.getElementById(wrapperId);
+                    if (wrap && typeof QRCode !== 'undefined') {
+                        new QRCode(wrap, {
+                            text: c,
+                            width: qrSize,
+                            height: qrSize,
+                            colorDark: var(--samsung-black),
+                            colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.M
+                        });
+                    }
+                    const canvas = document.getElementById('bar_' + CSS.escape(c));
+                    if (canvas) {
+                        drawCode128(canvas, c);
+                    }
+                });
+            }, 50);
+
+            showAlert('success', `✅ ${codes.length} کارت دروستکرا`);
+        }
+
+        // دروستکردنی کانوای هاوبەش (QR + Barcode) لە مێمۆریدا
+        function getCombinedCanvas(code, qrSize = 180) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // دروستکردنی QR بە کاتی
+            const tempQrDiv = document.createElement('div');
+            new QRCode(tempQrDiv, {
+                text: code,
+                width: qrSize,
+                height: qrSize,
+                colorDark: getComputedStyle(document.documentElement).getPropertyValue('--samsung-black').trim(),
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
+
+            // دروستکردنی بارکۆد بە کاتی
+            const barCanvas = document.createElement('canvas');
+            drawCode128(barCanvas, code);
+
+            // ڕەهەندەکان
+            const padding = 20;
+            const spacing = 15;
+            const contentWidth = Math.max(qrSize, barCanvas.width);
+            const combinedWidth = contentWidth + padding * 2;
+            const combinedHeight = qrSize + barCanvas.height + padding * 2 + spacing;
+
+            canvas.width = combinedWidth;
+            canvas.height = combinedHeight;
+
+            // ڕەنگی پاشبنەما
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, combinedWidth, combinedHeight);
+
+            // کێشانی QR Code
+            const qrCanvas = tempQrDiv.querySelector('canvas');
+            if (qrCanvas) {
+                const qrX = (combinedWidth - qrSize) / 2;
+                ctx.drawImage(qrCanvas, qrX, padding);
+            }
+
+            // کێشانی بارکۆد
+            const barX = (combinedWidth - barCanvas.width) / 2;
+            ctx.drawImage(barCanvas, barX, padding + qrSize + spacing);
+
+            return canvas;
+        }
+
+        // ============================================================
+        //  QR Code ڕاستەقینە — بەکارهێنانی QRCode.js
+        //  Barcode Code128 ڕاستەقینە — خۆمان دروستکراوە
+        // ============================================================
+
+        // Code 128B encoding tables
+        const CODE128_START_B = 104;
+        const CODE128_STOP = 106;
+        const CODE128_PATTERNS = [
+            '11011001100', '11001101100', '11001100110', '10010011000', '10010001100',
+            '10001001100', '10011001000', '10011000100', '10001100100', '11001001000',
+            '11001000100', '11000100100', '10110011100', '10011011100', '10011001110',
+            '10111001100', '10011101100', '10011100110', '11001110010', '11001011100',
+            '11001001110', '11011100100', '11001110100', '11101101110', '11101001100',
+            '11100101100', '11100100110', '11101100100', '11100110100', '11100110010',
+            '11011011000', '11011000110', '11000110110', '10100011000', '10001011000',
+            '10001000110', '10110001000', '10001101000', '10001100010', '11010001000',
+            '11000101000', '11000100010', '10110111000', '10110001110', '10001101110',
+            '10111011000', '10111000110', '10001110110', '11101110110', '11010001110',
+            '11000101110', '11011101000', '11011100010', '11011101110', '11101011000',
+            '11101000110', '11100010110', '11101101000', '11101100010', '11100011010',
+            '11101111010', '11001000010', '11110001010', '10100110000', '10100001100',
+            '10010110000', '10010000110', '10000101100', '10000100110', '10110010000',
+            '10110000100', '10011010000', '10011000010', '10000110100', '10000110010',
+            '11000010010', '11001010000', '11110111010', '11000010100', '10001111010',
+            '10100111100', '10010111100', '10010011110', '10111100100', '10011110100',
+            '10011110010', '11110100100', '11110010100', '11110010010', '11011011110',
+            '11011110110', '11110110110', '10101111000', '10100011110', '10001011110',
+            '10111101000', '10111100010', '11110101000', '11110100010', '10111011110',
+            '10111101110', '11101011110', '11110101110', '11010000100', '11010010000',
+            '11010011100', '11000111010', '11'
+        ];
+
+        function drawCode128(canvas, text) {
+            const barWidth = 2;
+            const barHeight = 80;
+            const padding = 12;
+            const fontSize = 12;
+            const totalHeight = barHeight + padding * 2 + fontSize + 4;
+
+            // Build code sequence
+            const codes = [CODE128_START_B];
+            let checksum = CODE128_START_B;
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i) - 32;
+                codes.push(charCode);
+                checksum += charCode * (i + 1);
+            }
+            checksum = checksum % 103;
+            codes.push(checksum);
+            codes.push(CODE128_STOP);
+
+            // Calculate total width
+            let totalBars = 0;
+            codes.forEach(c => {
+                const p = CODE128_PATTERNS[c] || '11';
+                totalBars += p.length;
+            });
+            const totalWidth = totalBars * barWidth + padding * 2;
+
+            canvas.width = totalWidth;
+            canvas.height = totalHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, totalWidth, totalHeight);
+
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--samsung-black').trim();
+            let x = padding;
+            codes.forEach(c => {
+                const pattern = CODE128_PATTERNS[c] || '11';
+                for (let i = 0; i < pattern.length; i++) {
+                    if (pattern[i] === '1') {
+                        ctx.fillRect(x, padding, barWidth, barHeight);
+                    }
+                    x += barWidth;
+                }
+            });
+
+            // Text below bars
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--samsung-black').trim();
+            ctx.font = `bold ${fontSize}px monospace`;
+            ctx.textAlign = 'center';
+            ctx.fillText(text, totalWidth / 2, padding + barHeight + fontSize + 2);
+        }
+
+        function downloadSingle(code) {
+            const qrSize = parseInt(document.getElementById('bulkSize').value) || 180;
+            const canvas = getCombinedCanvas(code, qrSize);
+            const link = document.createElement('a');
+            link.download = code + '_combined.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showAlert('success', `📥 کارت بۆ ${code} دابەزێنرا`);
+        }
+
+        function exportBulkPNG() {
+            const items = document.querySelectorAll('#bulkResult .bulk-item');
+            if (items.length === 0) {
+                showAlert('warning', '⚠️ هیچ کۆدێک دروست نەکراوە');
+                return;
+            }
+            let count = 0;
+            items.forEach((item) => {
+                const code = item.dataset.code || 'code';
+                downloadSingle(code);
+                count++;
+            });
+            showAlert('success', `📥 ${count} کارت دابەزێنران`);
+        }
+
+        function printBulkCodes() {
+            const items = document.querySelectorAll('#bulkResult .bulk-item');
+            if (items.length === 0) {
+                showAlert('warning', '⚠️ هیچ کۆدێک دروست نەکراوە');
+                return;
+            }
+            const win = window.open('', '_blank', 'width=800,height=600');
+            const qrSize = parseInt(document.getElementById('bulkSize').value) || 180;
+            let bodyContent = `<style>
+                body { font-family: monospace; background:#fff; margin: 0; padding: 20px; }
+                .grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+                .item { border:2px dashed #6b2fcf; padding:15px; border-radius:12px; text-align:center; break-inside:avoid; background:#fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                .item img { max-width:240px; height:auto; display:block; margin:0 auto; }
+                @media print { @page { margin:10mm; } .item { border:1px solid #000; box-shadow:none; } }
+            </style><div class="grid">`;
+            items.forEach(item => {
+                const code = item.dataset.code || '';
+                const canvas = getCombinedCanvas(code, qrSize);
+                const imgTag = `<img src="${canvas.toDataURL('image/png')}">`;
+                bodyContent += `<div class="item">${imgTag}</div>`;
+            });
+            bodyContent += '</div>';
+            win.document.write(bodyContent);
+            win.document.close();
+            win.focus();
+            setTimeout(() => win.print(), 600);
+        }
+
+        // ============================================================
+        //  پشتیوانی
+        // ============================================================
+        function exportBackup() {
+            const data = JSON.stringify(appData, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showAlert('success', '✅ پشتیوانی دابەزێنرا');
+        }
+
+        function importBackup(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.members && data.settings) {
+                        appData = data;
+                        saveData();
+                        renderAll();
+                        showAlert('success', '✅ داتا بارکرایەوە');
+                    } else {
+                        showAlert('danger', '❌ فایلی پشتگیری نادروستە');
+                    }
+                } catch (err) {
+                    showAlert('danger', '❌ هەڵە لە خوێندنەوەی فایل');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ============================================================
+        //  زمان
+        // ============================================================
+        function toggleLang() {
+            const btn = document.getElementById('langToggle');
+            if (currentLang === 'ckb') {
+                currentLang = 'en';
+                btn.textContent = '🇮🇶 کوردی';
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = 'en';
+                document.getElementById('appTitle').textContent = '🏊‍♂️ Gym & Pool Management System';
+                document.querySelectorAll('.tab-btn').forEach(el => {
+                    const map = {
+                        '📊 داشبۆرد': '📊 Dashboard',
+                        '🏊 مەلەوانگە': '🏊 Pool',
+                        '🏋️ هۆڵ': '🏋️ Gym',
+                        '⚙️ ڕێکخستنەکان': '⚙️ Settings',
+                        '📈 ڕاپۆرتەکان': '📈 Reports'
+                    };
+                    if (map[el.textContent.trim()]) el.textContent = map[el.textContent.trim()];
+                });
+            } else {
+                currentLang = 'ckb';
+                btn.textContent = '🇬🇧 English';
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'ckb';
+                document.getElementById('appTitle').textContent = '🏊‍♂️ سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە';
+                document.querySelectorAll('.tab-btn').forEach(el => {
+                    const map = {
+                        '📊 Dashboard': '📊 داشبۆرد',
+                        '🏊 Pool': '🏊 مەلەوانگە',
+                        '🏋️ Gym': '🏋️ هۆڵ',
+                        '⚙️ Settings': '⚙️ ڕێکخستنەکان',
+                        '📈 Reports': '📈 ڕاپۆرتەکان'
+                    };
+                    if (map[el.textContent.trim()]) el.textContent = map[el.textContent.trim()];
+                });
+            }
+            renderAll();
+        }
+
+        // ============================================================
+        //  ڕێندرینگ
+        // ============================================================
+        function renderAll() {
+            renderPool();
+            renderGym();
+            renderDashboard();
+            renderEmptyCodes();
+            renderReports();
+            syncAdminUI();
+            syncPoolUI();
+            syncGymUI();
+        }
+
+        function renderPool() {
+            const filter = document.getElementById('poolFilter').value.toLowerCase();
+            const statusFilter = document.getElementById('poolStatusFilter').value;
+            let poolMembers = appData.members.filter(m => m.type === 'pool');
+
+            if (filter) poolMembers = poolMembers.filter(m => m.name.toLowerCase().includes(filter) || m.code.toLowerCase()
+                .includes(filter));
+            if (statusFilter === 'active') poolMembers = poolMembers.filter(m => !m.isFree && m.visits < appData.settings
+                .poolFreeThreshold);
+            else if (statusFilter === 'free') poolMembers = poolMembers.filter(m => m.isFree || m.visits >= appData.settings
+                .poolFreeThreshold);
+
+            const tbody = document.getElementById('poolTable');
+            if (poolMembers.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="7" style="text-align:center;color:#888;">هیچ ئەندامێکی مەلەوانگە نییە</td></tr>`;
+                return;
+            }
+            const threshold = appData.settings.poolFreeThreshold || 3;
+            tbody.innerHTML = poolMembers.map(m => {
+                const status = m.isFree ? 'خۆڕایی' : (m.visits >= threshold ? 'خۆڕایی ئامادە' : 'چالاک');
+                const statusClass = m.isFree ? 'status-free' : (m.visits >= threshold ? 'status-warning' :
+                    'status-active');
+                const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
+                return `<tr>
+                    <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                    <td>${m.phone || '-'}</td>
+                    <td>${m.code}</td>
+                    <td>${m.visits}/${threshold}</td>
+                    <td><span class="status-badge ${statusClass}">${status}</span></td>
+                    <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ckb') : '-'}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderGym() {
+            const filter = document.getElementById('gymFilter').value.toLowerCase();
+            const statusFilter = document.getElementById('gymStatusFilter').value;
+            let gymMembers = appData.members.filter(m => m.type === 'gym');
+
+            if (filter) gymMembers = gymMembers.filter(m => m.name.toLowerCase().includes(filter) || m.code.toLowerCase()
+                .includes(filter));
+            const now = new Date();
+            if (statusFilter === 'active') gymMembers = gymMembers.filter(m => new Date(m.endDate) >= now);
+            else if (statusFilter === 'expired') gymMembers = gymMembers.filter(m => new Date(m.endDate) < now);
+
+            const tbody = document.getElementById('gymTable');
+            if (gymMembers.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="7" style="text-align:center;color:#888;">هیچ ئەندامێکی هۆڵ نییە</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = gymMembers.map(m => {
+                const endDate = new Date(m.endDate);
+                const isActive = now <= endDate;
+                const daysLeft = isActive ? Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)) : 0;
+                const status = isActive ? `چالاک (${daysLeft} ڕۆژ)` : 'بەسەرچوو';
+                const statusClass = isActive ? 'status-active' : 'status-expired';
+                const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
+                return `<tr>
+                    <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                    <td>${m.phone || '-'}</td>
+                    <td>${m.code}</td>
+                    <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ckb') : '-'}</td>
+                    <td>${m.endDate ? new Date(m.endDate).toLocaleDateString('ckb') : '-'}</td>
+                    <td><span class="status-badge ${statusClass}">${status}</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderDashboard() {
+            const total = appData.members.length;
+            const poolToday = appData.members.filter(m => m.type === 'pool' && m.lastScan &&
+                new Date(m.lastScan).toDateString() === new Date().toDateString()).length;
+            const gymActive = appData.members.filter(m => m.type === 'gym' && new Date(m.endDate) >= new Date()).length;
+            const freeCount = appData.members.filter(m => m.type === 'pool' && m.isFree).length;
+            const totalVisits = appData.members.reduce((sum, m) => sum + (m.totalVisits || 0), 0);
+
+            document.getElementById('totalMembers').textContent = total;
+            document.getElementById('poolToday').textContent = poolToday;
+            document.getElementById('gymActive').textContent = gymActive;
+            document.getElementById('freeCount').textContent = freeCount;
+            document.getElementById('totalVisits').textContent = totalVisits;
+
+            const tbody = document.getElementById('recentActivity');
+            if (appData.activityLog.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = appData.activityLog.slice(0, 10).map(log => `
+                <tr>
+                    <td>${log.member}</td>
+                    <td>${log.type}</td>
+                    <td>${log.code}</td>
+                    <td><span class="status-badge status-active">${log.status}</span></td>
+                    <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderReports() {
+            const now = new Date();
+            const todayStart = new Date(now.setHours(0, 0, 0, 0));
+            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let dailyIncome = 0;
+            let dailyActivity = 0;
+            let monthlyIncome = 0;
+            let monthlyActivity = 0;
+
+            const incomeActivities = appData.activityLog.filter(log => log.price > 0);
+
+            incomeActivities.forEach(log => {
+                const logDate = new Date(log.time);
+                if (logDate >= monthStart) {
+                    monthlyIncome += log.price;
+                    monthlyActivity++;
+                }
+                if (logDate >= todayStart) {
+                    dailyIncome += log.price;
+                    dailyActivity++;
+                }
+            });
+
+            const formatter = new Intl.NumberFormat('ckb', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 });
+
+            document.getElementById('dailyIncome').textContent = formatter.format(dailyIncome);
+            document.getElementById('dailyActivity').textContent = dailyActivity;
+            document.getElementById('monthlyIncome').textContent = formatter.format(monthlyIncome);
+            document.getElementById('monthlyActivity').textContent = monthlyActivity;
+
+            const tbody = document.getElementById('incomeActivity');
+            if (incomeActivities.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">هیچ داهاتێک تۆمار نەکراوە</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = incomeActivities.map(log => `
+                <tr>
+                    <td>${log.member}</td>
+                    <td>${log.type}</td>
+                    <td>${formatter.format(log.price)}</td>
+                    <td>${log.message}</td>
+                    <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                </tr>
+            `).join('');
+        }
+
+        function printIncomeReport() {
+            const printArea = document.getElementById('incomeReportPrintArea').innerHTML;
+            const dailyIncome = document.getElementById('dailyIncome').textContent;
+            const monthlyIncome = document.getElementById('monthlyIncome').textContent;
+            const reportDate = new Date().toLocaleString('ckb');
+
+            const printWindow = window.open('', '', 'height=800,width=1000');
+            printWindow.document.write('<html><head><title>ڕاپۆرتی داهات</title>');
+            // Add styles
+            printWindow.document.write(`
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+                    body { font-family: 'Vazirmatn', sans-serif; direction: rtl; padding: 20px; }
+                    h1 { text-align: center; color: #1428a0; }
+                    .summary { display: flex; justify-content: space-around; margin: 20px 0; padding: 15px; background-color: #f5f5f7; border-radius: 10px; }
+                    .summary-item { text-align: center; }
+                    .summary-item h3 { margin: 0 0 5px 0; color: #333; font-weight: 400; }
+                    .summary-item p { margin: 0; font-size: 1.2em; font-weight: bold; color: #1428a0; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+                    th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
+                    th { background-color: #eef; font-weight: 700; }
+                    tr:nth-child(even) { background-color: #f9f9f9; }
+                    .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1428a0; padding-bottom: 10px; }
+                    .print-header p { margin: 5px; color: #555; }
+                    @media print { body { -webkit-print-color-adjust: exact; } }
+                </style>
+            `);
+            printWindow.document.write('</head><body>');
+
+            // Add header
+            printWindow.document.write('<div class="print-header">');
+            printWindow.document.write('<h1>ڕاپۆرتی داهات</h1>');
+            printWindow.document.write(`<p>سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</p>`);
+            printWindow.document.write(`<p>بەرواری ڕاپۆرت: ${reportDate}</p>`);
+            printWindow.document.write('</div>');
+
+            // Add summary
+            printWindow.document.write('<div class="summary">');
+            printWindow.document.write(`<div class="summary-item"><h3>داهاتی ئەمڕۆ</h3><p>${dailyIncome}</p></div>`);
+            printWindow.document.write(`<div class="summary-item"><h3>داهاتی ئەم مانگە</h3><p>${monthlyIncome}</p></div>`);
+            printWindow.document.write('</div>');
+
+            printWindow.document.write(printArea);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => { printWindow.print(); }, 500);
+        }
+
+        function renderEmptyCodes() {
+            const tbody = document.getElementById('emptyCodesTable');
+            if (appData.emptyCodes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;">هیچ کۆدێکی بەتاڵ نییە</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = appData.emptyCodes.map(code => `
+                <tr>
+                    <td>${code}</td>
+                    <td><span class="status-badge status-free">بەتاڵ</span></td>
+                    <td><button class="btn btn-danger btn-sm" onclick="removeEmptyCode('${code}')">🗑️</button></td>
+                </tr>
+            `).join('');
+        }
+
+        // ============================================================
+        //  کردارەکان
+        // ============================================================
+        function deleteMember(id) {
+            if (!confirm('دڵنیای لە سڕینەوەی ئەم ئەندامە؟')) return;
+            const member = appData.members.find(m => m.id === id);
+            
+            if (member) {
+                appData.members = appData.members.filter(m => m.id !== id);
+                if (member.code && !appData.members.some(m => m.code === member.code) && !appData.emptyCodes.includes(member.code)) {
+                    appData.emptyCodes.push(member.code);
+                }
+            }
+            saveData();
+            renderAll();
+            showAlert('success', '✅ ئەندام سڕدرایەوە');
+        }
+
+        function resetVisits(id) {
+            const member = appData.members.find(m => m.id === id);
+            if (member && member.type === 'pool') {
+                member.visits = 0;
+                member.isFree = false;
+                saveData();
+                renderAll();
+                showAlert('success', '🔄 ژمارەی سەردان سفر کرایەوە');
+            }
+        }
+
+        function extendGym(id) {
+            const member = appData.members.find(m => m.id === id);
+            if (member && member.type === 'gym') {
+                const duration = appData.settings.gymDuration || 30;
+                const newEnd = new Date(member.endDate);
+                newEnd.setDate(newEnd.getDate() + duration);
+                member.endDate = newEnd.toISOString();
+                const price = appData.settings.gymSubscriptionPrice || 0;
+                saveData();
+                renderAll();
+                showAlert('success', `✅ بەشداری درێژکرایەوە بۆ ${duration} ڕۆژ`);
+                logActivity(member, `درێژکردنەوەی بەشداری بۆ ${duration} ڕۆژ`, price);
+            }
+        }
+
+        function editMember(id) {
+            const member = appData.members.find(m => m.id === id);
+            if (!member) return;
+            // پڕکردنەوەی مۆدالی بە داتاکان
+            document.getElementById('newMemberName').value = member.name;
+            document.getElementById('newMemberPhone').value = member.phone || '';
+            document.getElementById('newMemberAge').value = member.age || '';
+            document.getElementById('newMemberAddress').value = member.address || '';
+            document.getElementById('newMemberEmergency').value = member.emergency || '';
+            document.getElementById('newMemberCode').value = member.code;
+            document.getElementById('newMemberNotes').value = member.notes || '';
+            document.getElementById('modalTitle').textContent = `✏️ دەستکاری ${member.name}`;
+
+            // Prevent editing the code for existing members
+            const codeInput = document.getElementById('newMemberCode');
+            codeInput.readOnly = true;
+            codeInput.style.background = '#333';
+            codeInput.style.cursor = 'not-allowed';
+
+            document.getElementById('addModal').style.display = 'flex';
+
+            // گۆڕینی کرداری پاشەکەوتکردن
+            const saveBtn = document.querySelector('#addModal .btn-primary');
+            saveBtn.textContent = '💾 نوێکردنەوە';
+            saveBtn.onclick = null; // Clear previous onclick
+            saveBtn.onclick = function () {
+                const name = document.getElementById('newMemberName').value.trim();
+                if (!name) {
+                    document.getElementById('modalError').textContent = '⚠️ تکایە ناوێک بنووسە';
+                    return;
+                }
+                member.name = name;
+                member.phone = document.getElementById('newMemberPhone').value.trim();
+                member.age = parseInt(document.getElementById('newMemberAge').value) || null;
+                member.address = document.getElementById('newMemberAddress').value.trim();
+                member.emergency = document.getElementById('newMemberEmergency').value.trim();
+                member.notes = document.getElementById('newMemberNotes').value.trim();
+                saveData();
+                renderAll();
+                closeModal();
+                showAlert('success', `✅ زانیارییەکانی "${name}" نوێکرایەوە`);
+            };
+
+            // Add profile action buttons
+            const modalErrorDiv = document.getElementById('modalError');
+            modalErrorDiv.innerHTML = ''; // Clear previous errors
+            const profileActions = document.createElement('div');
+            profileActions.style.marginTop = '20px';
+            profileActions.style.paddingTop = '20px';
+            profileActions.style.borderTop = '1px solid var(--border-subtle)';
+            profileActions.style.display = 'flex';
+            profileActions.style.gap = '10px';
+
+            if (member.type === 'gym') {
+                profileActions.innerHTML = `<button class="btn btn-success" onclick="extendGym('${id}')">➕ درێژکردنەوەی بەشداری</button>`;
+            } else { // pool
+                profileActions.innerHTML = `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 سفرکردنەوەی سەردانەکان</button>`;
+            }
+            modalErrorDiv.appendChild(profileActions);
+        }
+
+        function removeEmptyCode(code) {
+            appData.emptyCodes = appData.emptyCodes.filter(c => c !== code);
+            saveData();
+            renderAll();
+        }
+
+        // ============================================================
+        //  گۆڕینی تاپ
+        // ============================================================
+        function switchTab(tabId) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`page-${tabId}`).classList.add('active');
+            const activeTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (activeTab) activeTab.classList.add('active');
+            
+            // Only focus if the dashboard is switched to and no modal is open
+            const scannerInput = document.getElementById('scannerInput');
+            if (tabId === 'dashboard' && scannerInput) scannerInput.focus({ preventScroll: true });
+        }
+
+        // ============================================================
+        //  ئاگاداری
+        // ============================================================
+        function showAlert(type, message) {
+            const existing = document.querySelector('.alert-floating');
+            if (existing) existing.remove();
+
+            const div = document.createElement('div');
+            div.className = `alert alert-${type} alert-floating`;
+            div.style.position = 'fixed';
+            div.style.bottom = '20px';
+            div.style.right = '20px';
+            div.style.maxWidth = '400px';
+            div.style.zIndex = '9999';
+            div.style.boxShadow = '0 8px 32px rgba(0,0,0,0.2)';
+            div.textContent = message;
+            document.body.appendChild(div);
+
+            setTimeout(() => {
+                div.style.opacity = '0';
+                div.style.transition = 'opacity 0.5s';
+                setTimeout(() => div.remove(), 500);
+            }, 4000);
+        }
+
+        // بارکردن
+        loadData();
+    </script>
+
+</body>
+
+</html>
