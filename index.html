@@ -37,7 +37,8 @@
             --danger: var(--samsung-red);
             --danger-glow: rgba(255, 69, 58, 0.35);
             --warning: var(--samsung-yellow);
-            --info: #007aff; /* Apple's Blue for Info */
+            --info: #007aff;
+            /* Apple's Blue for Info */
             --info-glow: rgba(0, 122, 255, 0.35);
 
             /* Dark Background System */
@@ -641,6 +642,12 @@
             border: 1px solid rgba(0, 122, 255, 0.25);
         }
 
+        .status-warning {
+            background: rgba(254, 220, 0, 0.12);
+            color: var(--samsung-yellow);
+            border: 1px solid rgba(254, 220, 0, 0.25);
+        }
+
         /* ===================== ALERTS ===================== */
         .alert {
             padding: 14px 18px;
@@ -781,7 +788,7 @@
             color: var(--text-secondary);
             line-height: 1.8;
         }
-        
+
         .name-search-results {
             position: relative;
             background: var(--bg-elevated);
@@ -792,15 +799,26 @@
             z-index: 100;
             margin-top: 10px;
         }
+
         .name-search-item {
             padding: 12px 16px;
             cursor: pointer;
             color: var(--text-primary);
             border-bottom: 1px solid var(--border-subtle);
         }
-        .name-search-item:last-child { border-bottom: none; }
-        .name-search-item:hover { background: rgba(65, 88, 208, 0.1); }
-        .name-search-item small { color: var(--text-muted); margin-right: 8px; }
+
+        .name-search-item:last-child {
+            border-bottom: none;
+        }
+
+        .name-search-item:hover {
+            background: rgba(65, 88, 208, 0.1);
+        }
+
+        .name-search-item small {
+            color: var(--text-muted);
+            margin-right: 8px;
+        }
 
 
         .hidden {
@@ -995,15 +1013,18 @@
         }
     </style>
     <!-- QR Code Generator Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
     <!-- HTML5 QR/Barcode Scanner Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js">
+    </script>
 </head>
 
 <body>
 
     <!-- Audio for notification -->
-    <audio id="notificationSound" src="https://www.myinstants.com/media/sounds/ding-sound-effect.mp3" preload="auto"></audio>
+    <audio id="notificationSound" src="https://www.myinstants.com/media/sounds/ding-sound-effect.mp3" preload="auto">
+    </audio>
 
     <div class="app-container" id="app">
         <!-- Header -->
@@ -1060,9 +1081,9 @@
                     <span class="scanner-icon">📷</span>
                     <div style="display:flex; gap:10px; max-width:500px; margin:0 auto; align-items:center;">
                         <input type="text" id="scannerInput" placeholder="MEMBER-1002 یان کۆدەکە..." autofocus
-                            style="flex:1;">
+                        style="flex:1;">
                         <button class="btn btn-info" onclick="openDashboardCameraScanner()"
-                            style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 کامێرا</button>
+                        style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 کامێرا</button>
                     </div>
                     <div id="scanResult" style="margin-top:14px;"></div>
                     <div id="nameSearchResults" class="name-search-results hidden"></div>
@@ -1302,54 +1323,55 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- ==================== REPORTS ==================== -->
-    <div class="page" id="page-reports">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="dailyIncome">0</div>
-                <div class="stat-label">💰 داهاتی ئەمڕۆ</div>
+        <!-- ==================== REPORTS ==================== -->
+        <div class="page" id="page-reports">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="dailyIncome">0</div>
+                    <div class="stat-label">💰 داهاتی ئەمڕۆ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="dailyActivity">0</div>
+                    <div class="stat-label">🏃 چالاکی ئەمڕۆ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthlyIncome">0</div>
+                    <div class="stat-label">💰 داهاتی ئەم مانگە</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="monthlyActivity">0</div>
+                    <div class="stat-label">🏃 چالاکی ئەم مانگە</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="dailyActivity">0</div>
-                <div class="stat-label">🏃 چالاکی ئەمڕۆ</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="monthlyIncome">0</div>
-                <div class="stat-label">💰 داهاتی ئەم مانگە</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="monthlyActivity">0</div>
-                <div class="stat-label">🏃 چالاکی ئەم مانگە</div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">📋 وردەکاریی داهات</span>
+                    <button class="btn btn-info" onclick="printIncomeReport()">🖨️ چاپکردن</button>
+                </div>
+                <div class="table-wrap" id="incomeReportPrintArea">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ناو</th>
+                                <th>جۆر</th>
+                                <th>بڕی پارە</th>
+                                <th>تێبینی</th>
+                                <th>کات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeActivity">
+                            <tr>
+                                <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title">📋 وردەکاریی داهات</span>
-                <button class="btn btn-info" onclick="printIncomeReport()">🖨️ چاپکردن</button>
-            </div>
-            <div class="table-wrap" id="incomeReportPrintArea">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ناو</th>
-                            <th>جۆر</th>
-                            <th>بڕی پارە</th>
-                            <th>تێبینی</th>
-                            <th>کات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="incomeActivity">
-                        <tr>
-                            <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
+    <!-- /app-container -->
 
     <!-- ==================== MODAL ==================== -->
     <div id="addModal">
@@ -1384,8 +1406,8 @@
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="newMemberCode" placeholder="MEMBER-XXXX" style="flex:1;">
                     <button class="btn btn-info" onclick="openNewMemberCameraScanner()"
-                        style="padding: 11px 18px; border-radius:var(--radius-sm); white-space:nowrap;">📷
-                        سکانکردن</button>
+                    style="padding: 11px 18px; border-radius:var(--radius-sm); white-space:nowrap;">📷
+                    سکانکردن</button>
                 </div>
             </div>
             <div class="form-group">
@@ -1444,7 +1466,9 @@
             }
             if (!appData.members) appData.members = [];
             if (!appData.settings) appData.settings = {
-                poolFreeThreshold: 3, gymDuration: 30, poolOffer: 'none',
+                poolFreeThreshold: 3,
+                gymDuration: 30,
+                poolOffer: 'none',
                 gymOffer: 'none'
             };
             if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
@@ -1636,7 +1660,7 @@
 
             const config = {
                 fps: 10,
-                qrbox: function (width, height) {
+                qrbox: function(width, height) {
                     const min = Math.min(width, height);
                     return {
                         width: Math.floor(min * 0.7),
@@ -1645,8 +1669,7 @@
                 }
             };
 
-            html5QrCodeScanner.start(
-                { facingMode: "environment" }, // prefer back camera
+            html5QrCodeScanner.start({ facingMode: "environment" },
                 config,
                 (decodedText, decodedResult) => {
                     onSuccessCallback(decodedText);
@@ -1692,9 +1715,9 @@
         // ============================================================
         //  ڕووداوەکانی سکانکردن و بارکردن
         // ============================================================
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const scannerInput = document.getElementById('scannerInput');
-            scannerInput.addEventListener('keydown', function (e) {
+            scannerInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     // If search results are visible, don't process, let user click.
@@ -1705,10 +1728,10 @@
                     this.value = '';
                 }
             });
-            scannerInput.addEventListener('input', function (e) {
+            scannerInput.addEventListener('input', function(e) {
                 // Translate Arabic/Kurdish numbers to English
                 this.value = this.value.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
-                
+
                 const searchTerm = this.value.trim().toLowerCase();
                 const resultsContainer = document.getElementById('nameSearchResults');
 
@@ -1722,10 +1745,10 @@
 
                 if (matchingMembers.length > 0) {
                     resultsContainer.innerHTML = matchingMembers.map(m => `
-                        <div class="name-search-item" onclick="selectMemberFromSearch('${m.code}')">
-                            <strong>${m.name}</strong> - <small>${m.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}</small>
-                        </div>
-                    `).join('');
+                            <div class="name-search-item" onclick="selectMemberFromSearch('${m.code}')">
+                                <strong>${m.name}</strong> - <small>${m.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}</small>
+                            </div>
+                        `).join('');
                     resultsContainer.classList.remove('hidden');
                 } else {
                     resultsContainer.classList.add('hidden');
@@ -1736,20 +1759,21 @@
             // ڕێگریکردن لە ڕیفرێش بوونی پەڕە کاتێک ئینتەر لە مۆدال دەنوسرێت
             const newMemberCode = document.getElementById('newMemberCode');
             if (newMemberCode) {
-                newMemberCode.addEventListener('keydown', function (e) {
+                newMemberCode.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                     }
                 });
             }
 
-            document.addEventListener('keypress', function (e) {
+            document.addEventListener('keypress', function(e) {
                 const activeEl = document.activeElement;
                 const addModal = document.getElementById('addModal');
                 const isModalOpen = addModal && addModal.style.display === 'flex';
 
                 // ئەگەر بەکارهێنەر لە خانەیەکی تر دەنوسێت، کۆنترۆڵ مەکە
-                if (activeEl && activeEl.tagName === 'INPUT' && activeEl !== document.getElementById('newMemberCode') && activeEl !== scannerInput) {
+                if (activeEl && activeEl.tagName === 'INPUT' && activeEl !== document.getElementById(
+                        'newMemberCode') && activeEl !== scannerInput) {
                     return;
                 }
                 if (activeEl && (activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT')) {
@@ -1761,9 +1785,18 @@
                     return;
                 }
             });
-            loadData(); // This is called inside DOMContentLoaded
+            loadData();
             renderAll();
         });
+
+        function selectMemberFromSearch(code) {
+            const resultsContainer = document.getElementById('nameSearchResults');
+            resultsContainer.classList.add('hidden');
+            resultsContainer.innerHTML = '';
+            document.getElementById('scannerInput').value = code;
+            processScan(code);
+            document.getElementById('scannerInput').value = '';
+        }
 
         function processScan(code) {
             if (!code) {
@@ -1870,15 +1903,15 @@
             resultDiv.innerHTML = `<div class="alert alert-${alertType}">${message}</div>`;
             quickInfo.classList.remove('hidden');
             content.innerHTML = `
-                <strong>👤 ${member.name}</strong><br>
-                📞 ${member.phone || '-'}<br>
-                🔑 کۆد: ${member.code}<br>
-                📂 جۆر: ${member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}<br>
-                ${member.type === 'pool' ? `🔢 سەردان: ${member.visits || 0}` : `📅 کۆتایی: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ckb') : '-'}`}
-                ${member.isFree ? '<br>🎁 خۆڕایی' : ''}
-                ${member.notes ? `<br>📝 ${member.notes}` : ''}
-                ${member.offer && member.offer !== 'none' ? `<br>🏷️ ئۆفەر: ${member.offer}` : ''}
-            `;
+                    <strong>👤 ${member.name}</strong><br>
+                    📞 ${member.phone || '-'}<br>
+                    🔑 کۆد: ${member.code}<br>
+                    📂 جۆر: ${member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}<br>
+                    ${member.type === 'pool' ? `🔢 سەردان: ${member.visits || 0}` : `📅 کۆتایی: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ckb') : '-'}`}
+                    ${member.isFree ? '<br>🎁 خۆڕایی' : ''}
+                    ${member.notes ? `<br>📝 ${member.notes}` : ''}
+                    ${member.offer && member.offer !== 'none' ? `<br>🏷️ ئۆفەر: ${member.offer}` : ''}
+                `;
         }
 
         function logActivity(member, message, price = 0) {
@@ -1930,33 +1963,32 @@
             // دروستکردنی کارتەکان (Combined QR + Barcode)
             const resultDiv = document.getElementById('bulkResult');
             resultDiv.innerHTML = codes.map(c => `
-                <div class="bulk-item" data-code="${c}">
-                    <div style="background:#fff;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(139,92,246,0.25);">
-                        <div id="qrwrap_${CSS.escape(c)}" style="margin-bottom:8px;display:flex;justify-content:center;"></div>
-                        <div style="display:flex;justify-content:center;">
-                            <canvas id="bar_${CSS.escape(c)}"></canvas>
+                    <div class="bulk-item" data-code="${c}">
+                        <div style="background:#fff;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(139,92,246,0.25);">
+                            <div id="qrwrap_${c}" style="margin-bottom:8px;display:flex;justify-content:center;"></div>
+                            <div style="display:flex;justify-content:center;">
+                                <canvas id="bar_${c}"></canvas>
+                            </div>
                         </div>
+                        <div style="font-size:0.75rem;margin-top:8px;color:var(--text-secondary);font-family:monospace;font-weight:700;letter-spacing:1px;">${c}</div>
+                        <button class="btn btn-outline btn-sm" onclick="downloadSingle('${c}')" style="margin-top:8px;font-size:0.7rem;padding:4px 10px;width:100%;justify-content:center;">⬇ PNG</button>
                     </div>
-                    <div style="font-size:0.75rem;margin-top:8px;color:var(--text-secondary);font-family:monospace;font-weight:700;letter-spacing:1px;">${c}</div>
-                    <button class="btn btn-outline btn-sm" onclick="downloadSingle('${c}')" style="margin-top:8px;font-size:0.7rem;padding:4px 10px;width:100%;justify-content:center;">⬇ PNG</button>
-                </div>
-            `).join('');
+                `).join('');
 
             setTimeout(() => {
                 codes.forEach(c => {
-                    const wrapperId = 'qrwrap_' + CSS.escape(c);
-                    const wrap = document.getElementById(wrapperId);
+                    const wrap = document.getElementById('qrwrap_' + c);
                     if (wrap && typeof QRCode !== 'undefined') {
                         new QRCode(wrap, {
                             text: c,
                             width: qrSize,
                             height: qrSize,
-                            colorDark: var(--samsung-black),
+                            colorDark: '#1d1d1f',
                             colorLight: '#ffffff',
                             correctLevel: QRCode.CorrectLevel.M
                         });
                     }
-                    const canvas = document.getElementById('bar_' + CSS.escape(c));
+                    const canvas = document.getElementById('bar_' + c);
                     if (canvas) {
                         drawCode128(canvas, c);
                     }
@@ -2134,12 +2166,12 @@
             const win = window.open('', '_blank', 'width=800,height=600');
             const qrSize = parseInt(document.getElementById('bulkSize').value) || 180;
             let bodyContent = `<style>
-                body { font-family: monospace; background:#fff; margin: 0; padding: 20px; }
-                .grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
-                .item { border:2px dashed #6b2fcf; padding:15px; border-radius:12px; text-align:center; break-inside:avoid; background:#fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-                .item img { max-width:240px; height:auto; display:block; margin:0 auto; }
-                @media print { @page { margin:10mm; } .item { border:1px solid #000; box-shadow:none; } }
-            </style><div class="grid">`;
+                    body { font-family: monospace; background:#fff; margin: 0; padding: 20px; }
+                    .grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+                    .item { border:2px dashed #6b2fcf; padding:15px; border-radius:12px; text-align:center; break-inside:avoid; background:#fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                    .item img { max-width:240px; height:auto; display:block; margin:0 auto; }
+                    @media print { @page { margin:10mm; } .item { border:1px solid #000; box-shadow:none; } }
+                </style><div class="grid">`;
             items.forEach(item => {
                 const code = item.dataset.code || '';
                 const canvas = getCombinedCanvas(code, qrSize);
@@ -2172,7 +2204,7 @@
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
                     if (data.members && data.settings) {
@@ -2271,16 +2303,16 @@
                     'status-active');
                 const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
                 return `<tr>
-                    <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
-                    <td>${m.phone || '-'}</td>
-                    <td>${m.code}</td>
-                    <td>${m.visits}/${threshold}</td>
-                    <td><span class="status-badge ${statusClass}">${status}</span></td>
-                    <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ckb') : '-'}</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
-                    </td>
-                </tr>`;
+                        <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                        <td>${m.phone || '-'}</td>
+                        <td>${m.code}</td>
+                        <td>${m.visits}/${threshold}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ckb') : '-'}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
+                        </td>
+                    </tr>`;
             }).join('');
         }
 
@@ -2309,16 +2341,16 @@
                 const statusClass = isActive ? 'status-active' : 'status-expired';
                 const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
                 return `<tr>
-                    <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
-                    <td>${m.phone || '-'}</td>
-                    <td>${m.code}</td>
-                    <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ckb') : '-'}</td>
-                    <td>${m.endDate ? new Date(m.endDate).toLocaleDateString('ckb') : '-'}</td>
-                    <td><span class="status-badge ${statusClass}">${status}</span></td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
-                    </td>
-                </tr>`;
+                        <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                        <td>${m.phone || '-'}</td>
+                        <td>${m.code}</td>
+                        <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ckb') : '-'}</td>
+                        <td>${m.endDate ? new Date(m.endDate).toLocaleDateString('ckb') : '-'}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
+                        </td>
+                    </tr>`;
             }).join('');
         }
 
@@ -2342,19 +2374,19 @@
                 return;
             }
             tbody.innerHTML = appData.activityLog.slice(0, 10).map(log => `
-                <tr>
-                    <td>${log.member}</td>
-                    <td>${log.type}</td>
-                    <td>${log.code}</td>
-                    <td><span class="status-badge status-active">${log.status}</span></td>
-                    <td>${new Date(log.time).toLocaleString('ckb')}</td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>${log.member}</td>
+                        <td>${log.type}</td>
+                        <td>${log.code}</td>
+                        <td><span class="status-badge status-active">${log.status}</span></td>
+                        <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                    </tr>
+                `).join('');
         }
 
         function renderReports() {
             const now = new Date();
-            const todayStart = new Date(now.setHours(0, 0, 0, 0));
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
             let dailyIncome = 0;
@@ -2390,14 +2422,14 @@
             }
 
             tbody.innerHTML = incomeActivities.map(log => `
-                <tr>
-                    <td>${log.member}</td>
-                    <td>${log.type}</td>
-                    <td>${formatter.format(log.price)}</td>
-                    <td>${log.message}</td>
-                    <td>${new Date(log.time).toLocaleString('ckb')}</td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>${log.member}</td>
+                        <td>${log.type}</td>
+                        <td>${formatter.format(log.price)}</td>
+                        <td>${log.message}</td>
+                        <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                    </tr>
+                `).join('');
         }
 
         function printIncomeReport() {
@@ -2410,23 +2442,23 @@
             printWindow.document.write('<html><head><title>ڕاپۆرتی داهات</title>');
             // Add styles
             printWindow.document.write(`
-                <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-                    body { font-family: 'Vazirmatn', sans-serif; direction: rtl; padding: 20px; }
-                    h1 { text-align: center; color: #1428a0; }
-                    .summary { display: flex; justify-content: space-around; margin: 20px 0; padding: 15px; background-color: #f5f5f7; border-radius: 10px; }
-                    .summary-item { text-align: center; }
-                    .summary-item h3 { margin: 0 0 5px 0; color: #333; font-weight: 400; }
-                    .summary-item p { margin: 0; font-size: 1.2em; font-weight: bold; color: #1428a0; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
-                    th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
-                    th { background-color: #eef; font-weight: 700; }
-                    tr:nth-child(even) { background-color: #f9f9f9; }
-                    .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1428a0; padding-bottom: 10px; }
-                    .print-header p { margin: 5px; color: #555; }
-                    @media print { body { -webkit-print-color-adjust: exact; } }
-                </style>
-            `);
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+                        body { font-family: 'Vazirmatn', sans-serif; direction: rtl; padding: 20px; }
+                        h1 { text-align: center; color: #1428a0; }
+                        .summary { display: flex; justify-content: space-around; margin: 20px 0; padding: 15px; background-color: #f5f5f7; border-radius: 10px; }
+                        .summary-item { text-align: center; }
+                        .summary-item h3 { margin: 0 0 5px 0; color: #333; font-weight: 400; }
+                        .summary-item p { margin: 0; font-size: 1.2em; font-weight: bold; color: #1428a0; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+                        th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
+                        th { background-color: #eef; font-weight: 700; }
+                        tr:nth-child(even) { background-color: #f9f9f9; }
+                        .print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #1428a0; padding-bottom: 10px; }
+                        .print-header p { margin: 5px; color: #555; }
+                        @media print { body { -webkit-print-color-adjust: exact; } }
+                    </style>
+                `);
             printWindow.document.write('</head><body>');
 
             // Add header
@@ -2456,12 +2488,12 @@
                 return;
             }
             tbody.innerHTML = appData.emptyCodes.map(code => `
-                <tr>
-                    <td>${code}</td>
-                    <td><span class="status-badge status-free">بەتاڵ</span></td>
-                    <td><button class="btn btn-danger btn-sm" onclick="removeEmptyCode('${code}')">🗑️</button></td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>${code}</td>
+                        <td><span class="status-badge status-free">بەتاڵ</span></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="removeEmptyCode('${code}')">🗑️</button></td>
+                    </tr>
+                `).join('');
         }
 
         // ============================================================
@@ -2470,10 +2502,11 @@
         function deleteMember(id) {
             if (!confirm('دڵنیای لە سڕینەوەی ئەم ئەندامە؟')) return;
             const member = appData.members.find(m => m.id === id);
-            
+
             if (member) {
                 appData.members = appData.members.filter(m => m.id !== id);
-                if (member.code && !appData.members.some(m => m.code === member.code) && !appData.emptyCodes.includes(member.code)) {
+                if (member.code && !appData.members.some(m => m.code === member.code) && !appData.emptyCodes.includes(
+                        member.code)) {
                     appData.emptyCodes.push(member.code);
                 }
             }
@@ -2533,7 +2566,7 @@
             const saveBtn = document.querySelector('#addModal .btn-primary');
             saveBtn.textContent = '💾 نوێکردنەوە';
             saveBtn.onclick = null; // Clear previous onclick
-            saveBtn.onclick = function () {
+            saveBtn.onclick = function() {
                 const name = document.getElementById('newMemberName').value.trim();
                 if (!name) {
                     document.getElementById('modalError').textContent = '⚠️ تکایە ناوێک بنووسە';
@@ -2562,9 +2595,11 @@
             profileActions.style.gap = '10px';
 
             if (member.type === 'gym') {
-                profileActions.innerHTML = `<button class="btn btn-success" onclick="extendGym('${id}')">➕ درێژکردنەوەی بەشداری</button>`;
+                profileActions.innerHTML =
+                    `<button class="btn btn-success" onclick="extendGym('${id}')">➕ درێژکردنەوەی بەشداری</button>`;
             } else { // pool
-                profileActions.innerHTML = `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 سفرکردنەوەی سەردانەکان</button>`;
+                profileActions.innerHTML =
+                    `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 سفرکردنەوەی سەردانەکان</button>`;
             }
             modalErrorDiv.appendChild(profileActions);
         }
@@ -2584,7 +2619,7 @@
             document.getElementById(`page-${tabId}`).classList.add('active');
             const activeTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
             if (activeTab) activeTab.classList.add('active');
-            
+
             // Only focus if the dashboard is switched to and no modal is open
             const scannerInput = document.getElementById('scannerInput');
             if (tabId === 'dashboard' && scannerInput) scannerInput.focus({ preventScroll: true });
@@ -2614,9 +2649,6 @@
                 setTimeout(() => div.remove(), 500);
             }, 4000);
         }
-
-        // بارکردن
-        loadData();
     </script>
 
 </body>
