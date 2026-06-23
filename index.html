@@ -1123,7 +1123,10 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🏊 إدارة المسبح - نظام المكافآت</span>
-                    <button class="btn btn-primary" onclick="showAddMember('pool')">+ عضو جديد</button>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn btn-info" onclick="quickRegisterCard()">🎟️ تسجيل بطاقة سريعة</button>
+                        <button class="btn btn-primary" onclick="showAddMember('pool')">+ عضو جديد</button>
+                    </div>
                 </div>
                 <div class="form-row" style="margin-bottom:12px;">
                     <div class="form-group">
@@ -1172,7 +1175,10 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🏋️ إدارة الصالة - اشتراك شهري</span>
-                    <button class="btn btn-primary" onclick="showAddMember('gym')">+ عضو جديد</button>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button class="btn btn-info" onclick="quickRegisterCard('gym')">🎟️ تسجيل بطاقة سريعة</button>
+                        <button class="btn btn-primary" onclick="showAddMember('gym')">+ عضو جديد</button>
+                    </div>
                 </div>
                 <div class="form-row" style="margin-bottom:12px;">
                     <div class="form-group">
@@ -1269,6 +1275,10 @@
                     <div class="form-group">
                         <label>💵 سعر اشتراك الصالة (دينار)</label>
                         <input type="number" id="adminGymPrice" value="40000" min="0" onchange="syncAdminSettings()">
+                    </div>
+                    <div class="form-group">
+                        <label>💵 سعر زيارة الصالة ليوم واحد (دينار)</label>
+                        <input type="number" id="adminGymDayPassPrice" value="7000" min="0" onchange="syncAdminSettings()">
                     </div>
                 </div>
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
@@ -1445,7 +1455,8 @@
                 poolOffer: 'none',
                 gymOffer: 'none',
                 poolVisitPrice: 5000,
-                gymSubscriptionPrice: 40000
+                gymSubscriptionPrice: 40000,
+                gymDayPassPrice: 7000
             },
             emptyCodes: [],
             activityLog: []
@@ -1473,6 +1484,7 @@
             };
             if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
             if (!appData.settings.gymSubscriptionPrice) appData.settings.gymSubscriptionPrice = 40000;
+            if (!appData.settings.gymDayPassPrice) appData.settings.gymDayPassPrice = 7000;
             if (!appData.emptyCodes) appData.emptyCodes = [];
             if (!appData.activityLog) appData.activityLog = [];
             // renderAll(); // Moved to the end of DOMContentLoaded to avoid race conditions
@@ -1492,6 +1504,7 @@
             appData.settings.gymOffer = document.getElementById('gymOffer').value;
             appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
             appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
+            appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
             syncAdminUI();
             saveData();
             renderAll();
@@ -1504,6 +1517,7 @@
             appData.settings.gymOffer = document.getElementById('adminGymOffer').value;
             appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
             appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
+            appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
             syncPoolUI();
             syncGymUI();
             saveData();
@@ -1518,6 +1532,7 @@
             document.getElementById('adminGymOffer').value = appData.settings.gymOffer || 'none';
             document.getElementById('adminPoolPrice').value = appData.settings.poolVisitPrice || 5000;
             document.getElementById('adminGymPrice').value = appData.settings.gymSubscriptionPrice || 40000;
+            document.getElementById('adminGymDayPassPrice').value = appData.settings.gymDayPassPrice || 7000;
         }
 
         function syncPoolUI() {
@@ -1897,6 +1912,65 @@
             saveData();
             renderAll();
             showResult(message, alertType, member, content, quickInfo, resultDiv);
+        }
+
+        function quickRegisterCard(type = 'pool') {
+            const typeText = type === 'pool' ? 'للمسبح' : 'للصالة';
+            const title = `📷 مسح كود البطاقة السريعة ${typeText}`;
+
+            startCameraScanner((code) => {
+                if (!code || code.trim() === '') {
+                    return; // Should not happen with scanner, but good practice
+                }
+
+                const trimmedCode = code.trim();
+
+                if (appData.members.some(m => m.code === trimmedCode) || appData.emptyCodes.includes(trimmedCode)) {
+                    showAlert('danger', `❌ هذا الكود (${trimmedCode}) مستخدم بالفعل أو موجود.`);
+                    return;
+                }
+
+                const now = new Date();
+                let newMember = {
+                    id: Date.now().toString(36) + Math.random().toString(36).substr(2, 4),
+                    phone: '',
+                    code: trimmedCode,
+                    type: type,
+                    lastScan: now.toISOString(),
+                    createdAt: now.toISOString(),
+                    totalVisits: 1
+                };
+
+                let price = 0;
+                let logMessage = '';
+
+                if (type === 'pool') {
+                    newMember.name = `زائر مسبح سريع - ${trimmedCode}`;
+                    newMember.visits = 1;
+                    newMember.isFree = false;
+                    newMember.offer = appData.settings.poolOffer || 'none';
+                    newMember.notes = 'بطاقة تسجيل سريع للمسبح';
+                    price = appData.settings.poolVisitPrice || 0;
+                    logMessage = 'تسجيل سريع وزيارة أولى للمسبح';
+                } else { // gym
+                    newMember.name = `زائر صالة سريع - ${trimmedCode}`;
+                    newMember.startDate = now.toISOString();
+                    const endDate = new Date(now);
+                    endDate.setDate(endDate.getDate() + 1); // 1-day pass
+                    newMember.endDate = endDate.toISOString();
+                    newMember.offer = 'none';
+                    newMember.notes = 'بطاقة تسجيل سريع للصالة (يوم واحد)';
+                    price = appData.settings.gymDayPassPrice || 0;
+                    logMessage = 'تسجيل سريع وزيارة ليوم واحد للصالة';
+                }
+
+                appData.members.push(newMember);
+                logActivity(newMember, logMessage, price);
+
+                saveData();
+                renderAll();
+                showAlert('success', `✅ تم تسجيل البطاقة ${trimmedCode} بنجاح كزيارة سريعة ${typeText}.`);
+            }, title);
         }
 
         function showResult(message, alertType, member, content, quickInfo, resultDiv) {
