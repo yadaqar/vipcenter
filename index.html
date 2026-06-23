@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</title>
+    <title>نظام إدارة الصالة الرياضية والمسبح</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -1029,22 +1029,22 @@
     <div class="app-container" id="app">
         <!-- Header -->
         <header class="header">
-            <h1 id="appTitle">🏊‍♂️ سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</h1>
+            <h1 id="appTitle">🏊‍♂️ نظام إدارة الصالة الرياضية والمسبح</h1>
             <div class="header-actions">
                 <button class="lang-toggle" id="langToggle" onclick="toggleLang()">🇬🇧 English</button>
-                <button class="backup-btn" onclick="exportBackup()">📥 پشتیوانی</button>
-                <button class="backup-btn" onclick="document.getElementById('importFile').click()">📤 بارکردن</button>
+                <button class="backup-btn" onclick="exportBackup()">📥 نسخ احتياطي</button>
+                <button class="backup-btn" onclick="document.getElementById('importFile').click()">📤 استيراد</button>
                 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
             </div>
         </header>
 
         <!-- Tabs -->
         <nav class="tabs" id="tabNav">
-            <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 داشبۆرد</button>
-            <button class="tab-btn" data-tab="pool" onclick="switchTab('pool')">🏊 مەلەوانگە</button>
-            <button class="tab-btn" data-tab="gym" onclick="switchTab('gym')">🏋️ هۆڵ</button>
-            <button class="tab-btn" data-tab="admin" onclick="switchTab('admin')">⚙️ ڕێکخستنەکان</button>
-            <button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">📈 ڕاپۆرتەکان</button>
+            <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 لوحة التحكم</button>
+            <button class="tab-btn" data-tab="pool" onclick="switchTab('pool')">🏊 المسبح</button>
+            <button class="tab-btn" data-tab="gym" onclick="switchTab('gym')">🏋️ الصالة</button>
+            <button class="tab-btn" data-tab="admin" onclick="switchTab('admin')">⚙️ الإعدادات</button>
+            <button class="tab-btn" data-tab="reports" onclick="switchTab('reports')">📈 التقارير</button>
         </nav>
 
         <!-- ==================== DASHBOARD ==================== -->
@@ -1052,38 +1052,38 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="totalMembers">0</div>
-                    <div class="stat-label">👥 کۆی ئەندامان</div>
+                    <div class="stat-label">👥 إجمالي الأعضاء</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="poolToday">0</div>
-                    <div class="stat-label">🏊 ئەمڕۆ لە مەلەوانگە</div>
+                    <div class="stat-label">🏊 زوار المسبح اليوم</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="gymActive">0</div>
-                    <div class="stat-label">🏋️ بەشداربووانی چالاک</div>
+                    <div class="stat-label">🏋️ مشتركون نشطون</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="freeCount">0</div>
-                    <div class="stat-label">🎁 خۆڕاییەکان</div>
+                    <div class="stat-label">🎁 الزيارات المجانية</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="totalVisits">0</div>
-                    <div class="stat-label">📊 کۆی سەردانەکان</div>
+                    <div class="stat-label">📊 إجمالي الزيارات</div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">📡 سکانکردنی خێرا</span>
-                    <span style="font-size:0.8rem;color:#888;">سکان یان کۆدەکە بنووسە</span>
+                    <span class="card-title">📡 مسح سريع</span>
+                    <span style="font-size:0.8rem;color:#888;">امسح أو أدخل الكود</span>
                 </div>
                 <div class="scanner-area">
                     <span class="scanner-icon">📷</span>
                     <div style="display:flex; gap:10px; max-width:500px; margin:0 auto; align-items:center;">
-                        <input type="text" id="scannerInput" placeholder="MEMBER-1002 یان کۆدەکە..." autofocus
+                        <input type="text" id="scannerInput" placeholder="MEMBER-1002 أو الكود..." autofocus
                         style="flex:1;">
                         <button class="btn btn-info" onclick="openDashboardCameraScanner()"
-                        style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 کامێرا</button>
+                        style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 كاميرا</button>
                     </div>
                     <div id="scanResult" style="margin-top:14px;"></div>
                     <div id="nameSearchResults" class="name-search-results hidden"></div>
@@ -1095,22 +1095,22 @@
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">📋 دوایین چالاکییەکان</span>
+                    <span class="card-title">📋 آخر الأنشطة</span>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>ناو</th>
-                                <th>جۆر</th>
-                                <th>کۆد</th>
-                                <th>ڕەوش</th>
-                                <th>کات</th>
+                                <th>الاسم</th>
+                                <th>النوع</th>
+                                <th>الكود</th>
+                                <th>الحالة</th>
+                                <th>الوقت</th>
                             </tr>
                         </thead>
                         <tbody id="recentActivity">
                             <tr>
-                                <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
+                                <td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1122,43 +1122,43 @@
         <div class="page" id="page-pool">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">🏊 بەڕێوەبردنی مەلەوانگە - سیستەمی پاداشت</span>
-                    <button class="btn btn-primary" onclick="showAddMember('pool')">+ ئەندامی نوێ</button>
+                    <span class="card-title">🏊 إدارة المسبح - نظام المكافآت</span>
+                    <button class="btn btn-primary" onclick="showAddMember('pool')">+ عضو جديد</button>
                 </div>
                 <div class="form-row" style="margin-bottom:12px;">
                     <div class="form-group">
-                        <label>🔢 ژمارەی سەردان بۆ خۆڕایی</label>
+                        <label>🔢 عدد الزيارات للزيارة المجانية</label>
                         <input type="number" id="poolFreeThreshold" value="3" min="1" onchange="updateSettings()">
                     </div>
                     <div class="form-group">
-                        <label>🎁 ئۆفەری تایبەت</label>
+                        <label>🎁 عرض خاص</label>
                         <select id="poolOffer" onchange="updateSettings()">
-                            <option value="none">بێ ئۆفەر</option>
-                            <option value="buy2get1">دوو دابکە یەک ببە</option>
-                            <option value="buy3get2">سێ دابکە دوو ببە</option>
-                            <option value="halfprice">نیوە نرخ</option>
+                            <option value="none">بدون عرض</option>
+                            <option value="buy2get1">اشتر 2 واحصل على 1</option>
+                            <option value="buy3get2">اشتر 3 واحصل على 2</option>
+                            <option value="halfprice">نصف السعر</option>
                         </select>
                     </div>
                 </div>
                 <div class="filter-bar">
-                    <input type="text" id="poolFilter" placeholder="🔍 گەڕان..." oninput="renderPool()">
+                    <input type="text" id="poolFilter" placeholder="🔍 بحث..." oninput="renderPool()">
                     <select id="poolStatusFilter" onchange="renderPool()">
-                        <option value="all">هەموو</option>
-                        <option value="active">چالاک</option>
-                        <option value="free">خۆڕایی</option>
+                        <option value="all">الكل</option>
+                        <option value="active">نشط</option>
+                        <option value="free">مجاني</option>
                     </select>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>ناو</th>
-                                <th>پەیوەندی</th>
-                                <th>کۆد</th>
-                                <th>سەردان</th>
-                                <th>ڕەوش</th>
-                                <th>کۆتا سەردان</th>
-                                <th>کردار</th>
+                                <th>الاسم</th>
+                                <th>الاتصال</th>
+                                <th>الكود</th>
+                                <th>الزيارات</th>
+                                <th>الحالة</th>
+                                <th>آخر زيارة</th>
+                                <th>إجراء</th>
                             </tr>
                         </thead>
                         <tbody id="poolTable"></tbody>
@@ -1171,43 +1171,43 @@
         <div class="page" id="page-gym">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">🏋️ بەڕێوەبردنی هۆڵ - ئشتراکی مانگانە</span>
-                    <button class="btn btn-primary" onclick="showAddMember('gym')">+ ئەندامی نوێ</button>
+                    <span class="card-title">🏋️ إدارة الصالة - اشتراك شهري</span>
+                    <button class="btn btn-primary" onclick="showAddMember('gym')">+ عضو جديد</button>
                 </div>
                 <div class="form-row" style="margin-bottom:12px;">
                     <div class="form-group">
-                        <label>📅 ماوەی بەشداری (ڕۆژ)</label>
+                        <label>📅 مدة الاشتراك (يوم)</label>
                         <input type="number" id="gymDuration" value="30" min="1" onchange="updateSettings()">
                     </div>
                     <div class="form-group">
-                        <label>🎁 ئۆفەری تایبەت</label>
+                        <label>🎁 عرض خاص</label>
                         <select id="gymOffer" onchange="updateSettings()">
-                            <option value="none">بێ ئۆفەر</option>
-                            <option value="monthly">مانگانە 10%</option>
-                            <option value="quarterly">سێ مانگ 15%</option>
-                            <option value="yearly">ساڵانە 25%</option>
+                            <option value="none">بدون عرض</option>
+                            <option value="monthly">شهري 10%</option>
+                            <option value="quarterly">ربع سنوي 15%</option>
+                            <option value="yearly">سنوي 25%</option>
                         </select>
                     </div>
                 </div>
                 <div class="filter-bar">
-                    <input type="text" id="gymFilter" placeholder="🔍 گەڕان..." oninput="renderGym()">
+                    <input type="text" id="gymFilter" placeholder="🔍 بحث..." oninput="renderGym()">
                     <select id="gymStatusFilter" onchange="renderGym()">
-                        <option value="all">هەموو</option>
-                        <option value="active">چالاک</option>
-                        <option value="expired">بەسەرچوو</option>
+                        <option value="all">الكل</option>
+                        <option value="active">نشط</option>
+                        <option value="expired">منتهي</option>
                     </select>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>ناو</th>
-                                <th>پەیوەندی</th>
-                                <th>کۆد</th>
-                                <th>دەستپێک</th>
-                                <th>کۆتایی</th>
-                                <th>ڕەوش</th>
-                                <th>کردار</th>
+                                <th>الاسم</th>
+                                <th>الاتصال</th>
+                                <th>الكود</th>
+                                <th>البداية</th>
+                                <th>النهاية</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
                             </tr>
                         </thead>
                         <tbody id="gymTable"></tbody>
@@ -1221,84 +1221,84 @@
             <!-- Settings -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">⚙️ ڕێکخستنەکانی سیستەم</span>
+                    <span class="card-title">⚙️ إعدادات النظام</span>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>🏊 ژمارەی سەردان بۆ خۆڕایی (مەلەوانگە)</label>
+                        <label>🏊 عدد الزيارات للمرة المجانية (المسبح)</label>
                         <input type="number" id="adminPoolThreshold" value="3" min="1" onchange="syncAdminSettings()">
                     </div>
                     <div class="form-group">
-                        <label>🏋️ ماوەی بەشداری هۆڵ (ڕۆژ)</label>
+                        <label>🏋️ مدة اشتراك الصالة (يوم)</label>
                         <input type="number" id="adminGymDuration" value="30" min="1" onchange="syncAdminSettings()">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>🎁 ئۆفەری مەلەوانگە</label>
+                        <label>🎁 عرض المسبح</label>
                         <select id="adminPoolOffer" onchange="syncAdminSettings()">
-                            <option value="none">بێ ئۆفەر</option>
-                            <option value="buy2get1">دوو دابکە یەک ببە</option>
-                            <option value="buy3get2">سێ دابکە دوو ببە</option>
-                            <option value="halfprice">نیوە نرخ</option>
+                            <option value="none">بدون عرض</option>
+                            <option value="buy2get1">اشتر 2 واحصل على 1</option>
+                            <option value="buy3get2">اشتر 3 واحصل على 2</option>
+                            <option value="halfprice">نصف السعر</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>🎁 ئۆفەری هۆڵ</label>
+                        <label>🎁 عرض الصالة</label>
                         <select id="adminGymOffer" onchange="syncAdminSettings()">
-                            <option value="none">بێ ئۆفەر</option>
-                            <option value="monthly">مانگانە 10%</option>
-                            <option value="quarterly">سێ مانگ 15%</option>
-                            <option value="yearly">ساڵانە 25%</option>
+                            <option value="none">بدون عرض</option>
+                            <option value="monthly">شهري 10%</option>
+                            <option value="quarterly">ربع سنوي 15%</option>
+                            <option value="yearly">سنوي 25%</option>
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="syncAdminSettings()">💾 پاشەکەوتکردنی ڕێکخستنەکان</button>
+                <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الإعدادات</button>
             </div>
 
             <!-- Pricing Settings -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">💵 ڕێکخستنەکانی نرخ</span>
+                    <span class="card-title">💵 إعدادات التسعير</span>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>💵 نرخی سەردانی مەلەوانگە (دینار)</label>
+                        <label>💵 سعر زيارة المسبح (دينار)</label>
                         <input type="number" id="adminPoolPrice" value="5000" min="0" onchange="syncAdminSettings()">
                     </div>
                     <div class="form-group">
-                        <label>💵 نرخی بەشداری هۆڵ (دینار)</label>
+                        <label>💵 سعر اشتراك الصالة (دينار)</label>
                         <input type="number" id="adminGymPrice" value="40000" min="0" onchange="syncAdminSettings()">
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="syncAdminSettings()">💾 پاشەکەوتکردنی نرخەکان</button>
+                <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
             </div>
 
             <!-- Bulk Generator -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">📇 دروستکردنی بەکۆمی کۆد</span>
+                    <span class="card-title">📇 إنشاء أكواد بالجملة</span>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>🔢 ژمارەی کۆدەکان</label>
+                        <label>🔢 عدد الأكواد</label>
                         <input type="number" id="bulkCount" value="10" min="1" max="200">
                     </div>
                     <div class="form-group">
-                        <label>🏷️ پێشگر (Prefix)</label>
+                        <label>🏷️ بادئة (Prefix)</label>
                         <input type="text" id="bulkPrefix" value="MEMBER">
                     </div>
                     <div class="form-group">
-                        <label>📐 قەبارەی QR (px)</label>
+                        <label>📐 حجم QR (px)</label>
                         <input type="number" id="bulkSize" value="180" min="100" max="400">
                     </div>
                 </div>
 
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="generateBulkCodes()">⚡ دروستکردن</button>
-                    <button class="btn btn-success" onclick="exportBulkPNG()">📥 دابەزاندن (PNG)</button>
-                    <button class="btn btn-info" onclick="printBulkCodes()">🖨️ پرینت</button>
+                    <button class="btn btn-primary" onclick="generateBulkCodes()">⚡ إنشاء</button>
+                    <button class="btn btn-success" onclick="exportBulkPNG()">📥 تنزيل (PNG)</button>
+                    <button class="btn btn-info" onclick="printBulkCodes()">🖨️ طباعة</button>
                 </div>
 
                 <div id="bulkResult" class="bulk-preview" style="margin-top:18px;"></div>
@@ -1307,15 +1307,15 @@
             <!-- Empty Codes -->
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">📋 کۆدە بەتاڵەکان</span>
+                    <span class="card-title">📋 الأكواد الفارغة</span>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>کۆد</th>
-                                <th>ڕەوش</th>
-                                <th>کردار</th>
+                                <th>الكود</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
                             </tr>
                         </thead>
                         <tbody id="emptyCodesTable"></tbody>
@@ -1329,41 +1329,41 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="dailyIncome">0</div>
-                    <div class="stat-label">💰 داهاتی ئەمڕۆ</div>
+                <div class="stat-label">💰 دخل اليوم</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="dailyActivity">0</div>
-                    <div class="stat-label">🏃 چالاکی ئەمڕۆ</div>
+                <div class="stat-label">🏃 نشاط اليوم</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="monthlyIncome">0</div>
-                    <div class="stat-label">💰 داهاتی ئەم مانگە</div>
+                <div class="stat-label">💰 دخل هذا الشهر</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="monthlyActivity">0</div>
-                    <div class="stat-label">🏃 چالاکی ئەم مانگە</div>
+                <div class="stat-label">🏃 نشاط هذا الشهر</div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">📋 وردەکاریی داهات</span>
-                    <button class="btn btn-info" onclick="printIncomeReport()">🖨️ چاپکردن</button>
+                <span class="card-title">📋 تفاصيل الدخل</span>
+                <button class="btn btn-info" onclick="printIncomeReport()">🖨️ طباعة</button>
                 </div>
                 <div class="table-wrap" id="incomeReportPrintArea">
                     <table>
                         <thead>
                             <tr>
-                                <th>ناو</th>
-                                <th>جۆر</th>
-                                <th>بڕی پارە</th>
-                                <th>تێبینی</th>
-                                <th>کات</th>
+                            <th>الاسم</th>
+                            <th>النوع</th>
+                            <th>المبلغ</th>
+                            <th>ملاحظات</th>
+                            <th>الوقت</th>
                             </tr>
                         </thead>
                         <tbody id="incomeActivity">
                             <tr>
-                                <td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td>
+                            <td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة دخل</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1376,47 +1376,47 @@
     <!-- ==================== MODAL ==================== -->
     <div id="addModal">
         <div class="modal-content">
-            <h3 id="modalTitle">➕ زیادکردنی ئەندام</h3>
+            <h3 id="modalTitle">➕ إضافة عضو</h3>
             <div class="form-row">
                 <div class="form-group">
-                    <label>👤 ناوی ئەندام *</label>
-                    <input type="text" id="newMemberName" placeholder="ناوەکە بنووسە...">
+                    <label>👤 اسم العضو *</label>
+                    <input type="text" id="newMemberName" placeholder="أدخل الاسم...">
                 </div>
                 <div class="form-group">
-                    <label>📞 ژمارەی پەیوەندی</label>
-                    <input type="text" id="newMemberPhone" placeholder="٠٧٧٠ ٠٠٠ ٠٠٠٠">
+                    <label>📞 رقم الاتصال</label>
+                    <input type="text" id="newMemberPhone" placeholder="0770 000 0000">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>🎂 تەمەن</label>
-                    <input type="number" id="newMemberAge" placeholder="٢٥" min="1" max="120">
+                    <label>🎂 العمر</label>
+                    <input type="number" id="newMemberAge" placeholder="25" min="1" max="120">
                 </div>
                 <div class="form-group">
-                    <label>📍 شوێنی نیشتەجێبوون</label>
-                    <input type="text" id="newMemberAddress" placeholder="شار، گەڕەک...">
+                    <label>📍 عنوان السكن</label>
+                    <input type="text" id="newMemberAddress" placeholder="المدينة، الحي...">
                 </div>
             </div>
             <div class="form-group">
-                <label>📞 ژمارەی تەلەفونی کەسی نزیک</label>
-                <input type="text" id="newMemberEmergency" placeholder="٠٧٧٠ ٠٠٠ ٠٠٠٠">
+                <label>📞 رقم هاتف شخص قريب</label>
+                <input type="text" id="newMemberEmergency" placeholder="0770 000 0000">
             </div>
             <div class="form-group">
-                <label>🔑 کۆد (بەتاڵ بەجێبهێلە بۆ دروستکردنی ئۆتۆماتیکی)</label>
+                <label>🔑 الكود (اتركه فارغاً للإنشاء التلقائي)</label>
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="newMemberCode" placeholder="MEMBER-XXXX" style="flex:1;">
                     <button class="btn btn-info" onclick="openNewMemberCameraScanner()"
                     style="padding: 11px 18px; border-radius:var(--radius-sm); white-space:nowrap;">📷
-                    سکانکردن</button>
+                    مسح</button>
                 </div>
             </div>
             <div class="form-group">
-                <label>📝 تێبینی (پشکداری پێشوو)</label>
-                <textarea id="newMemberNotes" placeholder="بۆ نمونە: پێشتر ٣ مانگ پشکداری کردووە..."></textarea>
+                <label>📝 ملاحظات (اشتراك سابق)</label>
+                <textarea id="newMemberNotes" placeholder="مثال: مشترك سابق لمدة 3 أشهر..."></textarea>
             </div>
             <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="saveNewMember()">💾 پاشەکەوتکردن</button>
-                <button class="btn btn-outline" onclick="closeModal()">پەشیمانبوونەوە</button>
+                <button class="btn btn-primary" onclick="saveNewMember()">💾 حفظ</button>
+                <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
             </div>
             <div id="modalError" style="color:var(--danger);margin-top:10px;"></div>
         </div>
@@ -1425,10 +1425,10 @@
     <!-- Camera Scanner Modal -->
     <div id="cameraModal">
         <div class="modal-content" style="max-width:480px; text-align:center;">
-            <h3 id="cameraModalTitle">📷 سکانکردن بە کامێرا</h3>
+            <h3 id="cameraModalTitle">📷 المسح بالكاميرا</h3>
             <div id="camera-reader"></div>
             <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
-                <button class="btn btn-danger" onclick="stopCameraScanner()">🛑 داخستن</button>
+                <button class="btn btn-danger" onclick="stopCameraScanner()">🛑 إغلاق</button>
             </div>
         </div>
     </div>
@@ -1452,7 +1452,7 @@
         };
 
         let currentMemberType = 'pool';
-        let currentLang = 'ckb';
+        let currentLang = 'ar';
         let bulkGeneratedCodes = [];
 
         // بارکردن
@@ -1508,7 +1508,7 @@
             syncGymUI();
             saveData();
             renderAll();
-            showAlert('success', '✅ ڕێکخستنەکان پاشەکەوت کران');
+            showAlert('success', '✅ تم حفظ الإعدادات');
         }
 
         function syncAdminUI() {
@@ -1535,8 +1535,8 @@
         // ============================================================
         function showAddMember(type) {
             currentMemberType = type;
-            document.getElementById('modalTitle').textContent = type === 'pool' ? '🏊 زیادکردنی ئەندامی مەلەوانگە' :
-                '🏋️ زیادکردنی ئەندامی هۆڵ';
+            document.getElementById('modalTitle').textContent = type === 'pool' ? '🏊 إضافة عضو للمسبح' :
+                '🏋️ إضافة عضو للصالة';
             document.getElementById('newMemberName').value = '';
             document.getElementById('newMemberPhone').value = '';
             document.getElementById('newMemberAge').value = '';
@@ -1550,7 +1550,7 @@
 
             // Reset save button to default "saveNewMember"
             const saveBtn = document.querySelector('#addModal .btn-primary');
-            saveBtn.textContent = '💾 پاشەکەوتکردن';
+            saveBtn.textContent = '💾 حفظ';
             saveBtn.onclick = null; // Clear previous onclick
             saveBtn.onclick = saveNewMember;
 
@@ -1576,7 +1576,7 @@
             const errorEl = document.getElementById('modalError');
 
             if (!name) {
-                errorEl.textContent = '⚠️ تکایە ناوێک بنووسە';
+                errorEl.textContent = '⚠️ الرجاء إدخال اسم';
                 return;
             }
 
@@ -1595,7 +1595,7 @@
             }
 
             if (appData.members.some(m => m.code === code)) {
-                errorEl.textContent = '⚠️ ئەم کۆدە پێشتر بەکارهاتووە';
+                errorEl.textContent = '⚠️ هذا الكود مستخدم بالفعل';
                 return;
             }
 
@@ -1631,14 +1631,14 @@
                 newMember.endDate = endDate.toISOString();
                 newMember.offer = appData.settings.gymOffer || 'none';
                 // Log income for new gym subscription
-                logActivity(newMember, `بەشداری نوێ بۆ ${duration} ڕۆژ`, appData.settings.gymSubscriptionPrice || 0);
+                logActivity(newMember, `اشتراك جديد لمدة ${duration} يوم`, appData.settings.gymSubscriptionPrice || 0);
             }
 
             appData.members.push(newMember);
             saveData();
             renderAll();
             closeModal();
-            showAlert('success', `✅ ئەندام "${name}" بە سەرکەوتووی زیادکرا (کۆد: ${code})`);
+            showAlert('success', `✅ تمت إضافة العضو "${name}" بنجاح (الكود: ${code})`);
 
         }
 
@@ -1647,7 +1647,7 @@
         // ============================================================
         let html5QrCodeScanner = null;
 
-        function startCameraScanner(onSuccessCallback, titleText = "سکانکردنی کۆد") {
+        function startCameraScanner(onSuccessCallback, titleText = "مسح الكود") {
             document.getElementById('cameraModalTitle').textContent = titleText;
             document.getElementById('cameraModal').style.display = 'flex';
 
@@ -1680,7 +1680,7 @@
                 }
             ).catch(err => {
                 console.error("Camera start error:", err);
-                showAlert('danger', "⚠️ ناتوانرێت کامێرا بکرێتەوە: " + err);
+                showAlert('danger', "⚠️ لا يمكن فتح الكاميرا: " + err);
                 stopCameraScanner();
             });
         }
@@ -1702,14 +1702,14 @@
             startCameraScanner((code) => {
                 document.getElementById('scannerInput').value = code;
                 processScan(code);
-            }, "📷 سکانکردنی خێرای کۆد");
+            }, "📷 مسح سريع للكود");
         }
 
         function openNewMemberCameraScanner() {
             startCameraScanner((code) => {
                 document.getElementById('newMemberCode').value = code;
-                showAlert('success', `✅ کۆد سکان کرا: ${code}`);
-            }, "📷 سکانکردنی کۆدی بزنس کارت");
+                showAlert('success', `✅ تم مسح الكود: ${code}`);
+            }, "📷 مسح كود بطاقة العمل");
         }
 
         // ============================================================
@@ -1746,7 +1746,7 @@
                 if (matchingMembers.length > 0) {
                     resultsContainer.innerHTML = matchingMembers.map(m => `
                             <div class="name-search-item" onclick="selectMemberFromSearch('${m.code}')">
-                                <strong>${m.name}</strong> - <small>${m.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}</small>
+                                <strong>${m.name}</strong> - <small>${m.type === 'pool' ? 'المسبح' : 'الصالة'}</small>
                             </div>
                         `).join('');
                     resultsContainer.classList.remove('hidden');
@@ -1800,7 +1800,7 @@
 
         function processScan(code) {
             if (!code) {
-                showAlert('warning', '⚠️ تکایە کۆدێک بنووسە یان سکان بکە');
+                showAlert('warning', '⚠️ الرجاء إدخال كود أو مسحه');
                 return;
             }
 
@@ -1813,11 +1813,11 @@
                 const idx = appData.emptyCodes.indexOf(code);
                 if (idx !== -1) {
                     resultDiv.innerHTML =
-                        `<div class="alert alert-info">📇 کۆدەکە بەتاڵە! بەکاربهێنە بۆ تۆمارکردنی ئەندامێکی نوێ.</div>`;
+                        `<div class="alert alert-info">📇 الكود فارغ! استخدمه لتسجيل عضو جديد.</div>`;
                     quickInfo.classList.add('hidden');
                     return;
                 }
-                resultDiv.innerHTML = `<div class="alert alert-danger">❌ کۆدەکە نەدۆزرایەوە!</div>`;
+                resultDiv.innerHTML = `<div class="alert alert-danger">❌ لم يتم العثور على الكود!</div>`;
                 quickInfo.classList.add('hidden');
                 return;
             }
@@ -1837,12 +1837,12 @@
                 if (offer === 'buy2get1' && member.visits % 3 === 0) offerBonus = 1;
                 else if (offer === 'buy3get2' && member.visits % 5 === 0) offerBonus = 2;
                 else if (offer === 'halfprice' && member.visits % 2 === 0) {
-                    message = `💰 نیوە نرخ! (سەردانی ${member.visits}ـەم)`;
+                    message = `💰 نصف السعر! (الزيارة رقم ${member.visits})`;
                     alertType = 'warning';
                     const price = (appData.settings.poolVisitPrice || 0) / 2;
                     member.isFree = false;
                     member.lastScan = now.toISOString();
-                    logActivity(member, 'سەردانی نیوە نرخ', price);
+                    logActivity(member, 'زيارة بنصف السعر', price);
                     saveData();
                     renderAll();
                     showResult(message, alertType, member, content, quickInfo, resultDiv);
@@ -1851,26 +1851,26 @@
 
                 if (offerBonus > 0) {
                     member.visits += offerBonus;
-                    message = `🎉 ئۆفەر! +${offerBonus} سەردانی خۆڕایی (کۆی گشتی: ${member.visits})`;
+                    message = `🎉 عرض! +${offerBonus} زيارة مجانية (الإجمالي: ${member.visits})`;
                     alertType = 'success';
                     member.isFree = false;
                 } else if (member.visits >= threshold && !member.isFree) {
                     member.isFree = true;
-                    message = `🎊 بەخێربێیت! ئەم جارە خۆڕاییە! (سەردانی ${member.visits}ـەم)`;
+                    message = `🎊 أهلاً بك! هذه المرة مجانية! (الزيارة رقم ${member.visits})`;
                     alertType = 'success';
                 } else if (member.isFree) {
                     member.visits = 0;
                     member.isFree = false;
-                    message = `🔔 ئۆفەر بەکارهات! ژمارەی سەردانەکان سفر کرایەوە.`;
+                    message = `🔔 تم استخدام العرض! تم تصفير عدد الزيارات.`;
                     alertType = 'warning'; // Change to warning for more attention
                     // Play sound
                     const sound = document.getElementById('notificationSound');
                     if (sound) sound.play().catch(e => console.log("Audio play failed"));
                 } else {
                     const left = threshold - member.visits;
-                    message = `✅ سەردانی ${member.visits}ـەم تۆمارکرا. (${left} جار بۆ خۆڕایی)`;
+                    message = `✅ تم تسجيل الزيارة رقم ${member.visits}. (${left} زيارة متبقية للمرة المجانية)`;
                     alertType = 'success';
-                    logActivity(member, `سەردانی ${member.visits}ـەم`, appData.settings.poolVisitPrice || 0);
+                    logActivity(member, `الزيارة رقم ${member.visits}`, appData.settings.poolVisitPrice || 0);
                 }
                 member.lastScan = now.toISOString();
 
@@ -1882,13 +1882,13 @@
 
                 if (nowTime <= endTime) {
                     const daysLeft = Math.ceil((endTime - nowTime) / (1000 * 60 * 60 * 24));
-                    message = `✅ بەشداری چالاکە! ماوە: ${daysLeft} ڕۆژ`;
+                    message = `✅ الاشتراك نشط! متبقي: ${daysLeft} يوم`;
                     alertType = 'success';
                     member.lastScan = now.toISOString();
                     member.totalVisits = (member.totalVisits || 0) + 1;
-                    logActivity(member, `سەردانی ئاسایی`); // No income for a regular gym visit
+                    logActivity(member, `زيارة عادية`); // No income for a regular gym visit
                 } else {
-                    message = `⛔ بەشدارییەکە بەسەرچووە! (کۆتایی: ${endDate.toLocaleDateString()})`;
+                    message = `⛔ الاشتراك منتهي! (تاريخ الانتهاء: ${endDate.toLocaleDateString('ar-EG')})`;
                     alertType = 'danger';
                 }
             }
@@ -1906,11 +1906,11 @@
                     <strong>👤 ${member.name}</strong><br>
                     📞 ${member.phone || '-'}<br>
                     🔑 کۆد: ${member.code}<br>
-                    📂 جۆر: ${member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ'}<br>
-                    ${member.type === 'pool' ? `🔢 سەردان: ${member.visits || 0}` : `📅 کۆتایی: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ckb') : '-'}`}
-                    ${member.isFree ? '<br>🎁 خۆڕایی' : ''}
+                📂 النوع: ${member.type === 'pool' ? 'المسبح' : 'الصالة'}<br>
+                ${member.type === 'pool' ? `🔢 الزيارات: ${member.visits || 0}` : `📅 الانتهاء: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ar-EG') : '-'}`}
+                ${member.isFree ? '<br>🎁 مجاني' : ''}
                     ${member.notes ? `<br>📝 ${member.notes}` : ''}
-                    ${member.offer && member.offer !== 'none' ? `<br>🏷️ ئۆفەر: ${member.offer}` : ''}
+                ${member.offer && member.offer !== 'none' ? `<br>🏷️ العرض: ${member.offer}` : ''}
                 `;
         }
 
@@ -1918,7 +1918,7 @@
             appData.activityLog.unshift({
                 member: member.name,
                 code: member.code,
-                type: member.type === 'pool' ? 'مەلەوانگە' : 'هۆڵ',
+                type: member.type === 'pool' ? 'المسبح' : 'الصالة',
                 status: 'چالاک',
                 time: new Date().toISOString(),
                 message: message,
@@ -1995,7 +1995,7 @@
                 });
             }, 50);
 
-            showAlert('success', `✅ ${codes.length} کارت دروستکرا`);
+            showAlert('success', `✅ تم إنشاء ${codes.length} بطاقة`);
         }
 
         // دروستکردنی کانوای هاوبەش (QR + Barcode) لە مێمۆریدا
@@ -2139,13 +2139,13 @@
             link.download = code + '_combined.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
-            showAlert('success', `📥 کارت بۆ ${code} دابەزێنرا`);
+            showAlert('success', `📥 تم تنزيل البطاقة لـ ${code}`);
         }
 
         function exportBulkPNG() {
             const items = document.querySelectorAll('#bulkResult .bulk-item');
             if (items.length === 0) {
-                showAlert('warning', '⚠️ هیچ کۆدێک دروست نەکراوە');
+                showAlert('warning', '⚠️ لم يتم إنشاء أي أكواد');
                 return;
             }
             let count = 0;
@@ -2154,13 +2154,13 @@
                 downloadSingle(code);
                 count++;
             });
-            showAlert('success', `📥 ${count} کارت دابەزێنران`);
+            showAlert('success', `📥 تم تنزيل ${count} بطاقة`);
         }
 
         function printBulkCodes() {
             const items = document.querySelectorAll('#bulkResult .bulk-item');
             if (items.length === 0) {
-                showAlert('warning', '⚠️ هیچ کۆدێک دروست نەکراوە');
+                showAlert('warning', '⚠️ لم يتم إنشاء أي أكواد');
                 return;
             }
             const win = window.open('', '_blank', 'width=800,height=600');
@@ -2197,7 +2197,7 @@
             a.download = `backup_${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            showAlert('success', '✅ پشتیوانی دابەزێنرا');
+            showAlert('success', '✅ تم تنزيل النسخ الاحتياطي');
         }
 
         function importBackup(event) {
@@ -2211,12 +2211,12 @@
                         appData = data;
                         saveData();
                         renderAll();
-                        showAlert('success', '✅ داتا بارکرایەوە');
+                        showAlert('success', '✅ تم استيراد البيانات');
                     } else {
-                        showAlert('danger', '❌ فایلی پشتگیری نادروستە');
+                        showAlert('danger', '❌ ملف النسخ الاحتياطي غير صالح');
                     }
                 } catch (err) {
-                    showAlert('danger', '❌ هەڵە لە خوێندنەوەی فایل');
+                    showAlert('danger', '❌ خطأ في قراءة الملف');
                 }
             };
             reader.readAsText(file);
@@ -2228,35 +2228,35 @@
         // ============================================================
         function toggleLang() {
             const btn = document.getElementById('langToggle');
-            if (currentLang === 'ckb') {
+            if (currentLang === 'ar') {
                 currentLang = 'en';
-                btn.textContent = '🇮🇶 کوردی';
+                btn.textContent = '🇮🇶 عربي';
                 document.documentElement.dir = 'ltr';
                 document.documentElement.lang = 'en';
-                document.getElementById('appTitle').textContent = '🏊‍♂️ Gym & Pool Management System';
+                document.getElementById('appTitle').textContent = '🏊‍♂️ Gym & Pool Management System'; // English
                 document.querySelectorAll('.tab-btn').forEach(el => {
                     const map = {
-                        '📊 داشبۆرد': '📊 Dashboard',
-                        '🏊 مەلەوانگە': '🏊 Pool',
-                        '🏋️ هۆڵ': '🏋️ Gym',
-                        '⚙️ ڕێکخستنەکان': '⚙️ Settings',
-                        '📈 ڕاپۆرتەکان': '📈 Reports'
+                        '📊 لوحة التحكم': '📊 Dashboard',
+                        '🏊 المسبح': '🏊 Pool',
+                        '🏋️ الصالة': '🏋️ Gym',
+                        '⚙️ الإعدادات': '⚙️ Settings',
+                        '📈 التقارير': '📈 Reports'
                     };
                     if (map[el.textContent.trim()]) el.textContent = map[el.textContent.trim()];
                 });
             } else {
-                currentLang = 'ckb';
+                currentLang = 'ar';
                 btn.textContent = '🇬🇧 English';
                 document.documentElement.dir = 'rtl';
-                document.documentElement.lang = 'ckb';
-                document.getElementById('appTitle').textContent = '🏊‍♂️ سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە';
+                document.documentElement.lang = 'ar';
+                document.getElementById('appTitle').textContent = '🏊‍♂️ نظام إدارة الصالة الرياضية والمسبح'; // Arabic
                 document.querySelectorAll('.tab-btn').forEach(el => {
                     const map = {
-                        '📊 Dashboard': '📊 داشبۆرد',
-                        '🏊 Pool': '🏊 مەلەوانگە',
-                        '🏋️ Gym': '🏋️ هۆڵ',
-                        '⚙️ Settings': '⚙️ ڕێکخستنەکان',
-                        '📈 Reports': '📈 ڕاپۆرتەکان'
+                        '📊 Dashboard': '📊 لوحة التحكم',
+                        '🏊 Pool': '🏊 المسبح',
+                        '🏋️ Gym': '🏋️ الصالة',
+                        '⚙️ Settings': '⚙️ الإعدادات',
+                        '📈 Reports': '📈 التقارير'
                     };
                     if (map[el.textContent.trim()]) el.textContent = map[el.textContent.trim()];
                 });
@@ -2293,12 +2293,12 @@
             const tbody = document.getElementById('poolTable');
             if (poolMembers.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="7" style="text-align:center;color:#888;">هیچ ئەندامێکی مەلەوانگە نییە</td></tr>`;
+                    `<tr><td colspan="7" style="text-align:center;color:#888;">لا يوجد أعضاء في المسبح</td></tr>`;
                 return;
             }
             const threshold = appData.settings.poolFreeThreshold || 3;
             tbody.innerHTML = poolMembers.map(m => {
-                const status = m.isFree ? 'خۆڕایی' : (m.visits >= threshold ? 'خۆڕایی ئامادە' : 'چالاک');
+                const status = m.isFree ? 'مجاني' : (m.visits >= threshold ? 'مجاني جاهز' : 'نشط');
                 const statusClass = m.isFree ? 'status-free' : (m.visits >= threshold ? 'status-warning' :
                     'status-active');
                 const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
@@ -2308,7 +2308,7 @@
                         <td>${m.code}</td>
                         <td>${m.visits}/${threshold}</td>
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
-                        <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ckb') : '-'}</td>
+                        <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ar-EG') : '-'}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
                         </td>
@@ -2330,22 +2330,22 @@
             const tbody = document.getElementById('gymTable');
             if (gymMembers.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="7" style="text-align:center;color:#888;">هیچ ئەندامێکی هۆڵ نییە</td></tr>`;
+                    `<tr><td colspan="7" style="text-align:center;color:#888;">لا يوجد أعضاء في الصالة</td></tr>`;
                 return;
             }
             tbody.innerHTML = gymMembers.map(m => {
                 const endDate = new Date(m.endDate);
                 const isActive = now <= endDate;
                 const daysLeft = isActive ? Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)) : 0;
-                const status = isActive ? `چالاک (${daysLeft} ڕۆژ)` : 'بەسەرچوو';
+                const status = isActive ? `نشط (${daysLeft} يوم)` : 'منتهي';
                 const statusClass = isActive ? 'status-active' : 'status-expired';
                 const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
                 return `<tr>
                         <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
                         <td>${m.phone || '-'}</td>
                         <td>${m.code}</td>
-                        <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ckb') : '-'}</td>
-                        <td>${m.endDate ? new Date(m.endDate).toLocaleDateString('ckb') : '-'}</td>
+                        <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ar-EG') : '-'}</td>
+                        <td>${m.endDate ? new Date(m.endDate).toLocaleDateString('ar-EG') : '-'}</td>
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
@@ -2370,7 +2370,7 @@
 
             const tbody = document.getElementById('recentActivity');
             if (appData.activityLog.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">هیچ چالاکییەک نییە</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة حديثة</td></tr>`;
                 return;
             }
             tbody.innerHTML = appData.activityLog.slice(0, 10).map(log => `
@@ -2379,7 +2379,7 @@
                         <td>${log.type}</td>
                         <td>${log.code}</td>
                         <td><span class="status-badge status-active">${log.status}</span></td>
-                        <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                    <td>${new Date(log.time).toLocaleString('ar-EG')}</td>
                     </tr>
                 `).join('');
         }
@@ -2408,7 +2408,7 @@
                 }
             });
 
-            const formatter = new Intl.NumberFormat('ckb', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 });
+            const formatter = new Intl.NumberFormat('ar-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 });
 
             document.getElementById('dailyIncome').textContent = formatter.format(dailyIncome);
             document.getElementById('dailyActivity').textContent = dailyActivity;
@@ -2417,7 +2417,7 @@
 
             const tbody = document.getElementById('incomeActivity');
             if (incomeActivities.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">هیچ داهاتێک تۆمار نەکراوە</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">لم يتم تسجيل أي دخل</td></tr>`;
                 return;
             }
 
@@ -2427,7 +2427,7 @@
                         <td>${log.type}</td>
                         <td>${formatter.format(log.price)}</td>
                         <td>${log.message}</td>
-                        <td>${new Date(log.time).toLocaleString('ckb')}</td>
+                    <td>${new Date(log.time).toLocaleString('ar-EG')}</td>
                     </tr>
                 `).join('');
         }
@@ -2436,10 +2436,10 @@
             const printArea = document.getElementById('incomeReportPrintArea').innerHTML;
             const dailyIncome = document.getElementById('dailyIncome').textContent;
             const monthlyIncome = document.getElementById('monthlyIncome').textContent;
-            const reportDate = new Date().toLocaleString('ckb');
+            const reportDate = new Date().toLocaleString('ar-EG');
 
             const printWindow = window.open('', '', 'height=800,width=1000');
-            printWindow.document.write('<html><head><title>ڕاپۆرتی داهات</title>');
+            printWindow.document.write('<html><head><title>تقرير الدخل</title>');
             // Add styles
             printWindow.document.write(`
                     <style>
@@ -2463,15 +2463,15 @@
 
             // Add header
             printWindow.document.write('<div class="print-header">');
-            printWindow.document.write('<h1>ڕاپۆرتی داهات</h1>');
-            printWindow.document.write(`<p>سیستەمی بەڕێوەبردنی هۆڵ و مەلەوانگە</p>`);
-            printWindow.document.write(`<p>بەرواری ڕاپۆرت: ${reportDate}</p>`);
+            printWindow.document.write('<h1>تقرير الدخل</h1>');
+            printWindow.document.write(`<p>نظام إدارة الصالة الرياضية والمسبح</p>`);
+            printWindow.document.write(`<p>تاريخ التقرير: ${reportDate}</p>`);
             printWindow.document.write('</div>');
 
             // Add summary
             printWindow.document.write('<div class="summary">');
-            printWindow.document.write(`<div class="summary-item"><h3>داهاتی ئەمڕۆ</h3><p>${dailyIncome}</p></div>`);
-            printWindow.document.write(`<div class="summary-item"><h3>داهاتی ئەم مانگە</h3><p>${monthlyIncome}</p></div>`);
+            printWindow.document.write(`<div class="summary-item"><h3>دخل اليوم</h3><p>${dailyIncome}</p></div>`);
+            printWindow.document.write(`<div class="summary-item"><h3>دخل هذا الشهر</h3><p>${monthlyIncome}</p></div>`);
             printWindow.document.write('</div>');
 
             printWindow.document.write(printArea);
@@ -2484,13 +2484,13 @@
         function renderEmptyCodes() {
             const tbody = document.getElementById('emptyCodesTable');
             if (appData.emptyCodes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;">هیچ کۆدێکی بەتاڵ نییە</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;">لا توجد أكواد فارغة</td></tr>`;
                 return;
             }
             tbody.innerHTML = appData.emptyCodes.map(code => `
                     <tr>
                         <td>${code}</td>
-                        <td><span class="status-badge status-free">بەتاڵ</span></td>
+                        <td><span class="status-badge status-free">فارغ</span></td>
                         <td><button class="btn btn-danger btn-sm" onclick="removeEmptyCode('${code}')">🗑️</button></td>
                     </tr>
                 `).join('');
@@ -2500,7 +2500,7 @@
         //  کردارەکان
         // ============================================================
         function deleteMember(id) {
-            if (!confirm('دڵنیای لە سڕینەوەی ئەم ئەندامە؟')) return;
+            if (!confirm('هل أنت متأكد من حذف هذا العضو؟')) return;
             const member = appData.members.find(m => m.id === id);
 
             if (member) {
@@ -2512,7 +2512,7 @@
             }
             saveData();
             renderAll();
-            showAlert('success', '✅ ئەندام سڕدرایەوە');
+            showAlert('success', '✅ تم حذف العضو');
         }
 
         function resetVisits(id) {
@@ -2522,7 +2522,7 @@
                 member.isFree = false;
                 saveData();
                 renderAll();
-                showAlert('success', '🔄 ژمارەی سەردان سفر کرایەوە');
+                showAlert('success', '🔄 تم تصفير عدد الزيارات');
             }
         }
 
@@ -2536,8 +2536,8 @@
                 const price = appData.settings.gymSubscriptionPrice || 0;
                 saveData();
                 renderAll();
-                showAlert('success', `✅ بەشداری درێژکرایەوە بۆ ${duration} ڕۆژ`);
-                logActivity(member, `درێژکردنەوەی بەشداری بۆ ${duration} ڕۆژ`, price);
+                showAlert('success', `✅ تم تمديد الاشتراك لمدة ${duration} يوم`);
+                logActivity(member, `تمديد الاشتراك لمدة ${duration} يوم`, price);
             }
         }
 
@@ -2552,7 +2552,7 @@
             document.getElementById('newMemberEmergency').value = member.emergency || '';
             document.getElementById('newMemberCode').value = member.code;
             document.getElementById('newMemberNotes').value = member.notes || '';
-            document.getElementById('modalTitle').textContent = `✏️ دەستکاری ${member.name}`;
+            document.getElementById('modalTitle').textContent = `✏️ تعديل ${member.name}`;
 
             // Prevent editing the code for existing members
             const codeInput = document.getElementById('newMemberCode');
@@ -2564,12 +2564,12 @@
 
             // گۆڕینی کرداری پاشەکەوتکردن
             const saveBtn = document.querySelector('#addModal .btn-primary');
-            saveBtn.textContent = '💾 نوێکردنەوە';
+            saveBtn.textContent = '💾 تحديث';
             saveBtn.onclick = null; // Clear previous onclick
             saveBtn.onclick = function() {
                 const name = document.getElementById('newMemberName').value.trim();
                 if (!name) {
-                    document.getElementById('modalError').textContent = '⚠️ تکایە ناوێک بنووسە';
+                    document.getElementById('modalError').textContent = '⚠️ الرجاء إدخال اسم';
                     return;
                 }
                 member.name = name;
@@ -2581,7 +2581,7 @@
                 saveData();
                 renderAll();
                 closeModal();
-                showAlert('success', `✅ زانیارییەکانی "${name}" نوێکرایەوە`);
+                showAlert('success', `✅ تم تحديث معلومات "${name}"`);
             };
 
             // Add profile action buttons
@@ -2596,10 +2596,10 @@
 
             if (member.type === 'gym') {
                 profileActions.innerHTML =
-                    `<button class="btn btn-success" onclick="extendGym('${id}')">➕ درێژکردنەوەی بەشداری</button>`;
+                    `<button class="btn btn-success" onclick="extendGym('${id}')">➕ تمديد الاشتراك</button>`;
             } else { // pool
                 profileActions.innerHTML =
-                    `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 سفرکردنەوەی سەردانەکان</button>`;
+                    `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 تصفير الزيارات</button>`;
             }
             modalErrorDiv.appendChild(profileActions);
         }
