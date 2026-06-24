@@ -1227,15 +1227,6 @@
                         <label>🔢 عدد الزيارات للزيارة المجانية</label>
                         <input type="number" id="poolFreeThreshold" value="3" min="1" onchange="updateSettings()">
                     </div>
-                    <div class="form-group">
-                        <label>🎁 عرض خاص</label>
-                        <select id="poolOffer" onchange="updateSettings()">
-                            <option value="none">بدون عرض</option>
-                            <option value="buy2get1">اشتر 2 واحصل على 1</option>
-                            <option value="buy3get2">اشتر 3 واحصل على 2</option>
-                            <option value="halfprice">نصف السعر</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="filter-bar">
                     <input type="text" id="poolFilter" placeholder="🔍 بحث..." oninput="renderPool()">
@@ -1278,15 +1269,6 @@
                     <div class="form-group">
                         <label>📅 مدة الاشتراك (يوم)</label>
                         <input type="number" id="gymDuration" value="30" min="1" onchange="updateSettings()">
-                    </div>
-                    <div class="form-group">
-                        <label>🎁 عرض خاص</label>
-                        <select id="gymOffer" onchange="updateSettings()">
-                            <option value="none">بدون عرض</option>
-                            <option value="monthly">شهري 10%</option>
-                            <option value="quarterly">ربع سنوي 15%</option>
-                            <option value="yearly">سنوي 25%</option>
-                        </select>
                     </div>
                 </div>
                 <div class="filter-bar">
@@ -1333,26 +1315,6 @@
                         <input type="number" id="adminGymDuration" value="30" min="1" onchange="syncAdminSettings()">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>🎁 عرض المسبح</label>
-                        <select id="adminPoolOffer" onchange="syncAdminSettings()">
-                            <option value="none">بدون عرض</option>
-                            <option value="buy2get1">اشتر 2 واحصل على 1</option>
-                            <option value="buy3get2">اشتر 3 واحصل على 2</option>
-                            <option value="halfprice">نصف السعر</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>🎁 عرض الصالة</label>
-                        <select id="adminGymOffer" onchange="syncAdminSettings()">
-                            <option value="none">بدون عرض</option>
-                            <option value="monthly">شهري 10%</option>
-                            <option value="quarterly">ربع سنوي 15%</option>
-                            <option value="yearly">سنوي 25%</option>
-                        </select>
-                    </div>
-                </div>
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الإعدادات</button>
             </div>
 
@@ -1376,6 +1338,51 @@
                     </div>
                 </div>
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
+            </div>
+
+            <!-- Offers Management -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🎁 إدارة العروض والتخفيضات</span>
+                </div>
+                <div class="form-row" style="align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label>اسم العرض</label>
+                        <input type="text" id="offerName" placeholder="مثال: عرض الصيف">
+                    </div>
+                    <div class="form-group">
+                        <label>النوع</label>
+                        <select id="offerType">
+                            <option value="gym">صالة</option>
+                            <option value="pool">مسبح</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع الخصم</label>
+                        <select id="offerDiscountType">
+                            <option value="percentage">نسبة مئوية (%)</option>
+                            <option value="fixed">مبلغ ثابت (IQD)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>قيمة الخصم</label>
+                        <input type="number" id="offerDiscountValue" placeholder="10 أو 5000">
+                    </div>
+                    <button class="btn btn-primary" onclick="addOffer()">+ إضافة عرض</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم العرض</th>
+                                <th>النوع</th>
+                                <th>الخصم</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offersTable"></tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Data Management -->
@@ -1535,6 +1542,11 @@
                 <label>📝 ملاحظات (اشتراك سابق)</label>
                 <textarea id="newMemberNotes" placeholder="مثال: مشترك سابق لمدة 3 أشهر..."></textarea>
             </div>
+                <div class="form-group">
+                    <label>🎁 تطبيق عرض</label>
+                    <select id="newMemberOffer">
+                    </select>
+                </div>
             <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="saveNewMember()">💾 حفظ</button>
                 <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
@@ -1569,6 +1581,7 @@
                 gymSubscriptionPrice: 40000,
                 gymDayPassPrice: 7000
             },
+            offers: [],
             emptyCodes: [],
             activityLog: []
         };
@@ -1598,6 +1611,7 @@
             if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
             if (!appData.settings.gymSubscriptionPrice) appData.settings.gymSubscriptionPrice = 40000;
             if (!appData.settings.gymDayPassPrice) appData.settings.gymDayPassPrice = 7000;
+            if (!appData.offers) appData.offers = [];
             if (!appData.emptyCodes) appData.emptyCodes = [];
             if (!appData.activityLog) appData.activityLog = [];
 
@@ -1618,8 +1632,6 @@
         function updateSettings() {
             appData.settings.poolFreeThreshold = parseInt(document.getElementById('poolFreeThreshold').value) || 3;
             appData.settings.gymDuration = parseInt(document.getElementById('gymDuration').value) || 30;
-            appData.settings.poolOffer = document.getElementById('poolOffer').value;
-            appData.settings.gymOffer = document.getElementById('gymOffer').value;
             appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
             appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
             appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
@@ -1631,8 +1643,6 @@
         function syncAdminSettings() {
             appData.settings.poolFreeThreshold = parseInt(document.getElementById('adminPoolThreshold').value) || 3;
             appData.settings.gymDuration = parseInt(document.getElementById('adminGymDuration').value) || 30;
-            appData.settings.poolOffer = document.getElementById('adminPoolOffer').value;
-            appData.settings.gymOffer = document.getElementById('adminGymOffer').value;
             appData.settings.poolVisitPrice = parseInt(document.getElementById('adminPoolPrice').value) || 0;
             appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
             appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
@@ -1646,21 +1656,15 @@
         function syncAdminUI() {
             document.getElementById('adminPoolThreshold').value = appData.settings.poolFreeThreshold;
             document.getElementById('adminGymDuration').value = appData.settings.gymDuration;
-            document.getElementById('adminPoolOffer').value = appData.settings.poolOffer || 'none';
-            document.getElementById('adminGymOffer').value = appData.settings.gymOffer || 'none';
             document.getElementById('adminPoolPrice').value = appData.settings.poolVisitPrice || 5000;
             document.getElementById('adminGymPrice').value = appData.settings.gymSubscriptionPrice || 40000;
             document.getElementById('adminGymDayPassPrice').value = appData.settings.gymDayPassPrice || 7000;
         }
 
         function syncPoolUI() {
-            document.getElementById('poolFreeThreshold').value = appData.settings.poolFreeThreshold;
-            document.getElementById('poolOffer').value = appData.settings.poolOffer || 'none';
         }
 
         function syncGymUI() {
-            document.getElementById('gymDuration').value = appData.settings.gymDuration;
-            document.getElementById('gymOffer').value = appData.settings.gymOffer || 'none';
         }
 
         // ============================================================
@@ -1677,6 +1681,7 @@
             document.getElementById('newMemberEmergency').value = '';
             document.getElementById('newMemberCode').value = '';
             document.getElementById('newMemberNotes').value = '';
+            populateOfferDropdown(document.getElementById('newMemberOffer'), type);
             document.getElementById('modalError').textContent = '';
             document.getElementById('addModal').style.display = 'flex';
             document.getElementById('newMemberName').focus();
@@ -1706,6 +1711,7 @@
             const emergency = document.getElementById('newMemberEmergency').value.trim();
             let code = document.getElementById('newMemberCode').value.trim();
             const notes = document.getElementById('newMemberNotes').value.trim();
+            const offerId = document.getElementById('newMemberOffer').value;
             const errorEl = document.getElementById('modalError');
 
             if (!name) {
@@ -1743,6 +1749,7 @@
                 notes: notes,
                 code: code,
                 type: currentMemberType,
+                offerId: offerId || null,
                 visits: 0,
                 isFree: false,
                 lastScan: null,
@@ -1756,14 +1763,12 @@
                 newMember.isFree = false;
                 newMember.startDate = null;
                 newMember.endDate = null;
-                newMember.offer = appData.settings.poolOffer || 'none';
             } else {
                 const duration = appData.settings.gymDuration || 30;
                 newMember.startDate = now.toISOString();
                 const endDate = new Date(now);
                 endDate.setDate(endDate.getDate() + duration);
                 newMember.endDate = endDate.toISOString();
-                newMember.offer = appData.settings.gymOffer || 'none';
                 // Log income for new gym subscription
                 logActivity(newMember, `اشتراك جديد لمدة ${duration} يوم`, appData.settings.gymSubscriptionPrice || 0);
             }
@@ -2008,31 +2013,7 @@
                 const threshold = appData.settings.poolFreeThreshold || 3;
                 member.visits = (member.visits || 0) + 1;
                 member.totalVisits = (member.totalVisits || 0) + 1;
-                const offer = member.offer || appData.settings.poolOffer || 'none';
-
-                // ئۆفەرەکان
-                let offerBonus = 0;
-                if (offer === 'buy2get1' && member.visits % 3 === 0) offerBonus = 1;
-                else if (offer === 'buy3get2' && member.visits % 5 === 0) offerBonus = 2;
-                else if (offer === 'halfprice' && member.visits % 2 === 0) {
-                    message = `💰 نصف السعر! (الزيارة رقم ${member.visits})`;
-                    alertType = 'warning';
-                    const price = (appData.settings.poolVisitPrice || 0) / 2;
-                    member.isFree = false;
-                    member.lastScan = now.toISOString();
-                    logActivity(member, 'زيارة بنصف السعر', price);
-                    saveData();
-                    renderAll();
-                    showResult(message, alertType, member, content, quickInfo, resultDiv);
-                    return;
-                }
-
-                if (offerBonus > 0) {
-                    member.visits += offerBonus;
-                    message = `🎉 عرض! +${offerBonus} زيارة مجانية (الإجمالي: ${member.visits})`;
-                    alertType = 'success';
-                    member.isFree = false;
-                } else if (member.visits >= threshold && !member.isFree) {
+                if (member.visits >= threshold && !member.isFree) {
                     member.isFree = true;
                     message = `🎊 أهلاً بك! هذه المرة مجانية! (الزيارة رقم ${member.visits})`;
                     alertType = 'success';
@@ -2110,8 +2091,7 @@
                 if (type === 'pool') {
                     newMember.name = `زائر مسبح سريع - ${trimmedCode}`;
                     newMember.visits = 1;
-                    newMember.isFree = false;
-                    newMember.offer = appData.settings.poolOffer || 'none';
+                    newMember.isFree = false; 
                     newMember.notes = 'بطاقة تسجيل سريع للمسبح';
                     price = appData.settings.poolVisitPrice || 0;
                     logMessage = 'تسجيل سريع وزيارة أولى للمسبح';
@@ -2121,7 +2101,6 @@
                     const endDate = new Date(now);
                     endDate.setDate(endDate.getDate() + 1); // 1-day pass
                     newMember.endDate = endDate.toISOString();
-                    newMember.offer = 'none';
                     newMember.notes = 'بطاقة تسجيل سريع للصالة (يوم واحد)';
                     price = appData.settings.gymDayPassPrice || 0;
                     logMessage = 'تسجيل سريع وزيارة ليوم واحد للصالة';
@@ -2518,6 +2497,49 @@
             showAlert('success', `✅ تم حذف سجلات ${typeText} بنجاح.`);
         }
 
+        function addOffer() {
+            const name = document.getElementById('offerName').value.trim();
+            const type = document.getElementById('offerType').value;
+            const discountType = document.getElementById('offerDiscountType').value;
+            const discountValue = parseFloat(document.getElementById('offerDiscountValue').value);
+
+            if (!name || !discountValue || discountValue <= 0) {
+                showAlert('danger', '❌ الرجاء ملء جميع حقول العرض بقيم صحيحة.');
+                return;
+            }
+
+            const newOffer = {
+                id: 'offer-' + Date.now(),
+                name: name,
+                type: type,
+                discountType: discountType,
+                discountValue: discountValue
+            };
+
+            appData.offers.push(newOffer);
+            saveData();
+            renderOffers();
+            showAlert('success', `✅ تم إضافة العرض "${name}" بنجاح.`);
+
+            // Clear inputs
+            document.getElementById('offerName').value = '';
+            document.getElementById('offerDiscountValue').value = '';
+        }
+
+        function deleteOffer(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا العرض؟ سيتم إزالته من جميع الأعضاء المشتركين فيه.')) return;
+            appData.offers = appData.offers.filter(o => o.id !== id);
+            // Remove this offer from all members
+            appData.members.forEach(m => {
+                if (m.offerId === id) {
+                    m.offerId = null;
+                }
+            });
+            saveData();
+            renderOffers();
+            showAlert('success', '✅ تم حذف العرض.');
+        }
+
         async function activateMember(id) {
             const member = appData.members.find(m => m.id === id);
             if (member && member.status === 'frozen') {
@@ -2525,7 +2547,10 @@
                 member.status = 'active';
                 member.visits = 0; // Ensure visits are reset
                 member.isFree = false;
-                logActivity(member, 'تجديد وتنشيط البطاقة', appData.settings.poolVisitPrice || 0);
+                
+                const price = calculatePrice(appData.settings.poolVisitPrice, member.offerId);
+
+                logActivity(member, 'تجديد وتنشيط البطاقة', price);
                 saveData();
                 showAlert('success', `✅ تم تنشيط بطاقة ${member.name} بنجاح.`);
             }
@@ -2540,6 +2565,7 @@
             renderDashboard();
             renderEmptyCodes();
             renderReports();
+            renderOffers();
             syncAdminUI();
             syncPoolUI();
             syncGymUI();
@@ -2576,7 +2602,8 @@
                     actionButton = `<button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>`;
                 }
 
-                const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
+                const offer = appData.offers.find(o => o.id === m.offerId);
+                const offerTag = offer ? `<span class="offer-tag">${offer.name}</span>` : '';
                 return `<tr>
                         <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
                         <td>${m.phone || '-'}</td>
@@ -2614,7 +2641,8 @@
                 const daysLeft = isActive ? Math.ceil((endDate - now) / (1000 * 60 * 60 * 24)) : 0;
                 const status = isActive ? `نشط (${daysLeft} يوم)` : 'منتهي';
                 const statusClass = isActive ? 'status-active' : 'status-expired';
-                const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
+                const offer = appData.offers.find(o => o.id === m.offerId);
+                const offerTag = offer ? `<span class="offer-tag">${offer.name}</span>` : '';
                 return `<tr>
                         <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
                         <td>${m.phone || '-'}</td>
@@ -2705,6 +2733,28 @@
                     <td>${new Date(log.time).toLocaleString('ar-EG')}</td>
                     </tr>
                 `).join('');
+        }
+
+        function renderOffers() {
+            const tbody = document.getElementById('offersTable');
+            if (!appData.offers || appData.offers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">لا توجد عروض معرفة.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = appData.offers.map(offer => {
+                const discountText = offer.discountType === 'percentage' 
+                    ? `${offer.discountValue}%` 
+                    : `${new Intl.NumberFormat('ar-IQ').format(offer.discountValue)} د.ع`;
+                const typeText = offer.type === 'gym' ? 'صالة' : 'مسبح';
+
+                return `<tr>
+                    <td>${offer.name}</td>
+                    <td><span class="status-badge ${offer.type === 'gym' ? 'status-expired' : 'status-active'}">${typeText}</span></td>
+                    <td>${discountText}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteOffer('${offer.id}')">🗑️ حذف</button></td>
+                </tr>`;
+            }).join('');
         }
 
         function printIncomeReport() {
@@ -2806,14 +2856,32 @@
             if (member && member.type === 'gym') {
                 const duration = appData.settings.gymDuration || 30;
                 const newEnd = new Date(member.endDate);
+                if (new Date() > newEnd) { // If expired, extend from now
+                    const now = new Date();
+                    newEnd.setTime(now.getTime());
+                }
                 newEnd.setDate(newEnd.getDate() + duration);
                 member.endDate = newEnd.toISOString();
-                const price = appData.settings.gymSubscriptionPrice || 0;
+                
+                const price = calculatePrice(appData.settings.gymSubscriptionPrice, member.offerId);
+
                 saveData();
                 renderAll();
                 showAlert('success', `✅ تم تمديد الاشتراك لمدة ${duration} يوم`);
                 logActivity(member, `تمديد الاشتراك لمدة ${duration} يوم`, price);
             }
+        }
+
+        function calculatePrice(basePrice, offerId) {
+            const offer = appData.offers.find(o => o.id === offerId);
+            if (!offer) return basePrice;
+
+            if (offer.discountType === 'percentage') {
+                return basePrice - (basePrice * (offer.discountValue / 100));
+            } else if (offer.discountType === 'fixed') {
+                return Math.max(0, basePrice - offer.discountValue);
+            }
+            return basePrice;
         }
 
         async function editMember(id) {
@@ -2827,6 +2895,8 @@
             document.getElementById('newMemberEmergency').value = member.emergency || '';
             document.getElementById('newMemberCode').value = member.code;
             document.getElementById('newMemberNotes').value = member.notes || '';
+            const offerDropdown = document.getElementById('newMemberOffer');
+            populateOfferDropdown(offerDropdown, member.type, member.offerId);
             document.getElementById('modalTitle').textContent = `✏️ تعديل ${member.name}`;
 
             // Prevent editing the code for existing members
@@ -2853,6 +2923,7 @@
                 member.address = document.getElementById('newMemberAddress').value.trim();
                 member.emergency = document.getElementById('newMemberEmergency').value.trim();
                 member.notes = document.getElementById('newMemberNotes').value.trim();
+                member.offerId = document.getElementById('newMemberOffer').value || null;
                 saveData();
                 closeModal();
                 showAlert('success', `✅ تم تحديث معلومات "${name}"`);
@@ -2876,6 +2947,20 @@
                     `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 تصفير الزيارات</button>`;
             }
             modalErrorDiv.appendChild(profileActions);
+        }
+
+        function populateOfferDropdown(selectElement, type, selectedId = null) {
+            const filteredOffers = appData.offers.filter(o => o.type === type);
+            selectElement.innerHTML = '<option value="">بدون عرض</option>';
+            filteredOffers.forEach(offer => {
+                const option = document.createElement('option');
+                option.value = offer.id;
+                option.textContent = offer.name;
+                if (offer.id === selectedId) {
+                    option.selected = true;
+                }
+                selectElement.appendChild(option);
+            });
         }
 
         async function removeEmptyCode(code) {
