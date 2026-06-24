@@ -64,6 +64,28 @@
             --shadow-glow: 0 0 40px rgba(107, 47, 207, 0.25);
         }
 
+        /* Light Theme */
+        body.light-theme {
+            --bg-base: #f0f2f5;
+            --bg-surface: #ffffff;
+            --bg-elevated: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.6);
+            --bg-card: rgba(255, 255, 255, 0.85);
+
+            --text-primary: var(--samsung-black);
+            --text-secondary: #555558;
+            --text-muted: #8a8a8e;
+
+            --border-subtle: rgba(0, 0, 0, 0.1);
+            --border-glow: rgba(20, 40, 160, 0.3);
+
+            --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.07);
+            --shadow-glow: 0 0 30px rgba(20, 40, 160, 0.15);
+
+            background-image: none;
+            /* Remove glowy background for light theme */
+        }
+
         body {
             font-family: 'Vazirmatn', 'Inter', sans-serif;
             background: var(--bg-base);
@@ -116,6 +138,15 @@
             overflow: hidden;
         }
 
+        body.light-theme .header {
+            background: linear-gradient(135deg,
+                    #ffffff 0%,
+                    #f5f5f7 100%);
+            color: var(--samsung-black);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
         .header::before {
             content: '';
             position: absolute;
@@ -149,6 +180,25 @@
             text-shadow: none;
         }
 
+        body.light-theme .header h1 {
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--samsung-black) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            height: 45px;
+            width: auto;
+            border-radius: 10px;
+        }
+
         .header-actions {
             display: flex;
             gap: 10px;
@@ -180,6 +230,13 @@
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        body.light-theme .lang-toggle,
+        body.light-theme .backup-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: var(--text-secondary);
         }
 
         /* ===================== TABS ===================== */
@@ -220,6 +277,11 @@
             background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-blue-dark));
             color: white;
             box-shadow: 0 4px 20px var(--primary-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .tab-btn.active {
+            background: linear-gradient(135deg, var(--samsung-blue), var(--samsung-blue-dark));
+            color: white;
         }
 
         .tab-btn.active::after {
@@ -398,6 +460,12 @@
             background-clip: text;
         }
 
+        body.light-theme .stat-number {
+            background: linear-gradient(135deg, var(--samsung-blue) 0%, var(--info) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
         .stat-label {
             font-size: 0.78rem;
             color: var(--text-muted);
@@ -456,6 +524,12 @@
             border-color: var(--samsung-blue-light);
             box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px var(--primary-glow);
             background: var(--bg-elevated);
+        }
+
+        body.light-theme input,
+        body.light-theme select,
+        body.light-theme textarea {
+            background: var(--bg-surface);
         }
 
         select option {
@@ -608,6 +682,11 @@
             background: rgba(20, 40, 160, 0.08);
         }
 
+        body.light-theme tr:hover td {
+            background: rgba(20, 40, 160, 0.04);
+        }
+
+
         /* ===================== STATUS BADGES ===================== */
         .status-badge {
             padding: 4px 13px;
@@ -646,6 +725,12 @@
             background: rgba(254, 220, 0, 0.12);
             color: var(--samsung-yellow);
             border: 1px solid rgba(254, 220, 0, 0.25);
+        }
+
+        .status-frozen {
+            background: rgba(142, 142, 147, 0.15);
+            color: #a1a1a6;
+            border: 1px solid rgba(142, 142, 147, 0.3);
         }
 
         /* ===================== ALERTS ===================== */
@@ -1011,6 +1096,11 @@
             background: rgba(20, 40, 160, 0.3);
             color: white;
         }
+
+        body.light-theme ::selection {
+            background: rgba(20, 40, 160, 0.2);
+            color: var(--samsung-black);
+        }
     </style>
     <!-- QR Code Generator Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
@@ -1029,8 +1119,12 @@
     <div class="app-container" id="app">
         <!-- Header -->
         <header class="header">
-            <h1 id="appTitle">🏊‍♂️ نظام إدارة الصالة الرياضية والمسبح</h1>
+            <div class="header-brand">
+                <img src="logo.png" alt="Logo" class="header-logo">
+                <h1 id="appTitle">🏊‍♂️ نظام إدارة الصالة الرياضية والمسبح</h1>
+            </div>
             <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="تبديل المظهر">🌙</button>
                 <button class="lang-toggle" id="langToggle" onclick="toggleLang()">🇬🇧 English</button>
                 <button class="backup-btn" onclick="exportBackup()">📥 نسخ احتياطي</button>
                 <button class="backup-btn" onclick="document.getElementById('importFile').click()">📤 استيراد</button>
@@ -1284,6 +1378,21 @@
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
             </div>
 
+            <!-- Data Management -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🗑️ إدارة البيانات والسجلات</span>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 16px;">
+                    يمكنك من هنا حذف سجلات الأنشطة لتخفيف البيانات. كن حذرًا، لا يمكن التراجع عن هذا الإجراء.
+                </p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-warning" onclick="deleteActivityLogs('pool')">🗑️ حذف سجلات المسبح</button>
+                    <button class="btn btn-warning" onclick="deleteActivityLogs('gym')">🗑️ حذف سجلات الصالة</button>
+                    <button class="btn btn-danger" onclick="deleteActivityLogs('all')">❌ حذف كل السجلات</button>
+                </div>
+            </div>
+
             <!-- Bulk Generator -->
             <div class="card">
                 <div class="card-header">
@@ -1318,6 +1427,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">📋 الأكواد الفارغة</span>
+                    <button class="btn btn-danger btn-sm" onclick="clearAllEmptyCodes()">🗑️ مسح الكل</button>
                 </div>
                 <div class="table-wrap">
                     <table>
@@ -1332,6 +1442,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
 
         <!-- ==================== REPORTS ==================== -->
@@ -1464,6 +1575,7 @@
 
         let currentMemberType = 'pool';
         let currentLang = 'ar';
+        let currentTheme = 'light'; // 'auto', 'light', 'dark'
         let bulkGeneratedCodes = [];
 
         // بارکردن
@@ -1475,9 +1587,10 @@
                     appData = parsed;
                 } catch (e) { console.warn('Failed to parse'); }
             }
+
             if (!appData.members) appData.members = [];
             if (!appData.settings) appData.settings = {
-                poolFreeThreshold: 3,
+                poolFreeThreshold: 3, 
                 gymDuration: 30,
                 poolOffer: 'none',
                 gymOffer: 'none'
@@ -1487,11 +1600,16 @@
             if (!appData.settings.gymDayPassPrice) appData.settings.gymDayPassPrice = 7000;
             if (!appData.emptyCodes) appData.emptyCodes = [];
             if (!appData.activityLog) appData.activityLog = [];
-            // renderAll(); // Moved to the end of DOMContentLoaded to avoid race conditions
+
+            const savedTheme = localStorage.getItem('gymPoolTheme');
+            if (['light', 'dark', 'auto'].includes(savedTheme)) {
+                currentTheme = savedTheme;
+            }
         }
 
         function saveData() {
             localStorage.setItem('gymPoolAppData', JSON.stringify(appData));
+            localStorage.setItem('gymPoolTheme', currentTheme);
         }
 
         // ============================================================
@@ -1629,7 +1747,8 @@
                 isFree: false,
                 lastScan: null,
                 createdAt: now.toISOString(),
-                totalVisits: 0
+                totalVisits: 0,
+                status: 'active' // active, frozen
             };
 
             if (currentMemberType === 'pool') {
@@ -1813,6 +1932,43 @@
             document.getElementById('scannerInput').value = '';
         }
 
+        function applyTheme() {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                if (themeToggleBtn) themeToggleBtn.textContent = '☀️';
+            } else if (currentTheme === 'dark') {
+                document.body.classList.remove('light-theme');
+                if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
+            } else {
+                // Auto mode
+                const hour = new Date().getHours();
+                if (hour >= 6 && hour < 18) { // Day time
+                    document.body.classList.add('light-theme');
+                    if (themeToggleBtn) themeToggleBtn.textContent = '☀️';
+                } else { // Night time
+                    document.body.classList.remove('light-theme');
+                    if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
+                }
+            }
+            saveData(); // Save theme preference
+        }
+
+        function toggleTheme() {
+            if (currentTheme === 'auto') {
+                currentTheme = 'light';
+            } else if (currentTheme === 'light') {
+                currentTheme = 'dark';
+            } else { // dark
+                currentTheme = 'auto';
+            }
+            applyTheme();
+            const modeText = currentTheme === 'auto' ? 'تلقائي' : (currentTheme === 'light' ? 'فاتح' : 'داكن');
+            showAlert('info', `💡 تم تغيير المظهر إلى الوضع ${modeText}`);
+        }
+
+
+
         function processScan(code) {
             if (!code) {
                 showAlert('warning', '⚠️ الرجاء إدخال كود أو مسحه');
@@ -1834,6 +1990,13 @@
                 }
                 resultDiv.innerHTML = `<div class="alert alert-danger">❌ لم يتم العثور على الكود!</div>`;
                 quickInfo.classList.add('hidden');
+                return;
+            }
+
+            if (member.status === 'frozen') {
+                message = `⛔ البطاقة مجمدة! الرجاء تنشيطها من قسم المسبح.`;
+                alertType = 'danger';
+                showResult(message, alertType, member, content, quickInfo, resultDiv);
                 return;
             }
 
@@ -1876,8 +2039,9 @@
                 } else if (member.isFree) {
                     member.visits = 0;
                     member.isFree = false;
-                    message = `🔔 تم استخدام العرض! تم تصفير عدد الزيارات.`;
-                    alertType = 'warning'; // Change to warning for more attention
+                    member.status = 'frozen'; // Freeze the card
+                    message = `🔔 تم استخدام الزيارة المجانية. البطاقة الآن مجمدة وتحتاج إلى تنشيط.`;
+                    alertType = 'warning';
                     // Play sound
                     const sound = document.getElementById('notificationSound');
                     if (sound) sound.play().catch(e => console.log("Audio play failed"));
@@ -1910,7 +2074,6 @@
 
             // logActivity is called inside the conditions now
             saveData();
-            renderAll();
             showResult(message, alertType, member, content, quickInfo, resultDiv);
         }
 
@@ -1993,7 +2156,7 @@
                 member: member.name,
                 code: member.code,
                 type: member.type === 'pool' ? 'المسبح' : 'الصالة',
-                status: 'چالاک',
+                status: 'نشط',
                 time: new Date().toISOString(),
                 message: message,
                 price: price
@@ -2032,7 +2195,6 @@
             }
 
             saveData();
-            renderAll();
 
             // دروستکردنی کارتەکان (Combined QR + Barcode)
             const resultDiv = document.getElementById('bulkResult');
@@ -2338,6 +2500,37 @@
             renderAll();
         }
 
+        function deleteActivityLogs(filter) {
+            const typeText = filter === 'pool' ? 'المسبح' : (filter === 'gym' ? 'الصالة' : 'كل');
+            if (!confirm(`هل أنت متأكد من حذف سجلات ${typeText}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
+                return;
+            }
+
+            if (filter === 'all') {
+                appData.activityLog = [];
+            } else {
+                const filterType = filter === 'pool' ? 'المسبح' : 'الصالة';
+                appData.activityLog = appData.activityLog.filter(log => log.type !== filterType);
+            }
+
+            saveData();
+            renderAll();
+            showAlert('success', `✅ تم حذف سجلات ${typeText} بنجاح.`);
+        }
+
+        async function activateMember(id) {
+            const member = appData.members.find(m => m.id === id);
+            if (member && member.status === 'frozen') {
+                if (!await confirmDeletion(`هل أنت متأكد من تنشيط بطاقة ${member.name}؟`)) return;
+                member.status = 'active';
+                member.visits = 0; // Ensure visits are reset
+                member.isFree = false;
+                logActivity(member, 'تجديد وتنشيط البطاقة', appData.settings.poolVisitPrice || 0);
+                saveData();
+                showAlert('success', `✅ تم تنشيط بطاقة ${member.name} بنجاح.`);
+            }
+        }
+
         // ============================================================
         //  ڕێندرینگ
         // ============================================================
@@ -2360,7 +2553,7 @@
             if (filter) poolMembers = poolMembers.filter(m => m.name.toLowerCase().includes(filter) || m.code.toLowerCase()
                 .includes(filter));
             if (statusFilter === 'active') poolMembers = poolMembers.filter(m => !m.isFree && m.visits < appData.settings
-                .poolFreeThreshold);
+                .poolFreeThreshold && m.status !== 'frozen');
             else if (statusFilter === 'free') poolMembers = poolMembers.filter(m => m.isFree || m.visits >= appData.settings
                 .poolFreeThreshold);
 
@@ -2372,9 +2565,17 @@
             }
             const threshold = appData.settings.poolFreeThreshold || 3;
             tbody.innerHTML = poolMembers.map(m => {
-                const status = m.isFree ? 'مجاني' : (m.visits >= threshold ? 'مجاني جاهز' : 'نشط');
-                const statusClass = m.isFree ? 'status-free' : (m.visits >= threshold ? 'status-warning' :
-                    'status-active');
+                let status, statusClass, actionButton;
+                if (m.status === 'frozen') {
+                    status = 'مجمدة';
+                    statusClass = 'status-frozen';
+                    actionButton = `<button class="btn btn-success btn-sm" onclick="activateMember('${m.id}')">🔄 تنشيط</button>`;
+                } else {
+                    status = m.isFree ? 'مجاني' : (m.visits >= threshold ? 'مجاني جاهز' : 'نشط');
+                    statusClass = m.isFree ? 'status-free' : (m.visits >= threshold ? 'status-warning' : 'status-active');
+                    actionButton = `<button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>`;
+                }
+
                 const offerTag = m.offer && m.offer !== 'none' ? `<span class="offer-tag">${m.offer}</span>` : '';
                 return `<tr>
                         <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
@@ -2384,7 +2585,7 @@
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>${m.lastScan ? new Date(m.lastScan).toLocaleDateString('ar-EG') : '-'}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>
+                            ${actionButton}
                         </td>
                     </tr>`;
             }).join('');
@@ -2573,12 +2774,12 @@
         // ============================================================
         //  کردارەکان
         // ============================================================
-        function deleteMember(id) {
-            if (!confirm('هل أنت متأكد من حذف هذا العضو؟')) return;
+        async function deleteMember(id) {
+            if (!await confirmDeletion('هل أنت متأكد من حذف هذا العضو؟')) return;
             const member = appData.members.find(m => m.id === id);
 
             if (member) {
-                appData.members = appData.members.filter(m => m.id !== id);
+                appData.members = appData.members.filter(m => m.id !== id); 
                 if (member.code && !appData.members.some(m => m.code === member.code) && !appData.emptyCodes.includes(
                         member.code)) {
                     appData.emptyCodes.push(member.code);
@@ -2589,7 +2790,7 @@
             showAlert('success', '✅ تم حذف العضو');
         }
 
-        function resetVisits(id) {
+        async function resetVisits(id) {
             const member = appData.members.find(m => m.id === id);
             if (member && member.type === 'pool') {
                 member.visits = 0;
@@ -2600,7 +2801,7 @@
             }
         }
 
-        function extendGym(id) {
+        async function extendGym(id) {
             const member = appData.members.find(m => m.id === id);
             if (member && member.type === 'gym') {
                 const duration = appData.settings.gymDuration || 30;
@@ -2615,7 +2816,7 @@
             }
         }
 
-        function editMember(id) {
+        async function editMember(id) {
             const member = appData.members.find(m => m.id === id);
             if (!member) return;
             // پڕکردنەوەی مۆدالی بە داتاکان
@@ -2653,7 +2854,6 @@
                 member.emergency = document.getElementById('newMemberEmergency').value.trim();
                 member.notes = document.getElementById('newMemberNotes').value.trim();
                 saveData();
-                renderAll();
                 closeModal();
                 showAlert('success', `✅ تم تحديث معلومات "${name}"`);
             };
@@ -2678,11 +2878,53 @@
             modalErrorDiv.appendChild(profileActions);
         }
 
-        function removeEmptyCode(code) {
+        async function removeEmptyCode(code) {
+            if (!await confirmDeletion(`هل أنت متأكد من حذف الكود الفارغ ${code}؟`)) return;
             appData.emptyCodes = appData.emptyCodes.filter(c => c !== code);
             saveData();
             renderAll();
         }
+
+        async function clearAllEmptyCodes() {
+            if (!await confirmDeletion('هل أنت متأكد من حذف جميع الأكواد الفارغة؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+            appData.emptyCodes = [];
+            saveData();
+            renderAll();
+            showAlert('success', '✅ تم حذف جميع الأكواد الفارغة بنجاح.');
+        }
+
+        async function confirmDeletion(message) {
+            const pin = '12345'; // Hardcoded PIN for all deletions
+            const enteredPin = prompt(`${message}\n\nللتأكيد، الرجاء إدخال الرقم السري:`);
+            if (enteredPin === null) { // User clicked cancel
+                return false;
+            }
+
+            if (enteredPin === pin) {
+                return true;
+            } else {
+                showAlert('danger', '❌ الرقم السري غير صحيح. تم إلغاء العملية.');
+                return false;
+            }
+        }
+
+        async function deleteActivityLogs(filter) {
+            const typeText = filter === 'pool' ? 'المسبح' : (filter === 'gym' ? 'الصالة' : 'كل');
+            if (!await confirmDeletion(`هل أنت متأكد من حذف سجلات ${typeText}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
+                return;
+            }
+
+            if (filter === 'all') {
+                appData.activityLog = []; 
+            } else {
+                const filterType = filter === 'pool' ? 'المسبح' : 'الصالة';
+                appData.activityLog = appData.activityLog.filter(log => log.type !== filterType);
+            }
+
+            saveData();
+            showAlert('success', `✅ تم حذف سجلات ${typeText} بنجاح.`);
+        }
+
 
         // ============================================================
         //  گۆڕینی تاپ
@@ -2697,6 +2939,7 @@
             // Only focus if the dashboard is switched to and no modal is open
             const scannerInput = document.getElementById('scannerInput');
             if (tabId === 'dashboard' && scannerInput) scannerInput.focus({ preventScroll: true });
+            applyTheme();
         }
 
         // ============================================================
@@ -2723,6 +2966,11 @@
                 setTimeout(() => div.remove(), 500);
             }, 4000);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            applyTheme();
+        });
     </script>
 
 </body>
