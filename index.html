@@ -1390,21 +1390,6 @@
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
             </div>
 
-            <!-- Google Sheet Integration Settings -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🔗 ربط Google Sheets</span>
-                </div>
-                <p class="text-muted-p">
-                    أدخل رابط Web App الخاص بـ Google Apps Script هنا لتمكين المزامنة مع Google Sheets.
-                </p>
-                <div class="form-group">
-                    <label>Google Sheets Web App URL</label>
-                    <input type="url" id="googleSheetUrl" placeholder="https://script.google.com/macros/s/...">
-                </div>
-                <button class="btn btn-success" onclick="saveGoogleSheetSettings()">💾 حفظ الرابط</button>
-            </div>
-
             <!-- Offers Management -->
             <div class="card">
                 <div class="card-header">
@@ -1644,6 +1629,10 @@
         let currentTheme = 'light'; // 'auto', 'light', 'dark'
         let bulkGeneratedCodes = [];
 
+        // !!! === هام جداً === !!!
+        // الصق رابط GOOGLE APPS SCRIPT WEB APP الخاص بك هنا
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbx_j-kt0iDRpKRfaPIQMrkjl31hKN44NALL-SWFuh34LVOrsE5S5sLz4ZobJOQ8zft1QQ/exec";
+
         // بارکردن
         function loadData() {
             const saved = localStorage.getItem('gymPoolAppData');
@@ -1664,7 +1653,6 @@
             if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
             if (!appData.settings.gymSubscriptionPrice) appData.settings.gymSubscriptionPrice = 40000;
             if (!appData.settings.gymDayPassPrice) appData.settings.gymDayPassPrice = 7000;
-            if (!appData.settings.googleSheetUrl) appData.settings.googleSheetUrl = '';
             if (!appData.offers) appData.offers = [];
             if (!appData.emptyCodes) appData.emptyCodes = [];
             if (!appData.activityLog) appData.activityLog = [];
@@ -1676,17 +1664,15 @@
         }
 
         async function loadDataFromGoogleSheet() {
-            loadData(); // Load from localStorage first to get the URL
-            const url = appData.settings.googleSheetUrl;
-            if (!url) {
-                // This is normal if the user hasn't set a URL yet.
-                console.log("Google Sheet URL is not set. Using local data.");
+            if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL === "YOUR_WEB_APP_URL_HERE") {
+                showAlert('danger', '❌ لم يتم تكوين رابط Google Sheet. الرجاء تعديل الكود.');
+                loadData(); // Fallback to localStorage
                 renderAll();
                 applyTheme();
                 return;
             }
             try {
-                const response = await fetch(url);
+                const response = await fetch(GOOGLE_SHEET_URL);
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
@@ -1704,14 +1690,13 @@
         }
 
         async function saveDataToGoogleSheet() {
-            const url = appData.settings.googleSheetUrl;
-            if (!url) {
+            if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL === "YOUR_WEB_APP_URL_HERE") {
                 // If the URL is not set, fallback to localStorage and inform the user.
                 saveData();
                 return;
             }
             try {
-                const response = await fetch(url, {
+                const response = await fetch(GOOGLE_SHEET_URL, {
                     method: 'POST',
                     mode: 'no-cors', // Important for simple POST requests to Apps Script
                     headers: {
@@ -1769,7 +1754,6 @@
             document.getElementById('adminGymPrice').value = appData.settings.gymSubscriptionPrice || 40000;
             document.getElementById('adminGymDayPassPrice').value = appData.settings.gymDayPassPrice || 7000;
         }
-        document.getElementById('googleSheetUrl').value = appData.settings.googleSheetUrl || '';
 
         function syncPoolUI() {
             document.getElementById('poolFreeThreshold').value = appData.settings.poolFreeThreshold;
@@ -1777,14 +1761,6 @@
 
         function syncGymUI() {
             document.getElementById('gymDuration').value = appData.settings.gymDuration;
-        }
-
-        function saveGoogleSheetSettings() {
-            const url = document.getElementById('googleSheetUrl').value.trim();
-            appData.settings.googleSheetUrl = url;
-            saveData(); // Save to localStorage first to persist the URL
-            saveDataToGoogleSheet(); // Then sync everything to the cloud
-            showAlert('success', '✅ تم حفظ رابط Google Sheets.');
         }
 
         // ============================================================
