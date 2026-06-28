@@ -133,6 +133,7 @@
             margin-bottom: 24px;
             border: 1px solid var(--border-subtle);
             box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 80px rgba(107, 47, 207, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
@@ -218,6 +219,7 @@
             font-size: 0.82rem;
             font-weight: 600;
             transition: var(--transition);
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
             font-family: inherit;
             letter-spacing: 0.3px;
@@ -250,6 +252,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow-card);
             border: 1px solid var(--border-subtle);
+            -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
         }
 
@@ -326,9 +329,10 @@
             padding: 24px;
             box-shadow: var(--shadow-card);
             margin-bottom: 20px;
-            border: 1px solid var(--border-subtle);
+            border: 1px solid var(--border-subtle); 
+            -webkit-backdrop-filter: blur(16px);
             backdrop-filter: blur(16px);
-            position: relative;
+            position: relative; 
             overflow: hidden;
             transition: var(--transition);
         }
@@ -390,7 +394,8 @@
             box-shadow: var(--shadow-card);
             text-align: center;
             border: 1px solid var(--border-subtle);
-            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px); 
             position: relative;
             overflow: hidden;
             transition: var(--transition);
@@ -509,6 +514,7 @@
             background: var(--bg-surface);
             color: var(--text-primary);
             font-family: inherit;
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
         }
 
@@ -743,8 +749,9 @@
             align-items: center;
             gap: 10px;
             border-right: 4px solid;
+            -webkit-backdrop-filter: blur(8px);
             backdrop-filter: blur(8px);
-        }
+        } 
 
         .alert-success {
             background: rgba(37, 211, 102, 0.1);
@@ -919,11 +926,10 @@
             width: 100%;
             height: 100%;
             background: rgba(12, 12, 14, 0.75);
+            -webkit-backdrop-filter: blur(12px); 
             backdrop-filter: blur(12px);
-            z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
         .modal-content {
@@ -978,6 +984,7 @@
             width: 100%;
             height: 100%;
             background: rgba(12, 12, 14, 0.8);
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             z-index: 1100;
             justify-content: center;
@@ -1097,6 +1104,46 @@
             color: white;
         }
 
+        /* Utility classes to replace inline styles */
+        .d-none { display: none !important; }
+        .text-muted-sm { font-size: 0.8rem; color: #888; }
+        .flex-center-gap { display: flex; gap: 10px; align-items: center; }
+        .max-w-500 { max-width: 500px; margin: 0 auto; }
+        .flex-1 { flex: 1; }
+        .btn-camera-dash { padding: 11px 18px; border-radius: var(--radius-sm); }
+        .mt-14 { margin-top: 14px; }
+        .flex-end-wrap { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+        .mb-12 { margin-bottom: 12px; }
+        .filter-search-group { display: flex; gap: 5px; align-items: center; flex: 1; max-width: 300px; }
+        .w-100 { width: 100%; }
+        .btn-scan-filter { padding: 8px 12px; }
+        .flex-wrap-gap { display: flex; gap: 10px; flex-wrap: wrap; }
+        .form-row-admin-offers { align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 20px; }
+        .text-muted-p { color: var(--text-muted); margin-bottom: 16px; }
+        .bulk-preview-mt { margin-top: 18px; }
+        .btn-scan-member { padding: 11px 18px; border-radius: var(--radius-sm); white-space: nowrap; }
+        .mt-16-flex-gap { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .modal-error-div { color: var(--danger); margin-top: 10px; }
+        .camera-modal-content { max-width: 480px; text-align: center; }
+        .camera-modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+        .btn-download-single { margin-top: 8px; font-size: 0.7rem; padding: 4px 10px; width: 100%; justify-content: center; }
+        .bulk-item-qr-wrap { background: #fff; padding: 12px; border-radius: 12px; display: inline-block; border: 1px solid rgba(139, 92, 246, 0.25); }
+        .bulk-item-qr-inner { margin-bottom: 8px; display: flex; justify-content: center; }
+        .bulk-item-bar-inner { display: flex; justify-content: center; }
+        .bulk-item-code-text { font-size: 0.75rem; margin-top: 8px; color: var(--text-secondary); font-family: monospace; font-weight: 700; letter-spacing: 1px; }
+        .profile-actions { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-subtle); display: flex; gap: 10px; }
+        .alert-floating {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            max-width: 400px;
+            z-index: 9999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .text-center-color { text-align: center; color: #888; }
+        .link-style { cursor: pointer; color: var(--samsung-blue-light); font-weight: bold; }
+        .input-disabled { background-color: #333 !important; cursor: not-allowed !important; }
+
         body.light-theme ::selection {
             background: rgba(20, 40, 160, 0.2);
             color: var(--samsung-black);
@@ -1128,7 +1175,7 @@
                 <button class="lang-toggle" id="langToggle" onclick="toggleLang()">🇬🇧 English</button>
                 <button class="backup-btn" onclick="exportBackup()">📥 نسخ احتياطي</button>
                 <button class="backup-btn" onclick="document.getElementById('importFile').click()">📤 استيراد</button>
-                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+                <input type="file" id="importFile" accept=".json" class="d-none" onchange="importBackup(event)">
             </div>
         </header>
 
@@ -1169,17 +1216,15 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">📡 مسح سريع</span>
-                    <span style="font-size:0.8rem;color:#888;">امسح أو أدخل الكود</span>
+                    <span class="text-muted-sm">امسح أو أدخل الكود</span>
                 </div>
                 <div class="scanner-area">
                     <span class="scanner-icon">📷</span>
-                    <div style="display:flex; gap:10px; max-width:500px; margin:0 auto; align-items:center;">
-                        <input type="text" id="scannerInput" placeholder="MEMBER-1002 أو الكود..." autofocus
-                        style="flex:1;">
-                        <button class="btn btn-info" onclick="openDashboardCameraScanner()"
-                        style="padding: 11px 18px; border-radius:var(--radius-sm);">📷 كاميرا</button>
+                    <div class="flex-center-gap max-w-500">
+                        <input type="text" id="scannerInput" placeholder="MEMBER-1002 أو الكود..." autofocus class="flex-1">
+                        <button class="btn btn-info btn-camera-dash" onclick="openDashboardCameraScanner()">📷 كاميرا</button>
                     </div>
-                    <div id="scanResult" style="margin-top:14px;"></div>
+                    <div id="scanResult" class="mt-14"></div>
                     <div id="nameSearchResults" class="name-search-results hidden"></div>
                 </div>
                 <div id="quickMemberInfo" class="member-detail hidden">
@@ -1203,9 +1248,7 @@
                             </tr>
                         </thead>
                         <tbody id="recentActivity">
-                            <tr>
-                                <td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة</td>
-                            </tr>
+                            <tr><td colspan="5" class="text-center-color">لا توجد أنشطة</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1217,19 +1260,23 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🏊 إدارة المسبح - نظام المكافآت</span>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <div class="flex-end-wrap">
+                        <button class="btn btn-warning" onclick="activateMemberByScan()">🔄 تنشيط عضوية</button>
                         <button class="btn btn-info" onclick="quickRegisterCard()">🎟️ تسجيل بطاقة سريعة</button>
                         <button class="btn btn-primary" onclick="showAddMember('pool')">+ عضو جديد</button>
                     </div>
                 </div>
-                <div class="form-row" style="margin-bottom:12px;">
+                <div class="form-row mb-12">
                     <div class="form-group">
                         <label>🔢 عدد الزيارات للزيارة المجانية</label>
                         <input type="number" id="poolFreeThreshold" value="3" min="1" onchange="updateSettings()">
                     </div>
                 </div>
                 <div class="filter-bar">
-                    <input type="text" id="poolFilter" placeholder="🔍 بحث..." oninput="renderPool()">
+                    <div class="filter-search-group">
+                        <input type="text" id="poolFilter" placeholder="🔍 بحث بالاسم أو الكود..." oninput="renderPool()" class="w-100">
+                        <button class="btn btn-info btn-sm btn-scan-filter" onclick="scanToFilter('poolFilter', 'pool')">📷</button>
+                    </div>
                     <select id="poolStatusFilter" onchange="renderPool()">
                         <option value="all">الكل</option>
                         <option value="active">نشط</option>
@@ -1260,19 +1307,22 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🏋️ إدارة الصالة - اشتراك شهري</span>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <div class="flex-wrap-gap">
                         <button class="btn btn-info" onclick="quickRegisterCard('gym')">🎟️ تسجيل بطاقة سريعة</button>
                         <button class="btn btn-primary" onclick="showAddMember('gym')">+ عضو جديد</button>
                     </div>
                 </div>
-                <div class="form-row" style="margin-bottom:12px;">
+                <div class="form-row mb-12">
                     <div class="form-group">
                         <label>📅 مدة الاشتراك (يوم)</label>
                         <input type="number" id="gymDuration" value="30" min="1" onchange="updateSettings()">
                     </div>
                 </div>
                 <div class="filter-bar">
-                    <input type="text" id="gymFilter" placeholder="🔍 بحث..." oninput="renderGym()">
+                    <div class="filter-search-group">
+                        <input type="text" id="gymFilter" placeholder="🔍 بحث بالاسم أو الكود..." oninput="renderGym()" class="w-100">
+                        <button class="btn btn-info btn-sm btn-scan-filter" onclick="scanToFilter('gymFilter', 'gym')">📷</button>
+                    </div>
                     <select id="gymStatusFilter" onchange="renderGym()">
                         <option value="all">الكل</option>
                         <option value="active">نشط</option>
@@ -1340,12 +1390,27 @@
                 <button class="btn btn-success" onclick="syncAdminSettings()">💾 حفظ الأسعار</button>
             </div>
 
+            <!-- Google Sheet Integration Settings -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🔗 ربط Google Sheets</span>
+                </div>
+                <p class="text-muted-p">
+                    أدخل رابط Web App الخاص بـ Google Apps Script هنا لتمكين المزامنة مع Google Sheets.
+                </p>
+                <div class="form-group">
+                    <label>Google Sheets Web App URL</label>
+                    <input type="url" id="googleSheetUrl" placeholder="https://script.google.com/macros/s/...">
+                </div>
+                <button class="btn btn-success" onclick="saveGoogleSheetSettings()">💾 حفظ الرابط</button>
+            </div>
+
             <!-- Offers Management -->
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🎁 إدارة العروض والتخفيضات</span>
                 </div>
-                <div class="form-row" style="align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 20px;">
+                <div class="form-row form-row-admin-offers">
                     <div class="form-group">
                         <label>اسم العرض</label>
                         <input type="text" id="offerName" placeholder="مثال: عرض الصيف">
@@ -1390,12 +1455,11 @@
                 <div class="card-header">
                     <span class="card-title">🗑️ إدارة البيانات والسجلات</span>
                 </div>
-                <p style="color: var(--text-muted); margin-bottom: 16px;">
-                    يمكنك من هنا حذف سجلات الأنشطة لتخفيف البيانات. كن حذرًا، لا يمكن التراجع عن هذا الإجراء.
-                </p>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <p class="text-muted-p">يمكنك من هنا حذف سجلات الأنشطة لتخفيف البيانات. كن حذرًا، لا يمكن التراجع عن هذا الإجراء.</p>
+                <div class="flex-wrap-gap">
                     <button class="btn btn-warning" onclick="deleteActivityLogs('pool')">🗑️ حذف سجلات المسبح</button>
                     <button class="btn btn-warning" onclick="deleteActivityLogs('gym')">🗑️ حذف سجلات الصالة</button>
+                    <button class="btn btn-danger" onclick="deleteMemberByScan()">🗑️ حذف عضو بالمسح</button>
                     <button class="btn btn-danger" onclick="deleteActivityLogs('all')">❌ حذف كل السجلات</button>
                 </div>
             </div>
@@ -1421,13 +1485,13 @@
                     </div>
                 </div>
 
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <div class="flex-wrap-gap">
                     <button class="btn btn-primary" onclick="generateBulkCodes()">⚡ إنشاء</button>
                     <button class="btn btn-success" onclick="exportBulkPNG()">📥 تنزيل (PNG)</button>
                     <button class="btn btn-info" onclick="printBulkCodes()">🖨️ طباعة</button>
                 </div>
 
-                <div id="bulkResult" class="bulk-preview" style="margin-top:18px;"></div>
+                <div id="bulkResult" class="bulk-preview bulk-preview-mt"></div>
             </div>
 
             <!-- Empty Codes -->
@@ -1439,7 +1503,7 @@
                 <div class="table-wrap">
                     <table>
                         <thead>
-                            <tr>
+                            <tr class="text-center-color">
                                 <th>الكود</th>
                                 <th>الحالة</th>
                                 <th>إجراء</th>
@@ -1481,18 +1545,10 @@
                 <div class="table-wrap" id="incomeReportPrintArea">
                     <table>
                         <thead>
-                            <tr>
-                            <th>الاسم</th>
-                            <th>النوع</th>
-                            <th>المبلغ</th>
-                            <th>ملاحظات</th>
-                            <th>الوقت</th>
-                            </tr>
+                            <tr class="text-center-color"><th>الاسم</th><th>النوع</th><th>المبلغ</th><th>ملاحظات</th><th>الوقت</th></tr>
                         </thead>
                         <tbody id="incomeActivity">
-                            <tr>
-                            <td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة دخل</td>
-                            </tr>
+                            <tr><td colspan="5" class="text-center-color">لا توجد أنشطة دخل</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -1531,37 +1587,34 @@
             </div>
             <div class="form-group">
                 <label>🔑 الكود (اتركه فارغاً للإنشاء التلقائي)</label>
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" id="newMemberCode" placeholder="MEMBER-XXXX" style="flex:1;">
-                    <button class="btn btn-info" onclick="openNewMemberCameraScanner()"
-                    style="padding: 11px 18px; border-radius:var(--radius-sm); white-space:nowrap;">📷
-                    مسح</button>
+                <div class="flex-center-gap">
+                    <input type="text" id="newMemberCode" placeholder="MEMBER-XXXX" class="flex-1">
+                    <button class="btn btn-info btn-scan-member" onclick="openNewMemberCameraScanner()">📷 مسح</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>📝 ملاحظات (اشتراك سابق)</label>
                 <textarea id="newMemberNotes" placeholder="مثال: مشترك سابق لمدة 3 أشهر..."></textarea>
             </div>
-                <div class="form-group">
-                    <label>🎁 تطبيق عرض</label>
-                    <select id="newMemberOffer">
-                    </select>
-                </div>
-            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+            <div class="form-group">
+                <label>🎁 تطبيق عرض</label>
+                <select id="newMemberOffer"></select>
+            </div>
+            <div class="mt-16-flex-gap">
                 <button class="btn btn-primary" onclick="saveNewMember()">💾 حفظ</button>
                 <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
             </div>
-            <div id="modalError" style="color:var(--danger);margin-top:10px;"></div>
+            <div id="modalError" class="modal-error-div"></div>
         </div>
     </div>
 
     <!-- Camera Scanner Modal -->
     <div id="cameraModal">
-        <div class="modal-content" style="max-width:480px; text-align:center;">
+        <div class="modal-content camera-modal-content">
             <h3 id="cameraModalTitle">📷 المسح بالكاميرا</h3>
             <div id="camera-reader"></div>
-            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
-                <button class="btn btn-danger" onclick="stopCameraScanner()">🛑 إغلاق</button>
+            <div class="camera-modal-actions">
+                <button class="btn btn-danger" onclick="stopCameraScanner()">إغلاق</button>
             </div>
         </div>
     </div>
@@ -1611,6 +1664,7 @@
             if (!appData.settings.poolVisitPrice) appData.settings.poolVisitPrice = 5000;
             if (!appData.settings.gymSubscriptionPrice) appData.settings.gymSubscriptionPrice = 40000;
             if (!appData.settings.gymDayPassPrice) appData.settings.gymDayPassPrice = 7000;
+            if (!appData.settings.googleSheetUrl) appData.settings.googleSheetUrl = '';
             if (!appData.offers) appData.offers = [];
             if (!appData.emptyCodes) appData.emptyCodes = [];
             if (!appData.activityLog) appData.activityLog = [];
@@ -1621,10 +1675,65 @@
             }
         }
 
-        function saveData() {
+        async function loadDataFromGoogleSheet() {
+            loadData(); // Load from localStorage first to get the URL
+            const url = appData.settings.googleSheetUrl;
+            if (!url) {
+                // This is normal if the user hasn't set a URL yet.
+                console.log("Google Sheet URL is not set. Using local data.");
+                renderAll();
+                applyTheme();
+                return;
+            }
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                const data = await response.json();
+                appData = data;
+                showAlert('success', '🔄 تم تحميل البيانات بنجاح من Google Sheets.');
+            } catch (error) {
+                console.error('Failed to load data from Google Sheet:', error);
+                showAlert('danger', '❌ فشل تحميل البيانات من Google Sheet. سيتم استخدام البيانات المحلية.');
+                loadData(); // Fallback to localStorage if fetch fails
+            } finally {
+                renderAll();
+                applyTheme();
+            }
+        }
+
+        async function saveDataToGoogleSheet() {
+            const url = appData.settings.googleSheetUrl;
+            if (!url) {
+                // If the URL is not set, fallback to localStorage and inform the user.
+                saveData();
+                return;
+            }
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors', // Important for simple POST requests to Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(appData)
+                });
+                // no-cors mode means we can't read the response, but the request is sent.
+                console.log('Data saving request sent to Google Sheet.');
+            } catch (error) {
+                console.error('Failed to save data to Google Sheet:', error);
+                showAlert('danger', '❌ فشل حفظ البيانات في Google Sheet. تم الحفظ محلياً كنسخة احتياطية.');
+                saveData(); // Fallback to localStorage
+            }
+        }
+
+
+        function saveData() { // This now acts as a fallback
             localStorage.setItem('gymPoolAppData', JSON.stringify(appData));
             localStorage.setItem('gymPoolTheme', currentTheme);
         }
+
 
         // ============================================================
         //  ڕێکخستنەکان
@@ -1636,7 +1745,7 @@
             appData.settings.gymSubscriptionPrice = parseInt(document.getElementById('adminGymPrice').value) || 0;
             appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
             syncAdminUI();
-            saveData();
+            saveDataToGoogleSheet();
             renderAll();
         }
 
@@ -1648,7 +1757,7 @@
             appData.settings.gymDayPassPrice = parseInt(document.getElementById('adminGymDayPassPrice').value) || 0;
             syncPoolUI();
             syncGymUI();
-            saveData();
+            saveDataToGoogleSheet();
             renderAll();
             showAlert('success', '✅ تم حفظ الإعدادات');
         }
@@ -1660,11 +1769,22 @@
             document.getElementById('adminGymPrice').value = appData.settings.gymSubscriptionPrice || 40000;
             document.getElementById('adminGymDayPassPrice').value = appData.settings.gymDayPassPrice || 7000;
         }
+        document.getElementById('googleSheetUrl').value = appData.settings.googleSheetUrl || '';
 
         function syncPoolUI() {
+            document.getElementById('poolFreeThreshold').value = appData.settings.poolFreeThreshold;
         }
 
         function syncGymUI() {
+            document.getElementById('gymDuration').value = appData.settings.gymDuration;
+        }
+
+        function saveGoogleSheetSettings() {
+            const url = document.getElementById('googleSheetUrl').value.trim();
+            appData.settings.googleSheetUrl = url;
+            saveData(); // Save to localStorage first to persist the URL
+            saveDataToGoogleSheet(); // Then sync everything to the cloud
+            showAlert('success', '✅ تم حفظ رابط Google Sheets.');
         }
 
         // ============================================================
@@ -1682,6 +1802,7 @@
             document.getElementById('newMemberCode').value = '';
             document.getElementById('newMemberNotes').value = '';
             populateOfferDropdown(document.getElementById('newMemberOffer'), type);
+            document.getElementById('modalError').innerHTML = ''; // Clear previous errors and action buttons
             document.getElementById('modalError').textContent = '';
             document.getElementById('addModal').style.display = 'flex';
             document.getElementById('newMemberName').focus();
@@ -1695,8 +1816,7 @@
             // Make sure code input is editable for new members
             const codeInput = document.getElementById('newMemberCode');
             codeInput.readOnly = false;
-            codeInput.style.background = '';
-            codeInput.style.cursor = '';
+            codeInput.classList.remove('input-disabled');
         }
 
         function closeModal() {
@@ -1770,11 +1890,12 @@
                 endDate.setDate(endDate.getDate() + duration);
                 newMember.endDate = endDate.toISOString();
                 // Log income for new gym subscription
-                logActivity(newMember, `اشتراك جديد لمدة ${duration} يوم`, appData.settings.gymSubscriptionPrice || 0);
+                const price = calculatePrice(appData.settings.gymSubscriptionPrice, newMember.offerId);
+                logActivity(newMember, `اشتراك جديد لمدة ${duration} يوم`, price);
             }
 
-            appData.members.push(newMember);
-            saveData();
+            appData.members.push(newMember); 
+            saveDataToGoogleSheet();
             renderAll();
             closeModal();
             showAlert('success', `✅ تمت إضافة العضو "${name}" بنجاح (الكود: ${code})`);
@@ -1818,21 +1939,25 @@
                     // Ignore parsing errors
                 }
             ).catch(err => {
-                console.error("Camera start error:", err);
-                showAlert('danger', "⚠️ لا يمكن فتح الكاميرا: " + err);
-                stopCameraScanner();
+                console.error("Camera start error:", err.name, err.message);
+                if (err.name === "NotFoundError") {
+                    showAlert('danger', "⚠️ لم يتم العثور على كاميرا. يرجى التأكد من وجود كاميرا متصلة.");
+                } else {
+                    showAlert('danger', "⚠️ لا يمكن فتح الكاميرا: " + err.message);
+                }
+                // Don't call stopScanner if it never started. Just close the modal.
+                document.getElementById('cameraModal').style.display = 'none';
             });
         }
 
         function stopCameraScanner() {
             document.getElementById('cameraModal').style.display = 'none';
-            if (html5QrCodeScanner) {
+            if (html5QrCodeScanner && html5QrCodeScanner.isScanning) {
                 html5QrCodeScanner.stop().then(() => {
                     html5QrCodeScanner.clear();
                     html5QrCodeScanner = null;
                 }).catch(err => {
                     console.warn("Failed to stop camera scanner:", err);
-                    html5QrCodeScanner = null;
                 });
             }
         }
@@ -1922,10 +2047,9 @@
                 // پشتگوێخستنی scannerInput چونکە لیسنەری تایبەتی خۆی هەیە
                 if (activeEl === scannerInput) {
                     return;
-                }
-            });
-            loadData();
-            renderAll();
+                } 
+            }); 
+            loadDataFromGoogleSheet();
         });
 
         function selectMemberFromSearch(code) {
@@ -1956,7 +2080,7 @@
                     if (themeToggleBtn) themeToggleBtn.textContent = '🌙';
                 }
             }
-            saveData(); // Save theme preference
+            saveDataToGoogleSheet(); // Save theme preference
         }
 
         function toggleTheme() {
@@ -2029,8 +2153,9 @@
                 } else {
                     const left = threshold - member.visits;
                     message = `✅ تم تسجيل الزيارة رقم ${member.visits}. (${left} زيارة متبقية للمرة المجانية)`;
-                    alertType = 'success';
-                    logActivity(member, `الزيارة رقم ${member.visits}`, appData.settings.poolVisitPrice || 0);
+                    alertType = 'success'; 
+                    const price = calculatePrice(appData.settings.poolVisitPrice, member.offerId);
+                    logActivity(member, `الزيارة رقم ${member.visits}`, price);
                 }
                 member.lastScan = now.toISOString();
 
@@ -2054,7 +2179,7 @@
             }
 
             // logActivity is called inside the conditions now
-            saveData();
+            saveDataToGoogleSheet();
             showResult(message, alertType, member, content, quickInfo, resultDiv);
         }
 
@@ -2109,7 +2234,7 @@
                 appData.members.push(newMember);
                 logActivity(newMember, logMessage, price);
 
-                saveData();
+                saveDataToGoogleSheet();
                 renderAll();
                 showAlert('success', `✅ تم تسجيل البطاقة ${trimmedCode} بنجاح كزيارة سريعة ${typeText}.`);
             }, title);
@@ -2119,11 +2244,11 @@
             resultDiv.innerHTML = `<div class="alert alert-${alertType}">${message}</div>`;
             quickInfo.classList.remove('hidden');
             content.innerHTML = `
-                    <strong>👤 ${member.name}</strong><br>
-                    📞 ${member.phone || '-'}<br>
-                    🔑 کۆد: ${member.code}<br>
+                <strong>👤 ${member.name}</strong><br>
+                📞 ${member.phone || '-'}<br>
+                🔑 الكود: ${member.code}<br>
                 📂 النوع: ${member.type === 'pool' ? 'المسبح' : 'الصالة'}<br>
-                ${member.type === 'pool' ? `🔢 الزيارات: ${member.visits || 0}` : `📅 الانتهاء: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ar-EG') : '-'}`}
+                ${member.type === 'pool' ? `🔢 الزيارات: ${member.visits || 0}` : `📅 الانتهاء: ${member.endDate ? new Date(member.endDate).toLocaleDateString('ar-EG') : '-'}`}<br>
                 ${member.isFree ? '<br>🎁 مجاني' : ''}
                     ${member.notes ? `<br>📝 ${member.notes}` : ''}
                 ${member.offer && member.offer !== 'none' ? `<br>🏷️ العرض: ${member.offer}` : ''}
@@ -2173,21 +2298,21 @@
                 bulkGeneratedCodes.push(code);
             }
 
-            saveData();
+            saveDataToGoogleSheet();
 
             // دروستکردنی کارتەکان (Combined QR + Barcode)
             const resultDiv = document.getElementById('bulkResult');
             resultDiv.innerHTML = codes.map(c => `
-                    <div class="bulk-item" data-code="${c}">
-                        <div style="background:#fff;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(139,92,246,0.25);">
-                            <div id="qrwrap_${c}" style="margin-bottom:8px;display:flex;justify-content:center;"></div>
-                            <div style="display:flex;justify-content:center;">
-                                <canvas id="bar_${c}"></canvas>
-                            </div>
+                <div class="bulk-item" data-code="${c}">
+                    <div class="bulk-item-qr-wrap">
+                        <div id="qrwrap_${c}" class="bulk-item-qr-inner"></div>
+                        <div class="bulk-item-bar-inner">
+                            <canvas id="bar_${c}"></canvas>
                         </div>
-                        <div style="font-size:0.75rem;margin-top:8px;color:var(--text-secondary);font-family:monospace;font-weight:700;letter-spacing:1px;">${c}</div>
-                        <button class="btn btn-outline btn-sm" onclick="downloadSingle('${c}')" style="margin-top:8px;font-size:0.7rem;padding:4px 10px;width:100%;justify-content:center;">⬇ PNG</button>
                     </div>
+                    <div class="bulk-item-code-text">${c}</div>
+                    <button class="btn btn-outline btn-sm btn-download-single" onclick="downloadSingle('${c}')">⬇ PNG</button>
+                </div>
                 `).join('');
 
             setTimeout(() => {
@@ -2423,8 +2548,8 @@
                 try {
                     const data = JSON.parse(e.target.result);
                     if (data.members && data.settings) {
-                        appData = data;
-                        saveData();
+                        appData = data; 
+                        saveDataToGoogleSheet();
                         renderAll();
                         showAlert('success', '✅ تم استيراد البيانات');
                     } else {
@@ -2479,24 +2604,6 @@
             renderAll();
         }
 
-        function deleteActivityLogs(filter) {
-            const typeText = filter === 'pool' ? 'المسبح' : (filter === 'gym' ? 'الصالة' : 'كل');
-            if (!confirm(`هل أنت متأكد من حذف سجلات ${typeText}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
-                return;
-            }
-
-            if (filter === 'all') {
-                appData.activityLog = [];
-            } else {
-                const filterType = filter === 'pool' ? 'المسبح' : 'الصالة';
-                appData.activityLog = appData.activityLog.filter(log => log.type !== filterType);
-            }
-
-            saveData();
-            renderAll();
-            showAlert('success', `✅ تم حذف سجلات ${typeText} بنجاح.`);
-        }
-
         function addOffer() {
             const name = document.getElementById('offerName').value.trim();
             const type = document.getElementById('offerType').value;
@@ -2517,7 +2624,7 @@
             };
 
             appData.offers.push(newOffer);
-            saveData();
+            saveDataToGoogleSheet();
             renderOffers();
             showAlert('success', `✅ تم إضافة العرض "${name}" بنجاح.`);
 
@@ -2535,7 +2642,7 @@
                     m.offerId = null;
                 }
             });
-            saveData();
+            saveDataToGoogleSheet();
             renderOffers();
             showAlert('success', '✅ تم حذف العرض.');
         }
@@ -2549,9 +2656,9 @@
                 member.isFree = false;
                 
                 const price = calculatePrice(appData.settings.poolVisitPrice, member.offerId);
-
+                
                 logActivity(member, 'تجديد وتنشيط البطاقة', price);
-                saveData();
+                saveDataToGoogleSheet();
                 showAlert('success', `✅ تم تنشيط بطاقة ${member.name} بنجاح.`);
             }
         }
@@ -2586,7 +2693,7 @@
             const tbody = document.getElementById('poolTable');
             if (poolMembers.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="7" style="text-align:center;color:#888;">لا يوجد أعضاء في المسبح</td></tr>`;
+                    `<tr><td colspan="7" class="text-center-color">لا يوجد أعضاء في المسبح</td></tr>`;
                 return;
             }
             const threshold = appData.settings.poolFreeThreshold || 3;
@@ -2605,7 +2712,7 @@
                 const offer = appData.offers.find(o => o.id === m.offerId);
                 const offerTag = offer ? `<span class="offer-tag">${offer.name}</span>` : '';
                 return `<tr>
-                        <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                        <td><strong class="link-style" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
                         <td>${m.phone || '-'}</td>
                         <td>${m.code}</td>
                         <td>${m.visits}/${threshold}</td>
@@ -2632,7 +2739,7 @@
             const tbody = document.getElementById('gymTable');
             if (gymMembers.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="7" style="text-align:center;color:#888;">لا يوجد أعضاء في الصالة</td></tr>`;
+                    `<tr><td colspan="7" class="text-center-color">لا يوجد أعضاء في الصالة</td></tr>`;
                 return;
             }
             tbody.innerHTML = gymMembers.map(m => {
@@ -2644,7 +2751,7 @@
                 const offer = appData.offers.find(o => o.id === m.offerId);
                 const offerTag = offer ? `<span class="offer-tag">${offer.name}</span>` : '';
                 return `<tr>
-                        <td><strong style="cursor:pointer; color: var(--samsung-blue-light);" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
+                        <td><strong class="link-style" onclick="editMember('${m.id}')">${m.name}</strong> ${offerTag}</td>
                         <td>${m.phone || '-'}</td>
                         <td>${m.code}</td>
                         <td>${m.startDate ? new Date(m.startDate).toLocaleDateString('ar-EG') : '-'}</td>
@@ -2673,7 +2780,7 @@
 
             const tbody = document.getElementById('recentActivity');
             if (appData.activityLog.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">لا توجد أنشطة حديثة</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center-color">لا توجد أنشطة حديثة</td></tr>`;
                 return;
             }
             tbody.innerHTML = appData.activityLog.slice(0, 10).map(log => `
@@ -2720,7 +2827,7 @@
 
             const tbody = document.getElementById('incomeActivity');
             if (incomeActivities.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888;">لم يتم تسجيل أي دخل</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center-color">لم يتم تسجيل أي دخل</td></tr>`;
                 return;
             }
 
@@ -2738,7 +2845,7 @@
         function renderOffers() {
             const tbody = document.getElementById('offersTable');
             if (!appData.offers || appData.offers.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888;">لا توجد عروض معرفة.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center-color">لا توجد عروض معرفة.</td></tr>`;
                 return;
             }
 
@@ -2809,7 +2916,7 @@
         function renderEmptyCodes() {
             const tbody = document.getElementById('emptyCodesTable');
             if (appData.emptyCodes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888;">لا توجد أكواد فارغة</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center-color">لا توجد أكواد فارغة</td></tr>`;
                 return;
             }
             tbody.innerHTML = appData.emptyCodes.map(code => `
@@ -2834,18 +2941,32 @@
                         member.code)) {
                     appData.emptyCodes.push(member.code);
                 }
-            }
-            saveData();
+            } 
+            saveDataToGoogleSheet();
             renderAll();
             showAlert('success', '✅ تم حذف العضو');
         }
+
+        async function deleteMemberByScan() {
+            startCameraScanner(async (code) => {
+                const member = appData.members.find(m => m.code === code);
+                if (!member) {
+                    showAlert('danger', `❌ لم يتم العثور على عضو بالكود: ${code}`);
+                    return;
+                }
+                // The deleteMember function already has a confirmation prompt
+                await deleteMember(member.id);
+                // The result (success/failure) is shown by deleteMember's showAlert
+            }, "📷 مسح كود العضو للحذف");
+        }
+
 
         async function resetVisits(id) {
             const member = appData.members.find(m => m.id === id);
             if (member && member.type === 'pool') {
                 member.visits = 0;
-                member.isFree = false;
-                saveData();
+                member.isFree = false; 
+                saveDataToGoogleSheet();
                 renderAll();
                 showAlert('success', '🔄 تم تصفير عدد الزيارات');
             }
@@ -2865,8 +2986,8 @@
                 
                 const price = calculatePrice(appData.settings.gymSubscriptionPrice, member.offerId);
 
-                saveData();
-                renderAll();
+                saveDataToGoogleSheet();
+                renderAll(); 
                 showAlert('success', `✅ تم تمديد الاشتراك لمدة ${duration} يوم`);
                 logActivity(member, `تمديد الاشتراك لمدة ${duration} يوم`, price);
             }
@@ -2902,42 +3023,19 @@
             // Prevent editing the code for existing members
             const codeInput = document.getElementById('newMemberCode');
             codeInput.readOnly = true;
-            codeInput.style.background = '#333';
-            codeInput.style.cursor = 'not-allowed';
+            codeInput.classList.add('input-disabled');
 
             document.getElementById('addModal').style.display = 'flex';
 
             // گۆڕینی کرداری پاشەکەوتکردن
             const saveBtn = document.querySelector('#addModal .btn-primary');
             saveBtn.textContent = '💾 تحديث';
-            saveBtn.onclick = null; // Clear previous onclick
-            saveBtn.onclick = function() {
-                const name = document.getElementById('newMemberName').value.trim();
-                if (!name) {
-                    document.getElementById('modalError').textContent = '⚠️ الرجاء إدخال اسم';
-                    return;
-                }
-                member.name = name;
-                member.phone = document.getElementById('newMemberPhone').value.trim();
-                member.age = parseInt(document.getElementById('newMemberAge').value) || null;
-                member.address = document.getElementById('newMemberAddress').value.trim();
-                member.emergency = document.getElementById('newMemberEmergency').value.trim();
-                member.notes = document.getElementById('newMemberNotes').value.trim();
-                member.offerId = document.getElementById('newMemberOffer').value || null;
-                saveData();
-                closeModal();
-                showAlert('success', `✅ تم تحديث معلومات "${name}"`);
-            };
+            saveBtn.onclick = () => updateMember(id);
 
             // Add profile action buttons
             const modalErrorDiv = document.getElementById('modalError');
-            modalErrorDiv.innerHTML = ''; // Clear previous errors
-            const profileActions = document.createElement('div');
-            profileActions.style.marginTop = '20px';
-            profileActions.style.paddingTop = '20px';
-            profileActions.style.borderTop = '1px solid var(--border-subtle)';
-            profileActions.style.display = 'flex';
-            profileActions.style.gap = '10px';
+            modalErrorDiv.innerHTML = '<div class="profile-actions"></div>'; // Clear previous errors and add container
+            const profileActions = modalErrorDiv.querySelector('.profile-actions');
 
             if (member.type === 'gym') {
                 profileActions.innerHTML =
@@ -2946,7 +3044,26 @@
                 profileActions.innerHTML =
                     `<button class="btn btn-warning" onclick="resetVisits('${id}')">🔄 تصفير الزيارات</button>`;
             }
-            modalErrorDiv.appendChild(profileActions);
+        }
+
+        function updateMember(id) {
+            const member = appData.members.find(m => m.id === id);
+            if (!member) return;
+
+            member.name = document.getElementById('newMemberName').value.trim();
+            if (!member.name) {
+                document.getElementById('modalError').textContent = '⚠️ الرجاء إدخال اسم';
+                return;
+            }
+            member.phone = document.getElementById('newMemberPhone').value.trim();
+            member.age = parseInt(document.getElementById('newMemberAge').value) || null;
+            member.address = document.getElementById('newMemberAddress').value.trim();
+            member.emergency = document.getElementById('newMemberEmergency').value.trim();
+            member.notes = document.getElementById('newMemberNotes').value.trim();
+            member.offerId = document.getElementById('newMemberOffer').value || null;
+            saveDataToGoogleSheet();
+            closeModal();
+            showAlert('success', `✅ تم تحديث معلومات "${member.name}"`);
         }
 
         function populateOfferDropdown(selectElement, type, selectedId = null) {
@@ -2966,16 +3083,31 @@
         async function removeEmptyCode(code) {
             if (!await confirmDeletion(`هل أنت متأكد من حذف الكود الفارغ ${code}؟`)) return;
             appData.emptyCodes = appData.emptyCodes.filter(c => c !== code);
-            saveData();
+            saveDataToGoogleSheet();
             renderAll();
         }
 
         async function clearAllEmptyCodes() {
             if (!await confirmDeletion('هل أنت متأكد من حذف جميع الأكواد الفارغة؟ لا يمكن التراجع عن هذا الإجراء.')) return;
             appData.emptyCodes = [];
-            saveData();
+            saveDataToGoogleSheet();
             renderAll();
             showAlert('success', '✅ تم حذف جميع الأكواد الفارغة بنجاح.');
+        }
+
+        function scanToFilter(inputId, type) {
+            startCameraScanner((code) => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.value = code;
+                    if (type === 'pool') {
+                        renderPool();
+                    } else if (type === 'gym') {
+                        renderGym();
+                    }
+                }
+                showAlert('success', `🔍 يتم البحث عن: ${code}`);
+            }, `📷 مسح الكود للبحث في قسم ${type === 'pool' ? 'المسبح' : 'الصالة'}`);
         }
 
         async function confirmDeletion(message) {
@@ -2994,7 +3126,7 @@
         }
 
         async function deleteActivityLogs(filter) {
-            const typeText = filter === 'pool' ? 'المسبح' : (filter === 'gym' ? 'الصالة' : 'كل');
+            const typeText = filter === 'pool' ? 'المسبح' : (filter === 'gym' ? 'الصالة' : 'الكل');
             if (!await confirmDeletion(`هل أنت متأكد من حذف سجلات ${typeText}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
                 return;
             }
@@ -3006,7 +3138,7 @@
                 appData.activityLog = appData.activityLog.filter(log => log.type !== filterType);
             }
 
-            saveData();
+            saveDataToGoogleSheet();
             showAlert('success', `✅ تم حذف سجلات ${typeText} بنجاح.`);
         }
 
@@ -3035,14 +3167,7 @@
             if (existing) existing.remove();
 
             const div = document.createElement('div');
-            div.className = `alert alert-${type} alert-floating`;
-            div.style.position = 'fixed';
-            div.style.bottom = '20px';
-            div.style.right = '20px';
-            div.style.maxWidth = '400px';
-            div.style.zIndex = '9999';
-            div.style.boxShadow = '0 8px 32px rgba(0,0,0,0.2)';
-            div.textContent = message;
+            div.className = `alert alert-${type} alert-floating`; div.textContent = message;
             document.body.appendChild(div);
 
             setTimeout(() => {
@@ -3053,8 +3178,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadData();
-            applyTheme();
+            loadDataFromGoogleSheet(); // This will now correctly load local data first, then attempt to sync.
         });
     </script>
 
